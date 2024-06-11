@@ -5,16 +5,11 @@ use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\SuppliersController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ProductController;
-use App\Http\Controllers\customerController;
-use App\Http\Controllers\AdvanceSalaryController;
 use App\Http\Controllers\ExpenseController;
 use App\Http\Controllers\AttendanceController;
 use App\Http\Controllers\PosController;
 use App\Http\Controllers\CardController;
 use App\Http\Controllers\SalesReportController;
-use App\Http\Controllers\SalaryController;
-use App\Http\Controllers\SettingController;
-use App\Http\Controllers\DashboardsController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -71,20 +66,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/edit-customer{id}', [customerController::class, 'edit']);
     Route::post('/update-customer{id}', [customerController::class, 'update']);
 
-    
-
-    // Salary route
-    Route::get('/all-salary', [salaryController::class, 'index'])->name('salary.all-salary');
-    Route::get('/add-salary', [salaryController::class, 'create'])->name('salary.add-salary');
-
-    Route::post('/insert-salary', [salaryController::class, 'store'])->name('store');
-    Route::get('/view-salary{id}', [salaryController::class, 'show']);
-    Route::get('/delete-salary{id}', [salaryController::class, 'destroy']);
-    Route::get('/edit-salary{id}', [salaryController::class, 'edit']);
-    Route::post('/update-salary{id}', [salaryController::class, 'update']);
-
-   
-   
+       
     // Expense route
     Route::get('/all-expense', [ExpenseController::class, 'index'])->name('allExpense');
     Route::get('/add-expense', [ExpenseController::class, 'create'])->name('addExpense');
