@@ -18,14 +18,14 @@ return new class extends Migration
             $table->string('order_month');
             $table->string('order_year');
             $table->string('order_status');
-            $table->string('total_products');
-            $table->string('sub_total');
-            $table->string('vat');
-            $table->string('total');
+            $table->integer('total_products');
+            $table->decimal('sub_total', 15, 2); // Assuming subtotal can have up to 15 digits in total, 2 of which are after the decimal point
+            $table->decimal('vat', 15, 2); // Same assumption for VAT
+            $table->decimal('total', 15, 2); // Same assumption for total
             $table->string('payment_status');
-            $table->string('pay')->nullable();
-            $table->string('due')->nullable();
-            $table->string('returnAmount')->nullable();
+            $table->decimal('pay', 15, 2)->nullable(); // Same assumption for pay
+            $table->decimal('due', 15, 2)->nullable(); // Same assumption for due
+            $table->decimal('returnAmount', 15, 2)->nullable();
             $table->timestamps();
         });
     }

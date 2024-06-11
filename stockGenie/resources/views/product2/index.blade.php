@@ -50,7 +50,9 @@
 									<td><img src="{{ asset($product->product_image) }}" alt="{{ $product->product_name }}" width="50">
 									</td>
 									<td>
-										<button class="btn btn-primary edit-btn waves-effect waves-light w-sm" data-id="{{ $product->id }}">Edit</button>
+										<button class="btn btn-primary edit-btn waves-effect waves-light w-sm"data-toggle="modal"
+										data-target="#editProductModal{{ $product->id }}" data-id="">Edit</button>
+										
 										<form action="{{ route('products.destroy', $product->id) }}" method="POST"
 											style="display:inline-block;">
 											@csrf
@@ -76,7 +78,7 @@
 @endsection
 
 @section('scripts')
-<script>
+<!-- <script>
 	$(document).on('click', '.edit-btn', function () {
 		var id = $(this).data('id');
 		$.get('/products/' + id + '/edit', function (data) {
@@ -95,5 +97,5 @@
 			$('#editProductModal').modal('show');
 		});
 	});
-</script>
+</script> -->
 @endsection

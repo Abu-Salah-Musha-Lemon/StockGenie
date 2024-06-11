@@ -1,5 +1,5 @@
 <!-- resources/views/categories/index.blade.php -->
-@extends('dashboard')
+@extends('layouts.layout')
 
 @section('main')
 <div class="row">

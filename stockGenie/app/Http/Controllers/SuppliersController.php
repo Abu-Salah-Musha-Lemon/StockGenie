@@ -31,7 +31,10 @@ class SuppliersController extends Controller
         $data['address']=$request->address;
         $data['type']=$request->type;
         $data['shopeName']=$request->shopeName;
-
+        echo'<pre>';
+        var_dump($data);
+        echo'</pre>';
+        
         $image = $request->file('photo');
         if ($image) {
             $image_name = time().'.'.$image->getClientOriginalExtension();

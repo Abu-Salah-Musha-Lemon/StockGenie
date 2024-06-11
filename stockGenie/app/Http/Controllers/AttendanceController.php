@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Attendances;
+use App\Models\attendance;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
-class AttendancesController extends Controller
+use DB;
+class AttendanceController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -152,4 +152,5 @@ class AttendancesController extends Controller
             return redirect()->back()->with('error', 'Failed to delete attendance records');
         }
     }
+    
 }

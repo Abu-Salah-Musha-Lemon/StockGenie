@@ -5,16 +5,16 @@ use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\SuppliersController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ProductController;
-// use App\Http\Controllers\customerController;
-// use App\Http\Controllers\AdvanceSalaryController;
-// use App\Http\Controllers\ExpensesController;
-// use App\Http\Controllers\AttendanceController;
-// use App\Http\Controllers\PosController;
-// use App\Http\Controllers\CardController;
-// use App\Http\Controllers\SalesReportController;
-// use App\Http\Controllers\SalaryController;
-// use App\Http\Controllers\SettingController;
-// use App\Http\Controllers\DashboardsController;
+use App\Http\Controllers\customerController;
+use App\Http\Controllers\AdvanceSalaryController;
+use App\Http\Controllers\ExpenseController;
+use App\Http\Controllers\AttendanceController;
+use App\Http\Controllers\PosController;
+use App\Http\Controllers\CardController;
+use App\Http\Controllers\SalesReportController;
+use App\Http\Controllers\SalaryController;
+use App\Http\Controllers\SettingController;
+use App\Http\Controllers\DashboardsController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -49,6 +49,17 @@ Route::middleware('auth')->group(function () {
      Route::get('/update-product-qty-view', [ProductController::class, 'updateProductQtyView'])->name('updateProductQtyView');
      Route::get('/update-product-qty/{id}', [ProductController::class, 'updateProductQty'])->name('updateProductQty');
  
+  // Product route
+  Route::get('/all-product', [ProductController::class, 'index'])->name('allProduct');
+  Route::get('/add-product', [ProductController::class, 'create'])->name('addProduct');
+  
+  Route::post('/insert-product', [ProductController::class, 'store']);
+  Route::get('/view-product/{id}', [ProductController::class, 'show']);
+  Route::get('/delete-product/{id}', [ProductController::class, 'destroy']);
+  Route::get('/edit-product/{id}', [ProductController::class, 'edit']);
+  Route::post('/update-product/{id}', [ProductController::class, 'update']);
+  Route::get('/update-product-qty-view', [ProductController::class, 'updateProductQtyView'])->name('updateProductQtyView');
+  Route::get('/update-product-qty/{id}', [ProductController::class, 'updateProductQty'])->name('updateProductQty');
 
     // customer route
     Route::get('/all-customer', [customerController::class, 'index'])->name('customer.all-customer');
@@ -75,32 +86,32 @@ Route::middleware('auth')->group(function () {
    
    
     // Expense route
-    Route::get('/all-expense', [ExpensesController::class, 'index'])->name('allExpense');
-    Route::get('/add-expense', [ExpensesController::class, 'create'])->name('addExpense');
-    Route::get('/today-expense', [ExpensesController::class, 'todayExpense'])->name('todayExpense');
-    Route::get('/monthly-expense', [ExpensesController::class, 'monthlyExpense'])->name('monthlyExpense');
-    Route::get('/yearly-expense', [ExpensesController::class, 'yearlyExpense'])->name('yearlyExpense');
+    Route::get('/all-expense', [ExpenseController::class, 'index'])->name('allExpense');
+    Route::get('/add-expense', [ExpenseController::class, 'create'])->name('addExpense');
+    Route::get('/today-expense', [ExpenseController::class, 'todayExpense'])->name('todayExpense');
+    Route::get('/monthly-expense', [ExpenseController::class, 'monthlyExpense'])->name('monthlyExpense');
+    Route::get('/yearly-expense', [ExpenseController::class, 'yearlyExpense'])->name('yearlyExpense');
 
-    Route::post('/insert-expense', [ExpensesController::class, 'store']);
-    Route::get('/view-expense/{id}', [ExpensesController::class, 'show']);
-    Route::get('/delete-expense/{id}', [ExpensesController::class, 'destroy']);
-    Route::get('/edit-expense/{id}', [ExpensesController::class, 'edit']);
-    Route::post('/update-expense/{id}', [ExpensesController::class, 'update']);
+    Route::post('/insert-expense', [ExpenseController::class, 'store']);
+    Route::get('/view-expense/{id}', [ExpenseController::class, 'show']);
+    Route::get('/delete-expense/{id}', [ExpenseController::class, 'destroy']);
+    Route::get('/edit-expense/{id}', [ExpenseController::class, 'edit']);
+    Route::post('/update-expense/{id}', [ExpenseController::class, 'update']);
 
     // monthly expense Route
 
-    Route::get('/January-expense', [ExpensesController::class, 'JanuaryExpense'])->name('JanuaryExpense');
-    Route::get('/February-expense', [ExpensesController::class, 'FebruaryExpense'])->name('FebruaryExpense');
-    Route::get('/March-expense', [ExpensesController::class, 'MarchExpense'])->name('MarchExpense');
-    Route::get('/April-expense', [ExpensesController::class, 'AprilExpense'])->name('AprilExpense');
-    Route::get('/May-expense', [ExpensesController::class, 'MayExpense'])->name('MayExpense');
-    Route::get('/June-expense', [ExpensesController::class, 'JuneExpense'])->name('JuneExpense');
-    Route::get('/July-expense', [ExpensesController::class, 'JulyExpense'])->name('JulyExpense');
-    Route::get('/August-expense', [ExpensesController::class, 'AugustExpense'])->name('AugustExpense');
-    Route::get('/September-expense', [ExpensesController::class, 'SeptemberExpense'])->name('SeptemberExpense');
-    Route::get('/October-expense', [ExpensesController::class, 'OctoberExpense'])->name('OctoberExpense');
-    Route::get('/November-expense', [ExpensesController::class, 'NovemberExpense'])->name('NovemberExpense');
-    Route::get('/December-expense', [ExpensesController::class, 'DecemberExpense'])->name('DecemberExpense');
+    Route::get('/January-expense', [ExpenseController::class, 'JanuaryExpense'])->name('JanuaryExpense');
+    Route::get('/February-expense', [ExpenseController::class, 'FebruaryExpense'])->name('FebruaryExpense');
+    Route::get('/March-expense', [ExpenseController::class, 'MarchExpense'])->name('MarchExpense');
+    Route::get('/April-expense', [ExpenseController::class, 'AprilExpense'])->name('AprilExpense');
+    Route::get('/May-expense', [ExpenseController::class, 'MayExpense'])->name('MayExpense');
+    Route::get('/June-expense', [ExpenseController::class, 'JuneExpense'])->name('JuneExpense');
+    Route::get('/July-expense', [ExpenseController::class, 'JulyExpense'])->name('JulyExpense');
+    Route::get('/August-expense', [ExpenseController::class, 'AugustExpense'])->name('AugustExpense');
+    Route::get('/September-expense', [ExpenseController::class, 'SeptemberExpense'])->name('SeptemberExpense');
+    Route::get('/October-expense', [ExpenseController::class, 'OctoberExpense'])->name('OctoberExpense');
+    Route::get('/November-expense', [ExpenseController::class, 'NovemberExpense'])->name('NovemberExpense');
+    Route::get('/December-expense', [ExpenseController::class, 'DecemberExpense'])->name('DecemberExpense');
 
     // attendance
 
