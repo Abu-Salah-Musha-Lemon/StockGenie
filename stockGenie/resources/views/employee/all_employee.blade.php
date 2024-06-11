@@ -1,18 +1,18 @@
-
 @extends('layouts.layout')
 @section('main')
+
 	<div class="row">
 		<div class="col-md-12">
 			<div class="panel panel-success">
 				
 			<div class="panel-heading " style="display: flex;justify-content: space-between;">
 					<h3 class="panel-title text-white">All Employees</h3>
+
 					<div class="div" style="display: flex; justify-content: space-between;">
-
-							<button class="btn btn-primary waves-effect waves-light" data-toggle="modal" data-target="#add_employee_modal">x
-								</button>
-							<i class="bi bi-person-add" style="font-size:24px;color:white;font-weight:800;"></i>as
-
+							<a class="panel-title fs-4" href="{{ URL::to('/add-employee') }}">
+									<i class="bi bi-person-add" style="font-size:24px;color:white;font-weight:800;"></i>
+							</a>
+							
 					</div>
 
 			</div>
@@ -63,10 +63,4 @@
 	</div>
 
 
-@endsection
-
-@section('script')
-<script>
-
-</script>
 @endsection

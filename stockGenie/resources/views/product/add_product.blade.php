@@ -34,15 +34,15 @@
 
                             <div class="form-group">
                                 @php
-                                $cat =DB::table('categories')->get();
+                                $cat =DB::table('category')->get();
                                 @endphp
-                                <label>Categories Name</label>
+                                <label>category Name</label>
                                 
                                 <select name="cat_id" id="cat_id"  class="form-control">
                                         <option disabled="" selected="">Select</option>
                                     
                                         @foreach($cat as $row)
-                                        <option value="{{$row->id}}">{{$row->categories_name}}</option>
+                                        <option value="{{$row->id}}">{{$row->category_name}}</option>
                                         @endforeach
                                         
                                 </select>

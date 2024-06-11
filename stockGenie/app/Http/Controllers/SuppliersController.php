@@ -1,124 +1,192 @@
 <?php
+
 namespace App\Http\Controllers;
 
-use App\Models\Suppliers;
+use App\Models\suppliers;
 use Illuminate\Http\Request;
 use DB;
-use Toastr;
-use Alert;
-
 class SuppliersController extends Controller
 {
+    /**
+     * Display a listing of the resource.
+     */
     public function index()
     {
-        $suppliers = DB::table('suppliers')->get();
-        return view('suppliers.index', compact('suppliers'));
+        $supplier = DB::table('suppliers')->get();
+        return view('supplier.all_supplier',compact('supplier'));
     }
 
+    /**
+     * Show the form for creating a new resource.
+     */
+    public function create()
+    {
+        return view('supplier.add_supplier');
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     */
     public function store(Request $request)
-    {
-        $validated = $request->validate([
-            'name' => 'required',
-            'phone' => 'required|unique:suppliers,phone|digits_between:10,11',
-            'address' => 'required',
-            'type' => 'required',
-            'photo' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-            'shopeName' => 'required',
-        ]);
-        $data =array();
-        $data['name']=$request->name;
-        $data['phone']=$request->phone;
-        $data['address']=$request->address;
-        $data['type']=$request->type;
-        $data['shopeName']=$request->shopeName;
-        echo'<pre>';
-        var_dump($data);
-        echo'</pre>';
-        
-        $image = $request->file('photo');
-        if ($image) {
-            $image_name = time().'.'.$image->getClientOriginalExtension();
-            $upload_path = 'image/supplier/';
-            $image_url = $upload_path . $image_name;
-            $success = $image->move($upload_path, $image_name);
-            
-            if ($success) {
-                $data['photo'] = $image_url;
-                $insert = DB::table('suppliers')->insert($data);
-                $notification = array(
-                    'message' => 'Supplier & image  add successfully',
-                    'alert-type' => 'success'
-                );
-                return redirect()->route('suppliers.index')->with($notification);
-                }
-            } else {
-                $notification = array(
-                    'message' => 'Supplier add Successfully',
-                    'alert-type' => 'warning'
-                );
-                $insert = DB::table('suppliers')->insert($data);
-                return redirect()->route('suppliers.index')->with($notification);
-            }
-            $notification = array(
-                'message' => 'Supplier add Successfully',
+{
+    // Validating the incoming request
+    $validated = $request->validate([
+        'name' => 'required',
+        'phone' => 'required|unique:suppliers,phone|digits_between:10,11',
+        'address' => 'required',
+        'type' => 'required',
+        'shopName' => 'required',
+    ]);
+
+    try {
+        // Creating an array of data to insert into the database
+        $data = [
+            'name' => $request->input('name'),
+            'phone' => $request->input('phone'),
+            'address' => $request->input('address'),
+            'type' => $request->input('type'),
+            'shopName' => $request->input('shopName'),
+        ];
+
+        // Inserting data into the database
+        $insert = DB::table('suppliers')->insert($data);
+
+        if ($insert) {
+            // Data inserted successfully
+            $notification = [
+                'message' => 'Supplier added successfully',
                 'alert-type' => 'success'
-            );
-            $insert = DB::table('suppliers')->insert($data);
-            return redirect()->route('suppliers.index')->with($notification);
+            ];
+            return redirect()->route('supplier.all-supplier')->with($notification);
+        } else {
+            // Insert failed
+            $notification = [
+                'message' => 'Failed to add supplier',
+                'alert-type' => 'error'
+            ];
+            return redirect()->back()->withInput()->with($notification);
+        }
+    } catch (\Exception $e) {
+        // Handle any exceptions
+        $notification = [
+            'message' => 'Error: ' . $e->getMessage(),
+            'alert-type' => 'error'
+        ];
+        return redirect()->back()->withInput()->with($notification);
     }
-
-      
-        
+}
 
 
-        
-        
-    
-
-    public function edit($id)
+    /**
+     * Display the specified resource.
+     */
+    public function show(string $id)
     {
-        $supplier = Suppliers::findOrFail($id);
-        return response()->json($supplier);
+        $single = DB::table('suppliers')
+        ->where('id',$id)
+        ->first();
+        // var_dump( $singleUser);
+        return view('supplier.view_supplier',compact('single'));
     }
 
+    /**
+     * Show the form for editing the specified resource.
+     */
+    public function edit(string $id)
+    {
+        $editUser = DB::table('suppliers')
+                        ->where('id',$id)
+                        ->first();
+                return view('supplier.edit_supplier',compact('editUser'));  
+    }
+
+    
     public function update(Request $request, $id)
     {
+        // Validating the incoming request
         $validated = $request->validate([
             'name' => 'required',
-            'phone' => 'required|unique:suppliers,phone|digits_between:10,11',
+            'phone' => 'required|digits_between:11,14',
             'address' => 'required',
             'type' => 'required',
-            'photo' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-            'shopeName' => 'required',
+            'shopName' => 'required',
         ]);
-
-        $supplier = Suppliers::findOrFail($id);
-        $data = $request->except('photo');
-
-        if ($image = $request->file('photo')) {
-            $image_name = time().'.'.$image->getClientOriginalExtension();
-            $upload_path = 'image/supplier/';
-            $image->move($upload_path, $image_name);
-
-            if (file_exists($supplier->photo)) {
-                unlink($supplier->photo);
+    
+        try {
+            // Creating an array of data to update the record
+            $data = [
+                'name' => $request->input('name'),
+                'phone' => $request->input('phone'),
+                'address' => $request->input('address'),
+                'type' => $request->input('type'),
+                'shopName' => $request->input('shopName'),
+            ];
+    
+            // Updating the record in the database
+            $updateUser = DB::table('suppliers')->where('id', $id)->update($data);
+    
+            if ($updateUser) {
+                // Update successful
+                $notification = [
+                    'message' => 'Successfully Updated',
+                    'alert-type' => 'success'
+                ];
+                return redirect()->route('supplier.all-supplier')->with($notification);
+            } else {
+                // Update failed
+                $notification = [
+                    'message' => 'Failed to Update',
+                    'alert-type' => 'error'
+                ];
+                return redirect()->route('supplier.all-supplier')->with($notification);
             }
-            $data['photo'] = $upload_path.$image_name;
+        } catch (\Exception $e) {
+            // Handle any exceptions
+            $notification = [
+                'message' => 'Error: ' . $e->getMessage(),
+                'alert-type' => 'error'
+            ];
+            return redirect()->back()->withInput()->with($notification);
         }
-
-        $supplier->update($data);
-        Toastr::success('Supplier updated successfully');
-        return redirect()->route('suppliers.index');
     }
+    
+    
 
-    public function destroy($id)
+
+    /**
+     * Remove the specified resource from storage.
+     */
+    public function destroy(string $id)
     {
-        $supplier = Suppliers::findOrFail($id);
-        if ($supplier->photo && file_exists($supplier->photo)) {
-            unlink($supplier->photo);
+        $delete = DB::table('suppliers')
+            ->where('id', $id)
+            ->first();
+    
+        if ($delete) {
+            $photo = $delete->photo;
+            
+            // Check if the photo exists before attempting to delete it
+            if ($photo && file_exists($photo)) {
+                unlink($photo);
+            }
+    
+            $deleteUser = DB::table('suppliers')
+                ->where('id', $id)
+                ->delete();
+                $notification = array(
+                    'message' => 'Supplier Deleted Successfully',
+                    'alert-type' => 'success'
+                );
+            return redirect()->route('supplier.all-supplier')->with($notification);
+        } else {
+            
+                $notification = array(
+                    'message' => 'Supplier not Deleted ',
+                    'alert-type' => 'warning'
+                );
+            // Handle case where supplier with the given ID doesn't exist
+            return redirect()->route('supplier.all-supplier')->with($notification);
         }
-        $supplier->delete();
-        Toastr::success('Supplier deleted successfully');
-        return redirect()->route('suppliers.index');
     }
+    
 }

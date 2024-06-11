@@ -56,7 +56,7 @@ class ProductController extends Controller
             'buying_price.required' => 'Enter Buying Price',
             'selling_price.required' => 'Enter Selling Price',
         ]
-    );
+        );
 
         $data=array();
         $data['product_name']=$request->product_name;
@@ -97,9 +97,9 @@ class ProductController extends Controller
     public function show(string $id)
     {
         $show = DB::table('products')
-                ->join('categories','products.cat_id','categories.id')
+                ->join('category','products.cat_id','category.id')
                 ->join('suppliers','products.sup_id','suppliers.id')
-                ->select('products.*','categories.categories_name','suppliers.name')
+                ->select('products.*','category.category_name','suppliers.name')
                 ->where('products.id',$id)
                 ->first();
                 return view('product.view_product',compact('show'));
@@ -116,6 +116,7 @@ class ProductController extends Controller
         ->first();
         return view('product.edit_product',compact('edit'));  
     }
+    
     public function updateProductQtyView()
     {
         $product= DB::table('products')->get();

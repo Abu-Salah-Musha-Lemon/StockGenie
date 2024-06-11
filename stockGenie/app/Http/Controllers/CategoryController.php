@@ -9,18 +9,18 @@ class CategoryController extends Controller
 {
     public function index()
     {
-        $categories = DB::table('categories')->get();
-        return view('categories.index', compact('categories'));
+        $category = DB::table('category')->get();
+        return view('category.index', compact('category'));
     }
 
     public function store(Request $request)
     {
         $request->validate([
-            'categories_name' => 'required'
+            'category_name' => 'required'
         ]);
 
-        $inserted = DB::table('categories')->insert([
-            'categories_name' => $request->input('categories_name'),
+        $inserted = DB::table('category')->insert([
+            'category_name' => $request->input('category_name'),
             'created_at' => now(),
             'updated_at' => now()
         ]);
@@ -30,30 +30,30 @@ class CategoryController extends Controller
                 'message' => 'Category created successfully.',
                 'alert-type' => 'success'
             );
-            return redirect()->route('categories.index')->with($notification);
+            return redirect()->route('category.index')->with($notification);
         } else {
             $notification = array(
                 'message' => 'Failed to create category.',
                 'alert-type' => 'error'
             );
-            return redirect()->route('categories.index')->with($notification);
+            return redirect()->route('category.index')->with($notification);
         }
     }
 
     public function edit($id)
     {
-        $category = DB::table('categories')->where('id', $id)->first();
-        return view('categories.edit', compact('category'));
+        $category = DB::table('category')->where('id', $id)->first();
+        return view('category.edit', compact('category'));
     }
 
     public function update(Request $request, $id)
     {
         $request->validate([
-            'categories_name' => 'required'
+            'category_name' => 'required'
         ]);
 
-        $updated = DB::table('categories')->where('id', $id)->update([
-            'categories_name' => $request->input('categories_name'),
+        $updated = DB::table('category')->where('id', $id)->update([
+            'category_name' => $request->input('category_name'),
             'updated_at' => now()
         ]);
 
@@ -62,32 +62,32 @@ class CategoryController extends Controller
                 'message' => 'Category updated successfully.',
                 'alert-type' => 'success'
             );
-            return redirect()->route('categories.index')->with($notification);
+            return redirect()->route('category.index')->with($notification);
         } else {
             $notification = array(
                 'message' => 'Failed to update category.',
                 'alert-type' => 'error'
             );
-            return redirect()->route('categories.index')->with($notification);
+            return redirect()->route('category.index')->with($notification);
         }
     }
 
     public function destroy($id)
     {
-        $deleted = DB::table('categories')->where('id', $id)->delete();
+        $deleted = DB::table('category')->where('id', $id)->delete();
 
         if ($deleted) {
             $notification = array(
                 'message' => 'Category deleted successfully.',
                 'alert-type' => 'success'
             );
-            return redirect()->route('categories.index')->with($notification);
+            return redirect()->route('category.index')->with($notification);
         } else {
             $notification = array(
                 'message' => 'Failed to delete category.',
                 'alert-type' => 'error'
             );
-            return redirect()->route('categories.index')->with($notification);
+            return redirect()->route('category.index')->with($notification);
         }
     }
 }

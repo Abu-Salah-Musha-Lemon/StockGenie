@@ -20,18 +20,18 @@
 	</li>
 
 	<li class="has_sub">
-		<a href="#" class="waves-effect"><i class="bi bi-people"></i> <span> Employee </span> <span class="pull-right"><i
-					class="md md-add"></i></span></a>
-		<ul class="list-unstyled">
-			<li class="active"><a href="{{ route('employees.index') }}">Employee</a></li>
-		</ul>
-	</li>
+<a href="#" class="waves-effect"><i class="bi bi-people"></i> <span> Employee </span> <span class="pull-right"><i class="md md-add"></i></span></a>
+<ul class="list-unstyled">
+<li class="active"><a href="{{route('employee.add-employee')}}">Add Employee</a></li>
+<li><a href="{{route('employee.all-employee')}}">All Employee</a></li>
+</ul>
+</li>
 
 	<li class="has_sub">
-		<a href="#" class="waves-effect"><i class="bi bi-people"></i> <span> Categories </span> <span class="pull-right"><i
+		<a href="#" class="waves-effect"><i class="bi bi-people"></i> <span> Category</span> <span class="pull-right"><i
 					class="md md-add"></i></span></a>
 		<ul class="list-unstyled">
-			<li><a href="{{ route('categories.index') }}">Categories</a></li>
+			<li><a href="{{ route('category.index') }}">Category</a></li>
 		</ul>
 	</li>
 
@@ -46,11 +46,11 @@
 	</li>
 
 	<li class="has_sub">
-		<a href="#" class="waves-effect"><i class="bi bi-people"></i> <span> Supplier </span> <span class="pull-right"><i
-					class="md md-add"></i></span></a>
-		<ul class="list-unstyled">
-			<li><a href="{{ route('suppliers.index') }}">Supplier</a></li>
-		</ul>
+			<a href="#" class="waves-effect"><i class="fa fa-truck"></i> <span> Supplier </span> <span class="pull-right"><i class="md md-add"></i></span></a>
+			<ul class="list-unstyled">
+					<li class="active"><a href="{{route('supplier.add-supplier')}}">Add Supplier</a></li>
+					<li><a href="{{route('supplier.all-supplier')}}">All Suppliers</a></li>
+			</ul>
 	</li>
 
 	<li class="has_sub">

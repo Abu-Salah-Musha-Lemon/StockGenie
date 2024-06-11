@@ -21,6 +21,7 @@ Route::get('/dashboard', function () {
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
+    Route::get('/', function () {return view('dashboard');});
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
@@ -29,14 +30,29 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
    
-    // employee route
-    Route::resource('employees', EmployeeController::class);
+ // employee route
+ Route::get('/add-employee', [EmployeeController::class, 'addEmployee'])->name('employee.add-employee');
+ Route::get('/all-employee', [EmployeeController::class, 'allEmployee'])->name('employee.all-employee');
 
-    // supplier route
-    Route::resource('suppliers', SuppliersController::class);
+ Route::post('/insert-employee', [EmployeeController::class, 'store'])->name('addEmployee');
+ Route::get('/view-employee{id}', [EmployeeController::class, 'viewEmployee']);
+ Route::get('/delete-employee{id}', [EmployeeController::class, 'deleteEmployee']);
+ Route::get('/edit-employee{id}', [EmployeeController::class, 'editEmployee']);
+ Route::post('/update-employee{id}', [EmployeeController::class, 'updateEmployee']);
+
+       // supplier route
+       Route::get('/all-supplier', [SuppliersController::class, 'index'])->name('supplier.all-supplier');
+       Route::get('/add-supplier', [SuppliersController::class, 'create'])->name('supplier.add-supplier');
+   
+       Route::post('/insert-supplier', [SuppliersController::class, 'store']);
+       Route::get('/view-supplier{id}', [SuppliersController::class, 'show']);
+       Route::get('/delete-supplier{id}', [SuppliersController::class, 'destroy']);
+       Route::get('/edit-supplier{id}', [SuppliersController::class, 'edit']);
+       Route::post('/update-supplier{id}', [SuppliersController::class, 'update']);
+       Route::resource('supplier', SuppliersController::class);
 
     // Categories route
-    Route::resource('categories', CategoryController::class);
+    Route::resource('category', CategoryController::class);
 
      // Product route
      Route::resource('products', ProductController::class);

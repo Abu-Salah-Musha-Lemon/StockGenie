@@ -1,4 +1,4 @@
-<!-- resources/views/categories/index.blade.php -->
+<!-- resources/views/category/index.blade.php -->
 @extends('layouts.layout')
 
 @section('main')
@@ -25,14 +25,14 @@
 						<table class="table mt-3" id="dataTable" class="table table-striped table-bordered">
 							<thead>
 								<tr>
-									<th>Categories Name</th>
+									<th>category Name</th>
 									<th>Actions</th>
 								</tr>
 							</thead>
 							<tbody>
-								@foreach($categories as $category)
+								@foreach($category as $category)
 								<tr>
-									<td>{{ $category->categories_name }}</td>
+									<td>{{ $category->category_name }}</td>
 									<td>
 										<!-- edit  -->
 										<button class="btn btn-info" data-toggle="modal"
@@ -40,7 +40,7 @@
 										</button>
 
 										<!-- delete -->
-										<form action="{{ route('categories.destroy', $category->id) }}" method="POST"
+										<form action="{{ route('category.destroy', $category->id) }}" method="POST"
 											style="display:inline;">
 											@csrf
 											@method('DELETE')
@@ -63,14 +63,14 @@
 												</button>
 											</div>
 
-											<form action="{{ route('categories.update', $category->id) }}" method="POST">
+											<form action="{{ route('category.update', $category->id) }}" method="POST">
 												@csrf
 												@method('PUT')
 												<div class="modal-body">
 													<div class="form-group">
-														<label for="categories_name">Categories Name</label>
-														<input type="text" class="form-control" id="categories_name" name="categories_name"
-															value="{{ $category->categories_name }}" required>
+														<label for="category_name">category Name</label>
+														<input type="text" class="form-control" id="category_name" name="category_name"
+															value="{{ $category->category_name }}" required>
 													</div>
 												</div>
 												<div class="modal-footer">
@@ -105,12 +105,12 @@
 					<span aria-hidden="true">&times;</span>
 				</button>
 			</div>
-			<form action="{{ route('categories.store') }}" method="POST">
+			<form action="{{ route('category.store') }}" method="POST">
 				@csrf
 				<div class="modal-body">
 					<div class="form-group">
-						<label for="categories_name">Categories Name</label>
-						<input type="text" class="form-control" id="categories_name" name="categories_name" required>
+						<label for="category_name">category Name</label>
+						<input type="text" class="form-control" id="category_name" name="category_name" required>
 					</div>
 				</div>
 				<div class="modal-footer">
