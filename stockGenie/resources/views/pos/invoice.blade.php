@@ -39,7 +39,7 @@
 								<span class='text-danger fs-bolder'>@error('payment_status'){{ $message }} @enderror</span>
 							</div>
 							<div class="col-md-4">
-								<label for="pay">Case</label>
+								<label for="pay">Cash</label>
 								<input type="number" name="pay" id="pay" class="form-control" step="0.01">
 								<span class='text-danger fs-bolder'>@error('pay'){{ $message }} @enderror</span>
 							</div>
@@ -73,7 +73,8 @@
 			</div>
 		</div>
 	</div>
-</div><!-- /.modal -->
+</div>
+<!-- /.modal -->
 <script>
 	function calculateCashDue() {
 		let paymentAmount = parseFloat(document.getElementById('pay').value) || 0;

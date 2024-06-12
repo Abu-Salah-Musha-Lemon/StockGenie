@@ -90,11 +90,13 @@
 								<ul class="dropdown-menu">
 									<li><a href="{{ route('profile.edit') }}"><i class="md md-face-unlock"></i> {{ __('Profile') }}</a>
 									</li>
-									<form method="POST" action="{{ route('logout') }}">
-										@csrf
-										<li><a href="route('logout')" onclick="event.preventDefault(); this.closest('form').submit();"><i
-													class="md md-settings-power"></i> {{ __('Log Out') }}</a></li>
-									</form>
+									<li>
+										<form method="POST" action="{{ route('logout') }}">
+												@csrf
+											<a href="route('logout')" style="padding-left:20px; color:black" onclick="event.preventDefault(); this.closest('form').submit();"><i
+													class="md md-settings-power text-danger"></i> {{ __('Log Out') }}</a>
+												</form>
+										</li>
 								</ul>
 							</li>
 						</ul>
@@ -116,11 +118,13 @@
 								<span class="caret"></span></a>
 							<ul class="dropdown-menu">
 								<li><a href="{{ route('profile.edit') }}"><i class="md md-face-unlock"></i> {{ __('Profile') }}</a></li>
-								<form method="POST" action="{{ route('logout') }}">
-									@csrf
-									<li><a href="route('logout')" onclick="event.preventDefault(); this.closest('form').submit();"><i
-												class="md md-settings-power"></i> {{ __('Log Out') }}</a></li>
-								</form>
+								<li>
+										<form method="POST" action="{{ route('logout') }}">
+												@csrf
+											<a href="route('logout')" style="padding-left:20px; color:black" onclick="event.preventDefault(); this.closest('form').submit();"><i
+													class="md md-settings-power text-danger"></i> {{ __('Log Out') }}</a>
+												</form>
+								</li>
 							</ul>
 						</div>
 						<p class="text-muted m-0">Administrator</p>
