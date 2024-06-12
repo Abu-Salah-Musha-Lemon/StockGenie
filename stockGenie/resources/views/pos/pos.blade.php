@@ -65,8 +65,8 @@
 					<input type="hidden" name="vat" value="{{ Cart::tax() }}">
 					<input type="hidden" name="total" id='total' value="{{ Cart::total() }}">
 					<div class="modal-footer">
-						<button type="button" class="btn btn-danger w-md waves-effect waves-light w-sm" data-dismiss="modal">Close</button>
-						<button type="submit" class="btn btn-primary w-md waves-effect waves-light w-sm">Print Invoice</button>
+						<button type="button" class="btn btn-danger  waves-effect waves-light " data-dismiss="modal">Close</button>
+						<button type="submit" class="btn btn-primary  waves-effect waves-light ">Print Invoice</button>
 					</div>
 				</form>
 
@@ -113,9 +113,7 @@
 						</ul>
 					</div>
 					@endif
-					<!-- <h3 class="portlet-title text-dark text-uppercase">Customer Product</h3>
-                <button class="btn btn-primary waves-effect waves-light" style="margin:4px" 
-                data-toggle="modal" data-target="#con-close-modal">Add Customer</button> -->
+
 				</div>
 
 				<div class="form-group">
@@ -192,18 +190,7 @@
 													</div>
 												</form>
 											</td>
-											<!-- <td style="width: 25%;">
-                                                    <form action="{{URL::to('/update-card/'.$p->rowId)}}" method="post" >
-                                                            @csrf
-                                                            <div class="qty"style="">
-                                                            <input type="number" name="discount" min="0" value="{{$p->discount}}" min="1" class="form-control"style="margin:0px;padding:0px;">
-                                                                    <button type="submit" class="btn btn-success m-0 p-0">
-                                                                            <i class="bi bi-check2-circle"style="font-size:22px"></i>
-                                                                    </button>
-                                                            </div>
-                                                    </form>
-                                                </td> -->
-
+				
 											<td style="width: 25%;">{{$p->price*$p->qty}} ৳</td>
 											<td>
 												<a href="{{ URL::to('/delete-cart/'.$p->rowId) }}" class="btn  m-0" style="padding:2px">

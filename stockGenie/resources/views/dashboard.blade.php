@@ -222,7 +222,7 @@ $totalProduct = DB::table('order_details')->sum('unitcost');
 						<tfoot>
 							<tr>
 								<td colspan=2>Total Products:{{$total_product}}</td>
-								<td>Total:{{$sub_total}}</td>
+								<td>Total Sub:{{$sub_total}}</td>
 								<td>Total:{{$total}}</td>
 
 								<td>Total Paid:{{$pay}}</td>
