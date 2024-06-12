@@ -27,18 +27,9 @@ class CardController extends Controller
         $productQty = DB::table('products')->where('id', $id)->value('product_qty');
         if ($productQty>0&& $qty>0) {
             $add = Cart::add($data);
-            $notification = array(
-                'message' => 'Product added Successfully',
-                'alert-type' => 'success'
-            );
-        
-        }else{
-            $notification = array(
-                'message' => 'Product is not enough for sale ',
-                'alert-type' => 'warning'
-            );
+           
         }
-        return Redirect()->back()->with($notification);
+        return Redirect()->back();
     }
 
 
@@ -50,14 +41,6 @@ public function update(Request $request, $rowId)
     // Retrieve the cart item
     $cartItem = Cart::get($rowId);
     
-    // Check if the cart item exists
-    if (!$cartItem) {
-        $notification = [
-            'message' => 'Cart item not found.',
-            'alert-type' => 'error'
-        ];
-        return Redirect()->back()->with($notification);
-    }
 
     // Retrieve the cart item's quantity and id
     $cardQty = $cartItem->qty;
@@ -71,26 +54,13 @@ public function update(Request $request, $rowId)
         // Check if the product quantity is sufficient
         if ($productQty >= $qty) {
             $update = Cart::update($rowId, $qty);
-            $notification = [
-                'message' => 'Product quantity updated successfully',
-                'alert-type' => 'success'
-            ];
-            return Redirect()->back()->with($notification);
+           
+            return Redirect()->back();
         }
-         else {
-            $notification = [
-                'message' => 'Product quantity is insufficient.',
-                'alert-type' => 'error'
-            ];
-        }
-    } else {
-        $notification = [
-            'message' => 'Cart item not found or associated product quantity is insufficient.',
-            'alert-type' => 'error'
-        ];
+         
     }
     
-    return Redirect()->back()->with($notification);
+    return Redirect()->back();
 }
 
 
@@ -100,11 +70,8 @@ public function update(Request $request, $rowId)
     public function destroy(string $rowId)
     {
         $remove = Cart::remove($rowId);
-        $notification = array(
-            'message' => 'Product Remove Successfully ',
-            'alert-type' => 'success'
-        );
-        return Redirect()->back()->with($notification);
+       
+        return Redirect()->back();
     }
 
     public function createInvoice(Request $request)
