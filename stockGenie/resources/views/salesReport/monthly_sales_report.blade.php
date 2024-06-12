@@ -1,4 +1,4 @@
-@extends('layout')
+@extends('layouts.layout')
 @section('main')
 
 
@@ -25,11 +25,11 @@
 										<h3 class="panel-title">{{$date = date("F");}} Monthly Sales Report</h3>
 										@php
 										$date = date("F");
-										$total = DB::table('order')->where('order_month',$date)->sum('total');
-										$sub_total = DB::table('order')->where('order_month',$date)->sum('sub_total');
-										$pay = DB::table('order')->where('order_month',$date)->sum('pay');
-										$due = DB::table('order')->where('order_month',$date)->sum('due');
-										$total_product = DB::table('order')->where('order_month',$date)->sum('total_products');
+										$total = DB::table('orders')->where('order_month',$date)->sum('total');
+										$sub_total = DB::table('orders')->where('order_month',$date)->sum('sub_total');
+										$pay = DB::table('orders')->where('order_month',$date)->sum('pay');
+										$due = DB::table('orders')->where('order_month',$date)->sum('due');
+										$total_product = DB::table('orders')->where('order_month',$date)->sum('total_products');
 										@endphp
 										
 										<a class="panel-title fs-4" href="{{URL::to('/add-SalesReport')}}">
@@ -43,45 +43,41 @@
 														<table id="dataTable" class="table table-striped table-bordered">
 																<thead>
 																		<tr>
-																				<th>Customer Name </th>
+																				
 																				<th>Date</th>
 																				<th>Total Products</th>
 																				<th>Sub Total</th>
 																				<th>Total</th>
 																				<th>Paid</th>
 																				<th>Due</th>
-																				<th>Payment Status</th>
+																				
 																		</tr>
 																</thead>
-																		
-														
+
 																<tbody>
 
 																			@foreach($monthly as $row)
 																		<tr>
-																			<td>{{$row->name}}</td>
+																			
 																			<td>{{$row->order_date}}</td>
 																			<td>{{$row->total_products}}</td>
 																			<td>{{$row->sub_total}}</td>
 																			<td>{{$row->total}}</td>
 																			<td>{{$row->pay}}</td>
 																			<td>{{$row->due}}</td>
-																			<td>{{$row->payment_status}}</td>
+																			
 																			
 																		</tr>
 																		@endforeach
 																</tbody>
 																<tfoot>
 																		<tr>
-																				<td>Total:</td>
-																				<td>Total Products:</td>
-																				<td> {{$total_product}}</td>
-																				<td> </td>
+																		<td colspan=2>Total Products: {{$total_product}}</td>
+                                        <td>Sub Total : {{$sub_total}}</td>
+                                        <td>Total: {{$total}}</td>
+                                        <td>Total Paid: {{$pay}}</td>
+                                        <td>Total Due:{{$due}}</td>
 																				
-																				<td>Total Paid:</td>
-																				<td>{{$pay}}</td>
-																				<td>Total Due:{{$due}}</td>
-																				<td></td>
 																		</tr>
 																</tfoot>
 														</table>

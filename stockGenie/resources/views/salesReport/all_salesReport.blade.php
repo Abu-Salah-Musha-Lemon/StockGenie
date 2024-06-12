@@ -1,4 +1,4 @@
-@extends('layout')
+@extends('layouts.layout')
 @section('main')
 
 	<div class="row">
@@ -12,9 +12,8 @@
 							<h3 class="btn btn-warning"><a class="panel-title fs-4" href="{{URL::to('/monthly-sales-report')}}" value="Today">Monthly Sales Reports</h3>
 							<h3 class="btn btn-danger"><a class="panel-title fs-4" href="{{route('yearly-Sales-Reports')}}" value="Today">Yearly Sales Reports</h3>
 						</div>
-						<a class=" fs-4" href="{{URL::to('/export-file')}}" value="This Month">
-							<i class="bi bi-file-earmark-arrow-up"style="font-size:24px;color:white;font-weight:800;"></i>
-						</a>
+						
+							
 				</div>
 
 				<div class="panel-body">
@@ -24,7 +23,7 @@
 								<table id="dataTable" class="table table-striped table-bordered">
 										<thead>
 												<tr>
-													<th>Customer Name</th>
+												
 													<!-- <th>Product Name</th> -->
 													<th>Paid Amount </th>
 													<th>Paid Status </th>
@@ -38,7 +37,7 @@
 											
 												@foreach($allReport as $row)
 													<tr>
-														<td class='text-uppercase'>{{ $row->name}}</td>
+														
 														
 														<td>{{$row->pay}}</td>
 														<td>

@@ -18,7 +18,17 @@
 
 		</ul>
 	</li>
+	<li class="has_sub">
+		<a href="#" class="waves-effect"><i class="fa fa-bar-chart-o"></i> <span> Sales Report </span> <span
+				class="pull-right"><i class="md md-add"></i></span></a>
+		<ul class="list-unstyled">
+			<li class="active"><a href="{{route('allSalesReport')}}">All Sales Report</a></li>
+			<li><a href="{{route('todaySalesReport')}}">Today Sales Report</a></li>
+			<li><a href="{{route('monthlySalesReport')}}">Monthly Sales Report</a></li>
+			<li><a href="{{route('yearlySalesReport')}}">Yearly Sales Report</a></li>
 
+		</ul>
+	</li>
 	
 	<li class="has_sub">
 		<a href="#" class="waves-effect"><i class="bi bi-people"></i> <span> Employee </span> <span class="pull-right"><i
