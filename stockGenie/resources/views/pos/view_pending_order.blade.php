@@ -117,7 +117,7 @@
 			<div class="panel-body" id="invoice">
 				<div class="clearfix">
 					<div class="pull-left">
-						<h4 class="text-right">Stoke Genie</h4>
+						<h4 class="text-right"><h4 class="text-right"><img src="{{asset('images/logo/StockGenie.png')}}" alt="Stock Genie"style="width: 70px; height: 70px; padding: 6px;"></h4></h4>
 					</div>
 					<div class="pull-right">
 						<h4>
