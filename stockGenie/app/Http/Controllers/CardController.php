@@ -99,13 +99,13 @@ public function update(Request $request, $rowId)
         $data['order_year']=$request->order_year;
         $data['order_status']=$request->order_status;
         $data['total_products']=(int)$request->total_products;
-        $data['sub_total']=(float) $request->sub_total;
-        $data['vat']=(float) $request->vat;
-        $data['total']=(float) $request->total;
-        $data['payment_status']=(float) $request->payment_status;
-        $data['pay']=(float) $request->pay;
-        $data['due']=(float) $request->due;
-        $data['returnAmount']=(float) $request->returnAmount;
+        $data['sub_total'] = (double) $request->sub_total;
+        $data['vat'] = (double) $request->vat;
+        $data['total'] = (double) $request->total;
+        $data['payment_status'] = (double) $request->payment_status;
+        $data['pay'] = (double) $request->pay;
+        $data['due'] = (double) $request->due;
+        $data['returnAmount'] = (double) $request->returnAmount;
         // echo "<pre>";
         // print_r($data);
         // exit;
@@ -171,9 +171,9 @@ public function update(Request $request, $rowId)
         ]);
     
         // Extract pay and due from the request
-        $newPay = (float) $request->pay;
-        $newDue = (float) $request->due;
-        $returnAmount = (float) $request->returnAmount;
+        $newPay = (double) $request->pay;
+        $newDue = (double) $request->due;
+        $returnAmount = (double) $request->returnAmount;
     
         // Retrieve existing pay and due from the database
         $order = DB::table('orders')->find($id); // Assuming the table name is 'orders'
@@ -181,8 +181,8 @@ public function update(Request $request, $rowId)
             return response()->json(['error' => 'Order not found'], 404);
         }
     
-        $oldPay = (float) $order->pay;
-        $oldDue = (float) $order->due;
+        $oldPay = (double) $order->pay;
+        $oldDue = (double) $order->due;
     
         // Calculate final pay and due
         $finalPay = $newPay + $oldPay;

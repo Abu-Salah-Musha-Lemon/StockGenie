@@ -8,9 +8,9 @@
 </style>
 
 
-<div class="row" style="display:flex;justify-content:center;align-item:center;top:0;">
+<div class="row" >
 	<!-- Basic example -->
-	<div class=" col-md-6 col-lg-10 col-xl-10">
+	<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
 		<div class="panel panel-info">
 			<div class="panel-heading " style="display: flex;justify-content: space-between;">
 				<h3 class="panel-title text-white">Add Product</h3>
@@ -23,8 +23,28 @@
 				<form role="form" action="{{ URL::to('/insert-product') }}" method="post" enctype="multipart/form-data">
 					@csrf
 
-					<div class="row">
-						<div class="col-md-6">
+					<div class="row"style="display: flex;justify-content: center;align-items: center;justify-content: space-between;">
+						<div class="col-md-3">
+							<!-- Photo -->
+							<div class="form-group my-2">
+								<div class="input-group mb-3" style="display: flex;justify-content: center;align-items: center;flex-direction: column;">
+									<div class="input-group-prepend">
+										<span>Product Photo</span>
+									</div>
+									<img id="image"
+										style="width: 190px;height: 190px;border-radius:16px;border:1px solid rgba(0 0 0 0.1) ">
+
+									<div class="fileUpload btn btn-success waves-effect waves-light" style="margin:5px 0 5px 0">
+										<span><i class="ion-upload m-r-5"></i>Upload</span>
+										<input type="file" name="photo" id="photo" accept="image/*" class="upload" class="form-control"
+											onchange="readURL(this);" />
+									</div>
+
+									<span class='text-danger'>@error('photo'){{ $message }}@enderror</span>
+								</div>
+							</div>
+						</div>
+						<div class="col-md-4">
 							<div class="form-group">
 								<label>Product Name</label>
 								<input type="text" class="form-control @error('product_name') @enderror" name="product_name"
@@ -83,7 +103,7 @@
 							</div>
 						</div>
 
-						<div class="col-md-6">
+						<div class="col-md-4">
 							<div class="form-group">
 								<label>Product Route</label>
 								<input type="text" class="form-control" name="product_route" placeholder="Enter Product Route">
@@ -110,31 +130,15 @@
 									placeholder="Enter Product  Selling Prize">
 								<span class='text-danger'>@error('selling_price'){{ $message }}@enderror</span>
 							</div>
-
-							<!-- Photo -->
-							<div class="form-group my-2">
-								<div class="input-group mb-3">
-									<div class="input-group-prepend">
-										<span>Photo</span>
-									</div>
-									<img id="image" style="width: 100px;height: 100px;object: cover;" /><br />
-
-									<div class="fileUpload btn btn-success waves-effect waves-light" style="margin:5px 0 5px 0">
-										<span><i class="ion-upload m-r-5"></i>Upload</span>
-										<input type="file" name="photo" id="photo" accept="image/*" class="upload" class="form-control"
-											onchange="readURL(this);" />
-									</div>
-
-									<span class='text-danger'>@error('photo'){{ $message }}@enderror</span>
-								</div>
-							</div>
 						</div>
 
+					</div>
 
-						<div class="form-group">
 
-							<button type="submit" class="btn btn-success waves-effect waves-light w-sm m-b-5">Submit</button>
-						</div>
+					<div class="form-group">
+
+						<button type="submit" class="btn btn-success waves-effect waves-light w-sm m-b-5">Submit</button>
+					</div>
 
 				</form>
 

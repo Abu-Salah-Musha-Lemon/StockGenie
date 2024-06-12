@@ -1,6 +1,13 @@
 <!-- resources/views/category/index.blade.php -->
 @extends('layouts.layout')
 
+<style>
+	i{
+		font-size: 26px;
+
+	}
+</style>
+
 @section('main')
 <div class="row">
 		<div class="col-md-12">
@@ -10,7 +17,7 @@
 				<h3 class="panel-title text-white">All Category</h3>
 				<div class="div" style="display: flex; justify-content: space-between;">
 
-					<a class="btn btn-primary" data-toggle="modal" data-target="#addCategoryModal">
+					<a class="btn btn-primary btn-custom waves-effect waves-light " data-toggle="modal" data-target="#addCategoryModal">
 						<i class="bi bi-person-add" style="font-size:24px;color:white;font-weight:800;"></i>
 					</a>
 
@@ -35,8 +42,8 @@
 									<td>{{ $category->category_name }}</td>
 									<td>
 										<!-- edit  -->
-										<button class="btn btn-info" data-toggle="modal"
-											data-target="#editCategoryModal{{ $category->id }}">Edit
+										<button class="btn btn-info btn-custom waves-effect waves-light " data-toggle="modal"
+											data-target="#editCategoryModal{{ $category->id }}"><i class="bi bi-pencil-square fs-2"></i>
 										</button>
 
 										<!-- delete -->
@@ -44,7 +51,7 @@
 											style="display:inline;">
 											@csrf
 											@method('DELETE')
-											<button type="submit" class="btn btn-danger">Delete</button>
+											<button type="submit" class="btn btn-danger btn-custom waves-effect waves-light"><i class="bi bi-trash3"></i></button>
 											
 										</form>
 									</td>
@@ -56,11 +63,11 @@
 									<div class="modal-dialog" role="document">
 										<div class="modal-content">
 											<div class="modal-header">
-												<h5 class="modal-title" id="editCategoryModalLabel{{ $category->id }}">
-													Edit Category</h5>
+												Edit Category</h5>
 												<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 													<span aria-hidden="true">&times;</span>
-												</button>
+													</button>
+												<h5 class="modal-title" id="editCategoryModalLabel{{ $category->id }}">
 											</div>
 
 											<form action="{{ route('category.update', $category->id) }}" method="POST">
@@ -74,8 +81,8 @@
 													</div>
 												</div>
 												<div class="modal-footer">
-													<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-													<button type="submit" class="btn btn-primary">Save changes</button>
+													<button type="button" class="btn btn-danger waves-effect waves-light " data-dismiss="modal">Close</button>
+													<button type="submit" class="btn btn-primary waves-effect waves-light ">Save</button>
 												</div>
 											</form>
 
@@ -100,10 +107,10 @@
 	<div class="modal-dialog" role="document">
 		<div class="modal-content">
 			<div class="modal-header">
-				<h5 class="modal-title" id="addCategoryModalLabel">Add Category</h5>
 				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 					<span aria-hidden="true">&times;</span>
-				</button>
+					</button>
+				<h5 class="modal-title" id="addCategoryModalLabel">Add Category</h5>
 			</div>
 			<form action="{{ route('category.store') }}" method="POST">
 				@csrf
@@ -114,8 +121,8 @@
 					</div>
 				</div>
 				<div class="modal-footer">
-					<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-					<button type="submit" class="btn btn-primary">Save</button>
+					<button type="button" class="btn btn-danger waves-effect waves-light  " data-dismiss="modal">Close</button>
+					<button type="submit" class="btn btn-primary waves-effect waves-light  ">Save</button>
 				</div>
 			</form>
 		</div>

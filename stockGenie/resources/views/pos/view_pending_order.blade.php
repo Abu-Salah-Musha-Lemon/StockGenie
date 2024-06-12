@@ -17,11 +17,6 @@
 					X
 				</button>
 				<br />
-
-				//@php //$id = $order->id; 
-				//$due=DB::table('orders')->where('id',$id)->get()
-				//if($order->id===$due->customer_id){ // $customerDue=DB::('')
-				// } ;@endphp
 				<h4 class="modal-title text-info">
 					Due <span style="float: right">Due: {{$order->due}}</span>
 				</h4>

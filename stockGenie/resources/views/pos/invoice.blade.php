@@ -63,7 +63,7 @@
 					<input type="hidden" name="total_products" value="{{ Cart::count() }}">
 					<input type="hidden" name="sub_total" value="{{ Cart::subtotal() }}">
 					<input type="hidden" name="vat" value="{{ Cart::tax() }}">
-					<input type="hidden" name="total" id='total' value="{{ Cart::total() }}">
+					<input type="hidden" name="total"  value="{{ Cart::total() }}"step="0.01">
 					<div class="modal-footer">
 						<button type="button" class="btn btn-danger w-md waves-effect waves-light w-sm" data-dismiss="modal">Close</button>
 						<button type="submit" class="btn btn-primary w-md waves-effect waves-light w-sm">Print Invoice</button>
