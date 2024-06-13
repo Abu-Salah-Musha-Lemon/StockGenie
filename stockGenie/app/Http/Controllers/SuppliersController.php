@@ -38,7 +38,7 @@ class SuppliersController extends Controller
         'shopName' => 'required',
     ]);
 
-    try {
+   
         // Creating an array of data to insert into the database
         $data = [
             'name' => $request->input('name'),
@@ -57,23 +57,21 @@ class SuppliersController extends Controller
                 'message' => 'Supplier added successfully',
                 'alert-type' => 'success'
             ];
-            return redirect()->route('supplier.all-supplier')->with($notification);
+            return redirect()->back()->with($notification);
         } else {
             // Insert failed
             $notification = [
                 'message' => 'Failed to add supplier',
                 'alert-type' => 'error'
             ];
-            return redirect()->back()->withInput()->with($notification);
+            return redirect()->back()->with($notification);
         }
-    } catch (\Exception $e) {
-        // Handle any exceptions
-        $notification = [
-            'message' => 'Error: ' . $e->getMessage(),
-            'alert-type' => 'error'
-        ];
-        return redirect()->back()->withInput()->with($notification);
-    }
+   
+    $notification = [
+        'message' => 'Input all the data Correctly',
+        'alert-type' => 'error'
+    ];
+    return redirect()->back()->with($notification);
 }
 
 
@@ -160,24 +158,14 @@ class SuppliersController extends Controller
     {
         $delete = DB::table('suppliers')
             ->where('id', $id)
-            ->first();
+            ->delete();
     
         if ($delete) {
-            $photo = $delete->photo;
-            
-            // Check if the photo exists before attempting to delete it
-            if ($photo && file_exists($photo)) {
-                unlink($photo);
-            }
-    
-            $deleteUser = DB::table('suppliers')
-                ->where('id', $id)
-                ->delete();
                 $notification = array(
                     'message' => 'Supplier Deleted Successfully',
                     'alert-type' => 'success'
                 );
-            return redirect()->route('supplier.all-supplier')->with($notification);
+            return redirect()->back()->with($notification);
         } else {
             
                 $notification = array(
@@ -185,7 +173,7 @@ class SuppliersController extends Controller
                     'alert-type' => 'warning'
                 );
             // Handle case where supplier with the given ID doesn't exist
-            return redirect()->route('supplier.all-supplier')->with($notification);
+            return redirect()->back()->with($notification);
         }
     }
     

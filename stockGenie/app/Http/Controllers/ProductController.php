@@ -82,13 +82,22 @@ class ProductController extends Controller
             if ($success) {
                 $data['product_image'] = $image_url;
                 $insert = DB::table('products')->insert($data);
-                return redirect()->route('allProduct');
+                $notification = array(
+                    'message' => 'Add Product successfully.',
+                    'alert-type' => 'success'
+                );
+                return redirect()->route('allProduct')->with($notification);
             } else {
-                return redirect()->back()->withErrors(['image' => 'Failed to upload image']);
+                $notification = array(
+                    'message' => 'Failed to create category.',
+                    'alert-type' => 'error'
+                );
+                return redirect()->back()->with($notification);
             }
         } else {
             return redirect()->back()->withErrors(['image' => 'Image is required']);
         }
+        
     }
 
     /**

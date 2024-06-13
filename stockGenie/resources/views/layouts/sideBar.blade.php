@@ -40,7 +40,7 @@
 	</li>
 
 	<li class="has_sub">
-		<a href="#" class="waves-effect"><i class="bi bi-people"></i> <span> Category</span> <span class="pull-right"><i
+		<a href="#" class="waves-effect"><i class="bi bi-journal-richtext"></i> <span> Category</span> <span class="pull-right"><i
 					class="md md-add"></i></span></a>
 		<ul class="list-unstyled">
 			<li><a href="{{ route('category.index') }}">Category</a></li>
@@ -61,7 +61,6 @@
 		<a href="#" class="waves-effect"><i class="fa fa-truck"></i> <span> Supplier </span> <span class="pull-right"><i
 					class="md md-add"></i></span></a>
 		<ul class="list-unstyled">
-			<li class="active"><a href="{{route('supplier.add-supplier')}}">Add Supplier</a></li>
 			<li><a href="{{route('supplier.all-supplier')}}">All Suppliers</a></li>
 		</ul>
 	</li>

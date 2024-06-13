@@ -30,13 +30,13 @@ class CategoryController extends Controller
                 'message' => 'Category created successfully.',
                 'alert-type' => 'success'
             );
-            return redirect()->route('category.index')->with($notification);
+            return redirect()->back()->with($notification);
         } else {
             $notification = array(
                 'message' => 'Failed to create category.',
                 'alert-type' => 'error'
             );
-            return redirect()->route('category.index')->with($notification);
+            return redirect()->back()->with($notification);
         }
     }
 

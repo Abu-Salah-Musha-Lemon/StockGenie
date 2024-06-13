@@ -13,9 +13,16 @@
 	<div class="modal-dialog">
 		<div class="modal-content">
 			<div class="modal-header">
-				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">X</button> <br>
-				<h4 class="modal-title text-info">Final Invoice <span style="float:right">Total: {{ Cart::total() }}</span></h4>
-
+				<div class="invoice"style="    display: flex;
+    justify-content: space-between;
+    align-items: center;">
+				<h4 class="modal-title text-info">Final Invoice </h4>
+				<h4 class="modal-title text-info">Total: {{ Cart::total() }}</h4>
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">X</button> 
+				</div>
+				@if(Cart::total()==0)
+				<span class="text-danger fs-2 ">Add Product for Create Invoice</span>
+				@else
 				<form role="form" action="{{ URL::to('/final-invoice/') }}" method="GET">
 					@csrf
 					<div class="modal-body">
@@ -69,7 +76,7 @@
 						<button type="submit" class="btn btn-primary  waves-effect waves-light ">Print Invoice</button>
 					</div>
 				</form>
-
+				@endif
 			</div>
 		</div>
 	</div>
@@ -117,18 +124,10 @@
 				</div>
 
 				<div class="form-group">
-					@php
-					$cust = DB::table('customers')->get();
-					@endphp
-					
-
-						<button type="submit" class="btn btn-primary waves-effect waves-light" data-toggle="modal"
+					<button type="submit" class="btn btn-primary waves-effect waves-light" data-toggle="modal"
 						data-target="#finalInvoice">Check invoice</button>
 
-
-					
 				</div>
-
 
 				<div class="card-body">
 					<div class="col-sm-6 col-md-6 col-lg-3 mt-2" style="width:100%">
@@ -148,8 +147,6 @@
 											<th class="text-white d-flex text-center" scope="col" style="width: 25%;">Name</th>
 											<th class="text-white d-flex text-center" scope="col" style="width: 25%;">Single Prize</th>
 											<th class="text-white d-flex text-center" scope="col" style="width: 25%;">Qty</th>
-											<!-- <th scope="col" style="width: 25%;">Discount (%)</th> -->
-
 											<th class="text-white d-flex text-center" scope="col" style="width: 25%;">Sup Total</th>
 											<th class="text-white d-flex text-center" scope="col" style="width: 25%;">Action</th>
 										</tr>
@@ -159,8 +156,6 @@
 											display: flex;
 											justify-content: center;
 											align-items: space-between;
-
-
 										}
 
 										.c-btn {
@@ -182,15 +177,18 @@
 												<form action="{{URL::to('/update-card/'.$p->rowId)}}" method="post">
 													@csrf
 													<div class="qty" style="">
-														<input type="number" name="qty" id="" min="0" value="{{$p->qty}}" class="form-control"
-															style="margin:0px;padding:0px;">
-														<button type="submit" class="btn btn-success  waves-effect waves-light m-0 p-0">
-															<i class="bi bi-check2-circle" style="font-size:22px"></i>
+														<input type="number" name="qty" id="" min="0" value="{{$p->qty}}"
+															class="form-control text-center" style="margin:0px;padding:0px;">
+														<button type="submit" class="btn btn-success  waves-effect waves-light m-0 p-0" style="display: flex;
+    justify-content: center;
+    align-items: center;">
+															<i class="bi bi-check2-circle" style="font-size: 20px;
+    margin: 2px;"></i>
 														</button>
 													</div>
 												</form>
 											</td>
-				
+
 											<td style="width: 25%;">{{$p->price*$p->qty}} ৳</td>
 											<td>
 												<a href="{{ URL::to('/delete-cart/'.$p->rowId) }}" class="btn  m-0" style="padding:2px">
@@ -271,7 +269,10 @@
 								</td>
 								<td><img src="{{ asset($row->product_image) }}" style="width:40px;height:40px;object:cover;"></td>
 								<td>{{ $row->product_name }}</td>
-								<td>{{ $row->product_qty }}</td>
+								<td>
+									<p class="btn btn-{{ $row->product_qty < 5 ? 'danger' : 'success' }} shadow-none">{{ $row->product_qty
+										}}</p>
+								</td>
 								<td>{{ $row->product_code }}</td>
 								<td>{{ $row->selling_price }} ৳</td>
 								<td>{{ $row->product_route }}</td>

@@ -19,7 +19,16 @@
 				</a>
 			</div>
 			<div class="panel-body">
-
+			@include('supplier.add_supplier_modal')
+				<a class="btn btn-primary waves-effect waves-light " data-toggle="modal"
+					data-target="#addSupplierModal">
+					<i class="bi bi-truck-flatbed"style="font-size:24px;color:white;font-weight:800;"></i>
+				</a>
+				@include('category.add_category_modal')
+				<a class="btn btn-primary waves-effect waves-light " data-toggle="modal"
+					data-target="#addCategoryModal">
+					<i class="bi bi-journal-plus"style="font-size:24px;color:white;font-weight:800;"></i>
+				</a>
 				<form role="form" action="{{ URL::to('/insert-product') }}" method="post" enctype="multipart/form-data">
 					@csrf
 
@@ -88,17 +97,17 @@
 
 							<div class="form-group">
 								<label>Product Code</label>
-								<input type="text" class="form-control" name="product_code" placeholder="Enter Product Code">
+								<input type="text" class="form-control" name="product_code" value="{{old('product_code')}}" placeholder="Enter Product Code">
 								<span class='text-danger'>@error('product_code'){{ $message }}@enderror</span>
 							</div>
 							<div class="form-group">
 								<label>Product Quantity</label>
-								<input type="text" class="form-control" name="product_qty" placeholder="Enter Product Quantity">
+								<input type="text" class="form-control" name="product_qty" value="{{old('product_qty')}}" placeholder="Enter Product Quantity">
 								<span class='text-danger'>@error('product_qty'){{ $message }}@enderror</span>
 							</div>
 							<div class="form-group">
 								<label>Product Garage</label>
-								<input type="text" class="form-control" name="product_garage" placeholder="Enter Product Garage">
+								<input type="text" class="form-control" name="product_garage" value="{{old('product_garage')}}" placeholder="Enter Product Garage">
 								<span class='text-danger'>@error('product_garage'){{ $message }}@enderror</span>
 							</div>
 						</div>
@@ -106,27 +115,27 @@
 						<div class="col-md-4">
 							<div class="form-group">
 								<label>Product Route</label>
-								<input type="text" class="form-control" name="product_route" placeholder="Enter Product Route">
+								<input type="text" class="form-control" name="product_route" value="{{old('product_route')}}" placeholder="Enter Product Route">
 								<span class='text-danger'>@error('product_route'){{ $message }}@enderror</span>
 							</div>
 							<div class="form-group">
 								<label>Product Buying Date</label>
-								<input type="date" class="form-control" name="buy_date" placeholder="Enter Product Buying Date">
+								<input type="date" class="form-control" name="buy_date" value="{{old('buy_date')}}" placeholder="Enter Product Buying Date">
 								<span class='text-danger'>@error('buy_date'){{ $message }}@enderror</span>
 							</div>
 							<div class="form-group">
 								<label>Product Expire Date</label>
-								<input type="date" class="form-control" name="expire_date" placeholder="Enter Product Expire Date">
+								<input type="date" class="form-control" name="expire_date" value="{{old('expire_date')}}" placeholder="Enter Product Expire Date">
 								<span class='text-danger'>@error('expire_date'){{ $message }}@enderror</span>
 							</div>
 							<div class="form-group">
 								<label>Product Buying Prize</label>
-								<input type="number" class="form-control" name="buying_price" placeholder="Enter Product  Buying Prize">
+								<input type="number" class="form-control" name="buying_price" value="{{old('buying_price')}}" placeholder="Enter Product  Buying Prize">
 								<span class='text-danger'>@error('buying_price'){{ $message }}@enderror</span>
 							</div>
 							<div class="form-group">
 								<label>Product Selling Prize</label>
-								<input type="number" class="form-control" name="selling_price"
+								<input type="number" class="form-control" name="selling_price" value="{{old('selling_price')}}"
 									placeholder="Enter Product  Selling Prize">
 								<span class='text-danger'>@error('selling_price'){{ $message }}@enderror</span>
 							</div>
