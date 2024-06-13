@@ -13,14 +13,8 @@
 	<div class="modal-dialog">
 		<div class="modal-content">
 			<div class="modal-header">
-				<div class="invoice" style="display: flex;
-   
-  
-    justify-content: space-between;">
-				<h4 class="modal-title text-info">Final Invoice </span></h4>
-				<h4 class="modal-title text-info">Total: {{ number_format(Cart::total(), 0) }}</h4>
 				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">X</button> <br>
-				</div>
+				<h4 class="modal-title text-info">Final Invoice <span style="float:right">Total: {{ Cart::total() }}</span></h4>
 
 				<form role="form" action="{{ URL::to('/final-invoice/') }}" method="GET">
 					@csrf
@@ -61,15 +55,15 @@
 						</div>
 					</div>
 
-					<input type="hidden" name="order_date" value="{{ date('d-m-y') }}" step="1">
-					<input type="hidden" name="order_month" value="{{ date('F') }}" step="1">
-					<input type="hidden" name="order_year" value="{{ date('Y') }}" step="1">
+					<input type="hidden" name="order_date" value="{{ date('d-m-y') }}">
+					<input type="hidden" name="order_month" value="{{ date('F') }}">
+					<input type="hidden" name="order_year" value="{{ date('Y') }}">
 					<input type="hidden" name="order_status" value="pending">
 
-					<input type="hidden" name="total_products" value="{{ Cart::count() }}" step="1">
-					<input type="hidden" name="sub_total" value="{{ number_format(Cart::subtotal(), 0) }}" step="1">
-					<input type="hidden" name="vat" value="{{ number_format(Cart::tax(), 0) }}" step="1">
-					<input type="hidden" name="total" value="{{ number_format(Cart::total(), 0) }}" step="1">
+					<input type="hidden" name="total_products" value="{{ Cart::count() }}">
+					<input type="hidden" name="sub_total" value="{{ Cart::subtotal() }}">
+					<input type="hidden" name="vat" value="{{ Cart::tax() }}">
+					<input type="hidden" name="total"  value="{{ Cart::total() }}"step="0.01">
 					<div class="modal-footer">
 						<button type="button" class="btn btn-danger w-md waves-effect waves-light w-sm" data-dismiss="modal">Close</button>
 						<button type="submit" class="btn btn-primary w-md waves-effect waves-light w-sm">Print Invoice</button>
@@ -81,11 +75,10 @@
 	</div>
 </div>
 <!-- /.modal -->
-
 <script>
 	function calculateCashDue() {
 		let paymentAmount = parseFloat(document.getElementById('pay').value) || 0;
-		let totalAmount = parseFloat('{{ Cart::total() }}'.replace(/,/g, '')) || 0;
+		let totalAmount = parseFloat(document.getElementById('total').value.replace(/,/g, '')) || 0;
 		let cashDue = totalAmount - paymentAmount;
 		let returnAmount = 0.00;
 
@@ -166,11 +159,11 @@
 				</div>
 				<div class="row" style="border-radius: 0px;">
 					<div class="col-md-3 col-md-offset-9">
-						<p class="text-right"><b>Sub-total:</b> {{ number_format(Cart::subtotal(), 0) }} ৳</p>
+						<p class="text-right"><b>Sub-total:</b> {{ Cart::subtotal() }} ৳</p>
 						<p class="text-right">Total Qty: {{ Cart::count() }}</p>
-						<p class="text-right">VAT: {{ number_format(Cart::tax(), 0) }}</p>
+						<p class="text-right">VAT: {{ Cart::tax() }}</p>
 						<hr>
-						<h3 class="text-right">Total : {{ number_format(Cart::total(), 0) }}</h3>
+						<h3 class="text-right">Total : {{ Cart::total() }}</h3>
 					</div>
 				</div>
 				<hr>

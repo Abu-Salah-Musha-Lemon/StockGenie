@@ -131,10 +131,8 @@
 					</div>
 				</div>
 				<!-- Divider -->
-				<div id="sidebar-menu">
+				
 					@include('layouts.sideBar')
-					<div class="clearfix"></div>
-				</div>
 				<div class="clearfix"></div>
 			</div>
 		</div>

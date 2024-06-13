@@ -34,7 +34,7 @@
 						<table id="dataTable" class="table table-striped table-bordered">
 							<thead>
 								<tr>
-
+<th>#</th>
 									<th>Date</th>
 									<th>Total Products</th>
 									<th>Sub Total</th>
@@ -46,10 +46,12 @@
 							</thead>
 
 							<tbody>
-
-								@foreach($today as $row)
+							@php 
+                                $sl =1;
+                                @endphp
+							@foreach($today->sortByDesc('order_id') as $row)
 								<tr>
-
+	<td>{{$sl++}}</td>
 									<td>{{$row->order_date}}</td>
 									<td>{{$row->total_products}}</td>
 									<td>{{$row->sub_total}}</td>

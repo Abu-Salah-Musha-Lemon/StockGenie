@@ -1,3 +1,4 @@
+<div id="sidebar-menu">
 <ul>
 	<li>
 		<a href="{{URL::to('dashboard')}}" class="waves-effect"><i class="ion-arrow-graph-up-right"></i><span> Dashboard
@@ -52,7 +53,6 @@
 					class="md md-add"></i></span></a>
 		<ul class="list-unstyled">
 			<li><a href="{{route('addProduct')}}">Add Product</a></li>
-			<li class="active"><a href="{{route('updateProductQtyView')}}">Add Products Qty</a></li>
 			<li class="active"><a href="{{route('allProduct')}}">All Products</a></li>
 		</ul>
 	</li>
@@ -90,3 +90,4 @@
 	</li>
 
 </ul>
+</div>

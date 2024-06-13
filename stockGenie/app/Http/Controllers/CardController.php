@@ -98,18 +98,20 @@ public function update(Request $request, $rowId)
         $data['order_month']=$request->order_month;
         $data['order_year']=$request->order_year;
         $data['order_status']=$request->order_status;
-        $data['total_products']=(int)$request->total_products;
-        $data['sub_total'] = (double) $request->sub_total;
-        $data['vat'] = (double) $request->vat;
-        $data['total'] = (double) $request->total;
-        $data['payment_status'] = (double) $request->payment_status;
-        $data['pay'] = (double) $request->pay;
-        $data['due'] = (double) $request->due;
-        $data['returnAmount'] = (double) $request->returnAmount;
+        $data['total_products']=$request->total_products;
+        $data['payment_status'] =  $request->payment_status;
+        $data['sub_total'] = floatval(str_replace(',', '', $request->sub_total));
+        $data['vat'] = floatval(str_replace(',', '', $request->vat));
+        $data['total'] = floatval(str_replace(',', '', $request->total));
+        $data['pay'] = floatval(str_replace(',', '', $request->pay));
+        $data['due'] = floatval(str_replace(',', '', $request->due));
+        $data['returnAmount'] = floatval(str_replace(',', '', $request->returnAmount));
+
+        $order_id = DB::table('orders')->insert($data);
+        // $order_id = DB::table('orders')->insertGetId($data);
         // echo "<pre>";
         // print_r($data);
         // exit;
-        $order_id = DB::table('orders')->insertGetId($data);
 
         if ($order_id) {
             $contentsCart = Cart::content();

@@ -14,7 +14,7 @@
 		<div class="modal-content">
 			<div class="modal-header">
 				<div class="invoice"style="    display: flex;
-    justify-content: space-between;
+    justify-content: space-;
     align-items: center;">
 				<h4 class="modal-title text-info">Final Invoice </h4>
 				<h4 class="modal-title text-info">Total: {{ Cart::total() }}</h4>
@@ -81,7 +81,7 @@
 		</div>
 	</div>
 </div>
-<script>
+<!-- <script>
 	function calculateCashDue() {
 		let paymentAmount = parseFloat(document.getElementById('pay').value) || 0;
 		let totalAmount = parseFloat(document.getElementById('total').value.replace(/,/g, '')) || 0;
@@ -100,7 +100,29 @@
 	document.getElementById('pay').addEventListener('input', calculateCashDue);
 
 	calculateCashDue();
+</script> -->
+
+<script>
+    function calculateCashDue() {
+        let paymentAmount = parseFloat(document.getElementById('pay').value) || 0;
+        let totalAmount = parseFloat(document.getElementById('total').value.replace(/,/g, '')) || 0;
+        let cashDue = totalAmount - paymentAmount;
+        let returnAmount = 0.00;
+
+        if (cashDue < 0) {
+            returnAmount = Math.abs(cashDue);
+            cashDue = 0.00;
+        }
+
+        document.getElementById('due').value = cashDue.toFixed(2);
+        document.getElementById('returnAmount').value = returnAmount.toFixed(2);
+    }
+
+    document.getElementById('pay').addEventListener('input', calculateCashDue);
+
+    calculateCashDue();
 </script>
+
 
 <!-- /.modal -->
 

@@ -205,7 +205,7 @@ $totalProduct = DB::table('order_details')->sum('unitcost');
 
 						<tbody>
 
-							@foreach($today as $row)
+							@foreach($today->reverse() as $row)
 							<tr>
 
 								<td>{{$row->order_date}}</td>
