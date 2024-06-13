@@ -125,7 +125,8 @@ Route::middleware('auth')->group(function () {
     Route::get('/pending-orders', [PosController::class, 'pendingOrder'])->name('pendingOrder');
     Route::get('/view-order/{id}', [PosController::class, 'viewOrder'])->name('viewOrder');
     Route::get('/view-paid-order/{id}', [PosController::class, 'viewPaidOrder'])->name('viewPaidOrder');
-    Route::get('/paid/{id}', [PosController::class, 'paidOrder']);
+    Route::get('/paid/{id}', [PosController::class, 'paidOrder'])->name('paid');
+    // Route::get('/paid', [PosController::class, 'paidOrder'])->name('paid');
     Route::get('/paid-orders', [PosController::class, 'paidAllOrder'])->name('paidOrder');
 
 
