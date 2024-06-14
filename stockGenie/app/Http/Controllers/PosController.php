@@ -19,27 +19,30 @@ class PosController extends Controller
     public function pendingOrder(){
 
         $pending = DB::table('orders')
-                ->select('orders.*')
+                
                 ->where('order_status','pending')->get();
         return view('pos.all_pending_order',compact('pending'));
 
     }
 
-    public function viewOrder($id){
+    public function viewOrder($id)
+{
+    
+    
+    $order = DB::table('orders')
+        ->where('id', $id)
+        ->first();
 
-        $order = DB::table('orders')
-                ->select('orders.*')
-                ->where('orders.id',$id)
-                ->first();
-
-                $orderDetails = DB::table('order_details')
+   
+    $orderDetails = DB::table('order_details')
                 ->join('products', 'order_details.product_id', 'products.id')
                 ->select('products.product_name', 'order_details.*')
                 ->where('order_details.order_id', $id)
                 ->get();
-        return view('pos.view_pending_order',compact('order','orderDetails'));
 
-    }
+    return view('pos.view_pending_order', compact('order', 'orderDetails'));
+}
+
 
 
     public function paidOrder($id) {
@@ -49,7 +52,7 @@ class PosController extends Controller
 
     public function paidAllOrder(){
         $success = DB::table('orders')
-                    ->select('orders.*')
+                   
                     // if you are not use all the data of customer and order, use this method because
                     // customer and order id are same . so data can not get form data base 
                     // ->select('customers.*','order.*','order.id as order_id')

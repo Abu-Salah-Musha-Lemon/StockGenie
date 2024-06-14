@@ -107,8 +107,8 @@ public function update(Request $request, $rowId)
         $data['due'] = floatval(str_replace(',', '', $request->due));
         $data['returnAmount'] = floatval(str_replace(',', '', $request->returnAmount));
 
-        $order_id = DB::table('orders')->insert($data);
-        // $order_id = DB::table('orders')->insertGetId($data);
+        // $order_id = DB::table('orders')->insert($data);
+        $order_id = DB::table('orders')->insertGetId($data);
         // echo "<pre>";
         // print_r($data);
         // exit;

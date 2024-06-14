@@ -49,7 +49,7 @@
 							@php 
                                 $sl =1;
                                 @endphp
-							@foreach($today->sortByDesc('order_id') as $row)
+							@foreach($today->reverse() as $row)
 								<tr>
 	<td>{{$sl++}}</td>
 									<td>{{$row->order_date}}</td>
