@@ -35,7 +35,7 @@
 			</ul>
 			<div class="tab-content">
 				<div class="tab-pane active" id="Product">
-
+<!-- add Product -->
 					<form role="form" action="{{ URL::to('/insert-product-modal') }}" method="post" enctype="multipart/form-data">
 						@csrf
 
@@ -75,7 +75,7 @@
 									@php
 									$cat =DB::table('category')->get()
 									@endphp
-									<label>category Name</label>
+									<label>Category Name</label>
 
 									<select name="cat_id" id="cat_id" class="form-control">
 										<option disabled="" selected="">Select</option>

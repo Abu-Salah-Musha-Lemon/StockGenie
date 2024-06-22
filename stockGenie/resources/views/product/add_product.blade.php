@@ -66,7 +66,7 @@
 								@php
 								$cat =DB::table('category')->get()
 								@endphp
-								<label>category Name</label>
+								<label>Category Name</label>
 
 								<select name="cat_id" id="cat_id" class="form-control">
 									<option disabled="" selected="">Select</option>
