@@ -1,4 +1,4 @@
-<!-- Add Category Modal -->
+<!-- Add Supplier Modal -->
 <div class="modal fade" id="addSupplierModal" tabindex="-1" role="dialog" aria-labelledby="addSupplierModalLabel"
 	aria-hidden="true">
 	<div class="modal-dialog" role="document">
