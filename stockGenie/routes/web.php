@@ -65,6 +65,7 @@ Route::middleware('auth')->group(function () {
   Route::get('/add-product', [ProductController::class, 'create'])->name('addProduct');
   
   Route::post('/insert-product', [ProductController::class, 'store']);
+  Route::post('/insert-product-modal', [ProductController::class, 'storeModal']);
   Route::get('/view-product/{id}', [ProductController::class, 'show']);
   Route::get('/delete-product/{id}', [ProductController::class, 'destroy']);
   Route::get('/edit-product/{id}', [ProductController::class, 'edit']);

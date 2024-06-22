@@ -99,6 +99,78 @@ class ProductController extends Controller
         }
         
     }
+    public function storeModal(Request $request)
+    {   
+        $request->validate([
+            'product_name' => 'required|string|max:255',
+            'cat_id' => 'required|integer',
+            'sup_id' => 'required|integer',
+            'product_code' => 'required|string|max:50',
+            'product_garage' => 'required|string|max:255',
+            'product_route' => 'required|string|max:255',
+            'product_qty' => 'required|integer',
+            'buy_date' => 'required|date',
+            'expire_date' => 'required|date|after:buy_date',
+            'buying_price' => 'required|numeric|min:0',
+            'selling_price' => 'required|numeric|min:0',
+            'photo' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048', // Adjust the size limit and allowed file types as needed
+        ],
+        [
+            'product_name.required' => 'Enter The Product Name',
+            'cat_id.required' => 'Chose any Category',
+            'sup_id.required' => 'Chose The Name of Suppliers',
+            'product_code.required' => 'Enter The Product Code',
+            'product_garage.required' => 'Add Garage Name',
+            'product_route.required' => 'Add Route Name',
+            'product_qty.required' => 'Enter the Quantity of the Product',
+            'buy_date.required' =>'Add Buying Date',
+            'expire_date.required' =>'Enter Product Expire Date',
+            'buying_price.required' => 'Enter Buying Price',
+            'selling_price.required' => 'Enter Selling Price',
+        ]
+        );
+
+        $data=array();
+        $data['product_name']=$request->product_name;
+        $data['cat_id']=$request->cat_id;
+        $data['sup_id']=$request->sup_id;
+        $data['product_code']=$request->product_code;
+        $data['product_garage']=$request->product_garage;
+        $data['product_route']=$request->product_route;
+        $data['product_qty']=$request->product_qty;
+        $data['buy_date']=$request->buy_date;
+        $data['expire_date']=$request->expire_date;
+        $data['buying_price']=$request->buying_price;
+        $data['selling_price']=$request->selling_price;
+        $image = $request->file('photo');
+        // $data['']=$request('product_image');
+        
+        if ($image) {
+            $image_name = time().'.'.$image->getClientOriginalExtension();
+            $upload_path = 'image/product/';
+            $image_url = $upload_path . $image_name;
+            $success = $image->move($upload_path, $image_name);
+            
+            if ($success) {
+                $data['product_image'] = $image_url;
+                $insert = DB::table('products')->insert($data);
+                $notification = array(
+                    'message' => 'Add Product successfully.',
+                    'alert-type' => 'success'
+                );
+                return redirect()->back()->with($notification);
+            } else {
+                $notification = array(
+                    'message' => 'Failed to create category.',
+                    'alert-type' => 'error'
+                );
+                return redirect()->back()->with($notification);
+            }
+        } else {
+            return redirect()->back()->withErrors(['image' => 'Image is required']);
+        }
+        
+    }
 
     /**
      * Display the specified resource.

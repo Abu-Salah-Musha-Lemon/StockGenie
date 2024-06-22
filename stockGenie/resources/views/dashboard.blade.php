@@ -109,6 +109,10 @@ $totalProduct = DB::table('order_details')->sum('unitcost');
 			</div>
 		</div>
 	</div>
+
+</div>
+
+<div class="row">
 	<div class="col-md-6 col-sm-6 col-lg-3">
 		<div class="mini-stat clearfix bx-shadow">
 			<span class="mini-stat-icon bg-info"><i class="ion-social-usd"></i></span>
@@ -148,6 +152,7 @@ $totalProduct = DB::table('order_details')->sum('unitcost');
 			</div>
 		</div>
 	</div>
+
 	@php
 	$totalProductStore = DB::table('products')->sum('product_qty');
 	@endphp
@@ -171,73 +176,73 @@ $totalProduct = DB::table('order_details')->sum('unitcost');
 		</div>
 	</div>
 
-
 </div>
 
-<div class="col-md-6 col-sm-6 col-lg-12">
-	<div class="panel panel-border panel-purple widget-s-1">
-		<div class="panel-heading"> </div>
-		<div class="panel-body">
-			<div class="row">
-				@php
-				$date = date("d-m-y");
-				$total = DB::table('orders')->where('order_date',$date)->sum('total');
-				$today = DB::table('orders')->where('order_date',$date)->get();
-				$sub_total = DB::table('orders')->where('order_date',$date)->sum('sub_total');
-				$pay = DB::table('orders')->where('order_date',$date)->sum('pay');
-				$due = DB::table('orders')->where('order_date',$date)->sum('due');
-				$total_product = DB::table('orders')->where('order_date',$date)->sum('total_products');
-				@endphp
-				<div class="col-md-12 col-sm-12 col-xs-12">
-					<table id="dataTable" class="table table-striped table-bordered">
-						<thead>
-							<tr>
+<div class="row">
+	<div class="col-md-6 col-sm-6 col-lg-12">
+		<div class="panel panel-border panel-purple widget-s-1">
+			<div class="panel-heading"> </div>
+			<div class="panel-body">
+				<div class="row">
+					@php
+					$date = date("d-m-y");
+					$total = DB::table('orders')->where('order_date',$date)->sum('total');
+					$today = DB::table('orders')->where('order_date',$date)->get();
+					$sub_total = DB::table('orders')->where('order_date',$date)->sum('sub_total');
+					$pay = DB::table('orders')->where('order_date',$date)->sum('pay');
+					$due = DB::table('orders')->where('order_date',$date)->sum('due');
+					$total_product = DB::table('orders')->where('order_date',$date)->sum('total_products');
+					@endphp
+					<div class="col-md-12 col-sm-12 col-xs-12">
+						<table id="dataTable" class="table table-striped table-bordered">
+							<thead>
+								<tr>
 
-								<th>Date</th>
-								<th>Total Products</th>
-								<th>Sub Total</th>
-								<th>Total</th>
-								<th>Paid</th>
-								<th>Due</th>
+									<th>Date</th>
+									<th>Total Products</th>
+									<th>Sub Total</th>
+									<th>Total</th>
+									<th>Paid</th>
+									<th>Due</th>
 
-							</tr>
-						</thead>
+								</tr>
+							</thead>
 
-						<tbody>
+							<tbody>
 
-							@foreach($today->reverse() as $row)
-							<tr>
+								@foreach($today->reverse() as $row)
+								<tr>
 
-								<td>{{$row->order_date}}</td>
-								<td>{{$row->total_products}}</td>
-								<td>{{$row->sub_total}}</td>
-								<td>{{$row->total}}</td>
-								<td>{{$row->pay}}</td>
-								<td>{{$row->due}}</td>
+									<td>{{$row->order_date}}</td>
+									<td>{{$row->total_products}}</td>
+									<td>{{$row->sub_total}}</td>
+									<td>{{$row->total}}</td>
+									<td>{{$row->pay}}</td>
+									<td>{{$row->due}}</td>
 
 
-							</tr>
-							@endforeach
-						</tbody>
-						<tfoot>
-							<tr>
-								<td colspan=2>Total Products:{{$total_product}}</td>
-								<td>Total Sub:{{$sub_total}}</td>
-								<td>Total:{{$total}}</td>
+								</tr>
+								@endforeach
+							</tbody>
+							<tfoot>
+								<tr>
+									<td colspan=2>Total Products:{{$total_product}}</td>
+									<td>Total Sub:{{$sub_total}}</td>
+									<td>Total:{{$total}}</td>
 
-								<td>Total Paid:{{$pay}}</td>
+									<td>Total Paid:{{$pay}}</td>
 
-								<td>Total Due:{{$due}}</td>
-							</tr>
-						</tfoot>
-					</table>
+									<td>Total Due:{{$due}}</td>
+								</tr>
+							</tfoot>
+						</table>
+
+					</div>
 
 				</div>
-
 			</div>
 		</div>
 	</div>
-</div>
 </div>
 
 

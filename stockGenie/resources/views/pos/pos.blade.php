@@ -257,8 +257,11 @@
 			<div class="card shadow-sm">
 				<div class="card-title " style="display: flex;justify-content: space-between;align-items: center; ">
 					<h3 class="portlet-title text-dark text-uppercase"> Products </h3>
-					<a href="{{URL::to('/add-product')}}" class="btn btn-primary waves-effect waves-light float-right"
-						style="margin:4px">Add Products</a>
+
+						@include('product.add_product_modal')
+						<a class="btn btn-primary btn-custom waves-effect waves-light " data-toggle="modal" data-target="#addProductsModal">
+						Add Product
+					</a>
 				</div>
 				<div class="card-body">
 
