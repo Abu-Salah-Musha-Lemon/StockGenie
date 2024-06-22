@@ -14,31 +14,34 @@ class CategoryController extends Controller
     }
 
     public function store(Request $request)
-    {
-        $request->validate([
-            'category_name' => 'required'
-        ]);
+{
+    $request->validate([
+        'category_name' => 'required|unique:category,category_name'
+    ], [
+        'category_name.unique' => 'Category Name already exists.'
+    ]);
 
-        $inserted = DB::table('category')->insert([
-            'category_name' => $request->input('category_name'),
-            'created_at' => now(),
-            'updated_at' => now()
-        ]);
+    $inserted = DB::table('category')->insert([
+        'category_name' => $request->input('category_name'),
+        // 'created_at' => now(),
+        // 'updated_at' => now()
+    ]);
 
-        if ($inserted) {
-            $notification = array(
-                'message' => 'Category created successfully.',
-                'alert-type' => 'success'
-            );
-            return redirect()->back()->with($notification);
-        } else {
-            $notification = array(
-                'message' => 'Failed to create category.',
-                'alert-type' => 'error'
-            );
-            return redirect()->back()->with($notification);
-        }
+    if ($inserted) {
+        $notification = array(
+            'message' => 'Category created successfully.',
+            'alert-type' => 'success'
+        );
+    } else {
+        $notification = array(
+            'message' => 'Failed to create category.',
+            'alert-type' => 'error'
+        );
     }
+
+    return redirect()->back()->with($notification);
+}
+
 
     public function edit($id)
     {

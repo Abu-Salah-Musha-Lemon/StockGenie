@@ -128,12 +128,16 @@
 				<hr />
 				<div class="row">
 					<div class="col-md-12">
+						<div style="display:flex;justify-content:space-between;align-item:center">
 						<div class="pull-left m-t-30">
+							
 							<address>
-						
+
 							</address>
 						</div>
-
+						<div class="pull-center m-t-30">
+							<h4 class="text-center"><img src="{{asset('images/logo/StockGenie.png')}}" alt="Stock Genie"style="width: 70px; height: 70px; padding: 6px;"></h4></h4>
+						</div>
 						<div class="pull-right m-t-30">
 							<p>
 								<strong>Order Date: </strong>{{$order->order_date}}
@@ -152,6 +156,7 @@
 							<p class="m-t-10">
 								<strong>Order ID: </strong> {{$order->id}}
 							</p>
+						</div>
 						</div>
 					</div>
 				</div>

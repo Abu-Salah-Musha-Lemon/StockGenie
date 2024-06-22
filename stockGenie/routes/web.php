@@ -72,17 +72,6 @@ Route::middleware('auth')->group(function () {
   Route::post('/update-product/{id}', [ProductController::class, 'update']);
   Route::get('/update-product-qty-view', [ProductController::class, 'updateProductQtyView'])->name('updateProductQtyView');
   Route::get('/update-product-qty/{id}', [ProductController::class, 'updateProductQty'])->name('updateProductQty');
-
-    // customer route
-    Route::get('/all-customer', [customerController::class, 'index'])->name('customer.all-customer');
-    Route::get('/add-customer', [customerController::class, 'create'])->name('customer.add-customer');
-
-    Route::post('/insert-customer', [customerController::class, 'store'])->name('addCustomer');
-    Route::get('/view-customer{id}', [customerController::class, 'show']);
-    Route::get('/delete-customer{id}', [customerController::class, 'destroy']);
-    Route::get('/edit-customer{id}', [customerController::class, 'edit']);
-    Route::post('/update-customer{id}', [customerController::class, 'update']);
-
        
     // Expense route
     Route::get('/all-expense', [ExpenseController::class, 'index'])->name('allExpense');
