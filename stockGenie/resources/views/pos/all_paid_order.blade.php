@@ -57,7 +57,8 @@
                                         <td><span class="label label-success">{{$row->order_status}}</span></td>
                                         
                                         <td>
-                                            <a href="{{URL::to('/view-order/'.$row->id)}}" class="btn btn-info btn-sm waves-effect waves-light w-sm m-b-5">view</a>
+                                            <a href="{{URL::to('/view-order/'.$row->id)}}" class="btn btn-info  waves-effect waves-light"><i class="bi bi-eye"></i></a>
+                                            <a href="{{URL::to('/create-pdf/'.$row->id)}}" class="btn btn-success  waves-effect waves-light"><i class="bi bi-printer"></i></a>
                                         </td>
                                     </tr>
                                     @endforeach

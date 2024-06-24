@@ -10,6 +10,7 @@ use App\Http\Controllers\AttendanceController;
 use App\Http\Controllers\PosController;
 use App\Http\Controllers\CardController;
 use App\Http\Controllers\SalesReportController;
+use App\Http\Controllers\pdfController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -30,48 +31,48 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
    
- // employee route
- Route::get('/add-employee', [EmployeeController::class, 'addEmployee'])->name('employee.add-employee');
- Route::get('/all-employee', [EmployeeController::class, 'allEmployee'])->name('employee.all-employee');
+    // employee route
+    Route::get('/add-employee', [EmployeeController::class, 'addEmployee'])->name('employee.add-employee');
+    Route::get('/all-employee', [EmployeeController::class, 'allEmployee'])->name('employee.all-employee');
 
- Route::post('/insert-employee', [EmployeeController::class, 'store'])->name('addEmployee');
- Route::get('/view-employee{id}', [EmployeeController::class, 'viewEmployee']);
- Route::get('/delete-employee{id}', [EmployeeController::class, 'deleteEmployee']);
- Route::get('/edit-employee{id}', [EmployeeController::class, 'editEmployee']);
- Route::post('/update-employee{id}', [EmployeeController::class, 'updateEmployee']);
+    Route::post('/insert-employee', [EmployeeController::class, 'store'])->name('addEmployee');
+    Route::get('/view-employee{id}', [EmployeeController::class, 'viewEmployee']);
+    Route::get('/delete-employee{id}', [EmployeeController::class, 'deleteEmployee']);
+    Route::get('/edit-employee{id}', [EmployeeController::class, 'editEmployee']);
+    Route::post('/update-employee{id}', [EmployeeController::class, 'updateEmployee']);
 
-       // supplier route
-       Route::get('/all-supplier', [SuppliersController::class, 'index'])->name('supplier.all-supplier');
-       Route::get('/add-supplier', [SuppliersController::class, 'create'])->name('supplier.add-supplier');
-   
-       Route::post('/insert-supplier', [SuppliersController::class, 'store']);
-       Route::get('/view-supplier{id}', [SuppliersController::class, 'show']);
-       Route::get('/delete-supplier{id}', [SuppliersController::class, 'destroy']);
-       Route::get('/edit-supplier{id}', [SuppliersController::class, 'edit']);
-       Route::post('/update-supplier{id}', [SuppliersController::class, 'update']);
-       Route::resource('supplier', SuppliersController::class);
+    // supplier route
+    Route::get('/all-supplier', [SuppliersController::class, 'index'])->name('supplier.all-supplier');
+    Route::get('/add-supplier', [SuppliersController::class, 'create'])->name('supplier.add-supplier');
+
+    Route::post('/insert-supplier', [SuppliersController::class, 'store']);
+    Route::get('/view-supplier{id}', [SuppliersController::class, 'show']);
+    Route::get('/delete-supplier{id}', [SuppliersController::class, 'destroy']);
+    Route::get('/edit-supplier{id}', [SuppliersController::class, 'edit']);
+    Route::post('/update-supplier{id}', [SuppliersController::class, 'update']);
+    Route::resource('supplier', SuppliersController::class);
 
     // Categories route
     Route::resource('category', CategoryController::class);
 
-     // Product route
-     Route::resource('products', ProductController::class);
+    // Product route
+    Route::resource('products', ProductController::class);
 
-     Route::get('/update-product-qty-view', [ProductController::class, 'updateProductQtyView'])->name('updateProductQtyView');
-     Route::get('/update-product-qty/{id}', [ProductController::class, 'updateProductQty'])->name('updateProductQty');
- 
-  // Product route
-  Route::get('/all-product', [ProductController::class, 'index'])->name('allProduct');
-  Route::get('/add-product', [ProductController::class, 'create'])->name('addProduct');
-  
-  Route::post('/insert-product', [ProductController::class, 'store']);
-  Route::post('/insert-product-modal', [ProductController::class, 'storeModal']);
-  Route::get('/view-product/{id}', [ProductController::class, 'show']);
-  Route::get('/delete-product/{id}', [ProductController::class, 'destroy']);
-  Route::get('/edit-product/{id}', [ProductController::class, 'edit']);
-  Route::post('/update-product/{id}', [ProductController::class, 'update']);
-  Route::get('/update-product-qty-view', [ProductController::class, 'updateProductQtyView'])->name('updateProductQtyView');
-  Route::get('/update-product-qty/{id}', [ProductController::class, 'updateProductQty'])->name('updateProductQty');
+    Route::get('/update-product-qty-view', [ProductController::class, 'updateProductQtyView'])->name('updateProductQtyView');
+    Route::get('/update-product-qty/{id}', [ProductController::class, 'updateProductQty'])->name('updateProductQty');
+
+    // Product route
+    Route::get('/all-product', [ProductController::class, 'index'])->name('allProduct');
+    Route::get('/add-product', [ProductController::class, 'create'])->name('addProduct');
+    
+    Route::post('/insert-product', [ProductController::class, 'store']);
+    Route::post('/insert-product-modal', [ProductController::class, 'storeModal']);
+    Route::get('/view-product/{id}', [ProductController::class, 'show']);
+    Route::get('/delete-product/{id}', [ProductController::class, 'destroy']);
+    Route::get('/edit-product/{id}', [ProductController::class, 'edit']);
+    Route::post('/update-product/{id}', [ProductController::class, 'update']);
+    Route::get('/update-product-qty-view', [ProductController::class, 'updateProductQtyView'])->name('updateProductQtyView');
+    Route::get('/update-product-qty/{id}', [ProductController::class, 'updateProductQty'])->name('updateProductQty');
        
     // Expense route
     Route::get('/all-expense', [ExpenseController::class, 'index'])->name('allExpense');
@@ -118,6 +119,8 @@ Route::middleware('auth')->group(function () {
     Route::get('/paid/{id}', [PosController::class, 'paidOrder'])->name('paid');
     // Route::get('/paid', [PosController::class, 'paidOrder'])->name('paid');
     Route::get('/paid-orders', [PosController::class, 'paidAllOrder'])->name('paidOrder');
+    Route::get('/download-invoice/{orderId}', [pdfController::class, 'downloadInvoice'])->name('downloadInvoice');
+
 
 
     // Card Controller

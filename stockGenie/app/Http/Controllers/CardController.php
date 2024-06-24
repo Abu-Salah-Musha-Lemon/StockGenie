@@ -153,7 +153,7 @@ public function update(Request $request, $rowId)
                 'message' => 'Invoice Created Successfully ',
                 'alert-type' => 'success'
             );
-            return redirect()->route('pendingOrder')->with($notification);
+            return redirect()->route('paidOrder')->with($notification);
         } else {
             $notification = array(
                 'message' => 'Failed to Create Invoice',

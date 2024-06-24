@@ -63,7 +63,7 @@
 					<input type="hidden" name="order_date" value="{{ date('d-m-y') }}">
 					<input type="hidden" name="order_month" value="{{ date('F') }}">
 					<input type="hidden" name="order_year" value="{{ date('Y') }}">
-					<input type="hidden" name="order_status" value="pending">
+					<input type="hidden" name="order_status" value="success">
 
 					<input type="hidden" name="total_products" value="{{ Cart::count() }}">
 					<input type="hidden" name="sub_total" value="{{ Cart::subtotal() }}">
