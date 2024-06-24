@@ -58,7 +58,7 @@
                                         
                                         <td>
                                             <a href="{{URL::to('/view-order/'.$row->id)}}" class="btn btn-info  waves-effect waves-light"><i class="bi bi-eye"></i></a>
-                                            <a href="{{URL::to('/create-pdf/'.$row->id)}}" class="btn btn-success  waves-effect waves-light"><i class="bi bi-printer"></i></a>
+                                            <a href="{{URL::to('/download-invoice/'.$row->id)}}" class="btn btn-success  waves-effect waves-light"><i class="bi bi-printer"></i></a>
                                         </td>
                                     </tr>
                                     @endforeach
