@@ -18,4 +18,13 @@ yarn-error.log
 /.fleet
 /.idea
 /.vscode
-.png ,jpg,
+# Ignore image files
+*.jpg
+*.jpeg
+*.png
+*.gif
+*.bmp
+*.tiff
+*.ico
+*.svg
+*.webp
