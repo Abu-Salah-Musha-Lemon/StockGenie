@@ -330,25 +330,60 @@ class ProductController extends Controller
      * Remove the specified resource from storage.
      */
 
-    public function destroy(string $id)
-    {
-        $delete = DB::table('products')
-        ->where('id',$id)
-        ->first();
+    // public function destroy(string $id)
+    // {
+    //     $delete = DB::table('products')
+    //     ->where('id',$id)
+    //     ->first();
 
-        $photo=$delete->product_image;
-        if ($photo) {
+    //     $photo=$delete->product_image;
+    //     if ($photo) {
             
+    //         unlink($photo);
+    //     }
+    //     // var_dump( $singleUser);
+    //     $deleteUser=DB::table('products')
+    //                 ->where('id',$id)
+    //                 ->delete();
+    //                 $notification = array(
+    //                     'message' =>'Product delete successfully',
+    //                         'alert-type' => 'success'
+    //                     );
+    //                 return redirect()->back()->with($notification);
+    // }
+    public function destroy(string $id)
+{
+    // Fetch the product record from the database
+    $product = DB::table('products')->where('id', $id)->first();
+
+    // Check if the product record exists
+    if ($product) {
+        // Retrieve the product image path
+        $photo = $product->product_image;
+
+        // Check if the image file exists and delete it
+        if ($photo && file_exists($photo)) {
             unlink($photo);
         }
-        // var_dump( $singleUser);
-        $deleteUser=DB::table('products')
-                    ->where('id',$id)
-                    ->delete();
-                    $notification = array(
-                        'message' =>'Product delete successfully',
-                            'alert-type' => 'success'
-                        );
-                    return redirect()->back()->with($notification);
+
+        // Delete the product record from the database
+        DB::table('products')->where('id', $id)->delete();
+
+        // Prepare success notification
+        $notification = array(
+            'message' => 'Product deleted successfully',
+            'alert-type' => 'success'
+        );
+    } else {
+        // Prepare error notification if product does not exist
+        $notification = array(
+            'message' => 'Product not found',
+            'alert-type' => 'error'
+        );
     }
+
+    // Redirect back with the notification
+    return redirect()->back()->with($notification);
+}
+
 }

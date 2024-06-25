@@ -44,7 +44,7 @@
 							<div class="form-group">
 								<label>Name</label>
 								<input type="text" class="form-control @error('name') is-invalid @enderror" name="name"
-									placeholder="Enter Name" value="{{old('email')}}">
+									placeholder="Enter Name" value="{{old('name')}}">
 								<span class='text-danger'>@error('name'){{ $message }} @enderror</span>
 							</div>
 
