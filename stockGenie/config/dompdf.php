@@ -278,6 +278,16 @@ return array(
          * @var bool
          */
         "enable_html5_parser" => true,
+        
+        'fonts' => [
+            'Nikosh' => [
+                'R'  => 'Nikosh.ttf',    // Regular font
+            ],
+            'SolaimanLipi' => [
+            'R'  => 'SolaimanLipi.ttf',    // Regular font
+            'B'  => 'SolaimanLipi_Bold.ttf',       // Optional: Bold font
+        ],
+        ],
     ),
 
 

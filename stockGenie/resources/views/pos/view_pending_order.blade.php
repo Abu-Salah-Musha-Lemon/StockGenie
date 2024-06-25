@@ -5,6 +5,16 @@
 	label {
 		width: auto;
 	}
+	@media print {
+            @page {
+                size: A4; /* Set page size to A4 */
+                margin: 20mm; /* Adjust the margin as needed */
+            }
+            body {
+                -webkit-print-color-adjust: exact; /* Chrome, Safari */
+                color-adjust: exact; /* Firefox */
+            }
+				}
 </style>
 
 <!-- modal -->
@@ -182,9 +192,9 @@
 										<td>{{$sl++}}</td>
 										<td>{{$row->product_name}}</td>
 										<td>{{$row->quantity}}</td>
-										<td>{{$row->unitCost}}</td>
+										<td>{{$row->unitCost}} ৳</td>
 										<td>
-											{{$row->quantity*$row->unitCost}}
+											{{$row->quantity*$row->unitCost}} ৳
 										</td>
 									</tr>
 									@endforeach
@@ -203,14 +213,14 @@
 						<p class="text-right">
 							Total Qty: {{$order->total_products}}
 						</p>
-						<p class="text-right">Tax: {{$order->vat}}</p>
+						<p class="text-right">Tax: {{$order->vat}} ৳</p>
 						<hr />
 						<h4 class="text-right">
-							Grand Total : {{$order->total}}
+							Grand Total : {{$order->total}} ৳
 						</h4>
 						<hr />
 						<p class="text-right">
-							<b>Payment Method:</b> {{$order->payment_status}} ৳
+							<b>Payment Method:</b> {{$order->payment_status}} 
 						</p>
 						<p class="text-right">
 							<b>Payment:</b> {{$order->pay}} ৳
@@ -246,6 +256,10 @@
 </div>
 <style>
 	@media print {
+		@page {
+                size: A4; /* Set page size to A4 */
+                margin: 20mm; /* Adjust the margin as needed */
+            }
 		body * {
 			visibility: hidden;
 		}
