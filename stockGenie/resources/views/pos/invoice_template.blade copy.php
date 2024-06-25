@@ -17,14 +17,14 @@
 		}
 
 		body {
-			 font-family: 'Nikosh', sans-serif; 
+			font-family: 'Nikosh', sans-serif;
 			font-family: 'SolaimanLipi', sans-serif;
 		}
 
-		/* body {
+		body {
 			margin: 20px;
 			font-family: Arial, sans-serif;
-		} */
+		}
 
 		.invoice-container {
 			background: #fff;
