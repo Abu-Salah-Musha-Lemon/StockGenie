@@ -153,7 +153,7 @@
 		<!-- ============================================================== -->
 		<!-- Start right Content here -->
 		<!-- ============================================================== -->
-		<div class="content-page">
+		<div class="content-page" style="min-height:100dvh">
 			<!-- Start content -->
 			<div class="content">
 				<div class="container">
@@ -175,9 +175,9 @@
 						</div>
 					</div>
 
-					<div class="">
-						@yield('main');
-					</div>
+					
+						@yield('main')
+					
 
 				</div> <!-- container -->
 			</div> <!-- content -->
