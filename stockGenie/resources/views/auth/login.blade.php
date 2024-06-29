@@ -31,6 +31,19 @@
         <script src="{{asset('js/modernizr.min.js')}}"></script>
         
     </head>
+    <style>
+       body {
+  background: #f5f5f5;
+  margin: 0;
+  -webkit-text-size-adjust: 100%;
+  font-family: 'Nunito', sans-serif;
+  background-image: url('../images/logo/background5.75.png') !important;
+  background-size: auto;
+  background-repeat: repeat;
+  background-position: center center;
+}
+
+    </style>
     <body>
 
 

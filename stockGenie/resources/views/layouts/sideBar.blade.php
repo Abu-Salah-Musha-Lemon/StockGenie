@@ -1,7 +1,9 @@
 <style>
 	.active > a {
-    background-color: #4CAF50; /* Example: green background for active items */
+    /* background-color: #CFF4D2; Example: green background for active items */
+    background-color: #E0ECDE; /* Example: green background for active items */
     color: white!implements; /* Example: white text for active items */
+    color: ;
 }
 
 .active > a .pull-right i {
