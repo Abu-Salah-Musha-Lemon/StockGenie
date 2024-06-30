@@ -8,10 +8,10 @@ use Illuminate\Http\Request;
 
 class EmployeeController extends Controller
 {
-    public function __construct()
-    {
-        $this->middleware('auth');
-    }
+    // public function __construct()
+    // {
+    //     $this->middleware('auth');
+    // }
 
     public function addEmployee() {
         return view('employee.add_employee');

@@ -188,10 +188,11 @@
 													</div>
 												</form>
 											</td>
-
+											
 											<td style="width: 25%;">{{$p->price*$p->qty}} ৳</td>
 											<td>
 												<a href="{{ URL::to('/delete-cart/'.$p->rowId) }}" class="btn  m-0" style="padding:2px">
+													<!-- <img src="{{asset('images/icons/system-regular-39-trash.gif')}}" style="width:25px;height:25px" alt="" srcset=""> -->
 													<i class="bi bi-trash3 text-danger" style="font-size:22px"></i>
 												</a>
 											</td>

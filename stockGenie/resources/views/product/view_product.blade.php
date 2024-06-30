@@ -18,14 +18,7 @@
 			</div>
 
 			<div class="panel-body">
-				@include('supplier.add_supplier_modal')
-				<a class="btn btn-primary waves-effect waves-light " data-toggle="modal" data-target="#addSupplierModal">
-					<i class="bi bi-truck-flatbed" style="font-size:20px;color:white;font-weight:800;"></i>
-				</a>
-				@include('category.add_category_modal')
-				<a class="btn btn-primary waves-effect waves-light " data-toggle="modal" data-target="#addCategoryModal">
-					<i class="bi bi-journal-plus" style="font-size:20px;color:white;font-weight:800;"></i>
-				</a>
+				
 					<div class="row"
 						style="display: flex;justify-content: center;align-items: center;justify-content: space-between;">
 						<div class="col-md-4 col-lg-4">

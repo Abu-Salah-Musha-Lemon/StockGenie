@@ -184,7 +184,7 @@
 
 			<footer class="footer text-right">
 				©
-				<?php echo date('Y')?> Developed By ASMLemon
+				<?php echo date('Y')?> Developed By Abu Salah Musha Lemon
 			</footer>
 
 		</div>

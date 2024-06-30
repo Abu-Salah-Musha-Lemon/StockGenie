@@ -16,7 +16,8 @@
         <li class="{{ request()->is('dashboard') ? 'active' : '' }}">
             <a href="{{URL::to('dashboard')}}" class="waves-effect">
                 <i class="ion-arrow-graph-up-right"></i>
-                <span> Dashboard </span>
+                 <!-- <img src="{{asset('images/icons/system-regular-160-trending-up.gif')}}" style="width:25px;height:25px" alt="" srcset=""> -->
+                 <span> Dashboard </span>
             </a>
         </li>
 
