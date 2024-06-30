@@ -8,7 +8,7 @@
 			<div class="panel panel-success">
 					
 			<div class="panel-heading " style="display: flex;justify-content: space-between;">
-							<h3 class="panel-title">{{$date = date("Y");}} Expense</h3>
+							<h3 class="panel-title text-white">{{$date = date("Y");}} Expense</h3>
 							@php
 							$date = date("Y");
 							$total = DB::table('expenses')->where('year',$date)->sum('amount');
@@ -39,12 +39,12 @@
 																	<td>{{$row->amount}}</td>
 																	<!-- <td>{{$row->date}}</td>
 																	<td>{{$row->month}}</td>
-																	<td>{{$row->year}}</td> -->
+																	<td>{{$row->year}}</td>
 																	<td>
-																			<!-- <a href="{{URL::to('/edit-expense/'.$row->id)}}" class="btn btn-sm btn-info">Edit</a> -->
-																			<!-- <a href="{{URL::to('/delete-expense/'.$row->id)}}" class="btn btn-sm btn-danger"id="delete">Delete</a> -->
-																			<!-- <a href="{{URL::to('/view-expense/'.$row->id)}}" class="btn btn-sm btn-primary">view</a> -->
-																	</td>
+																			<a href="{{URL::to('/edit-expense/'.$row->id)}}" class="btn btn-sm btn-info">Edit</a>
+																			<a href="{{URL::to('/delete-expense/'.$row->id)}}" class="btn btn-sm btn-danger"id="delete">Delete</a>
+																			<a href="{{URL::to('/view-expense/'.$row->id)}}" class="btn btn-sm btn-primary">view</a>
+																	</td> -->
 															</tr>
 															@endforeach
 											

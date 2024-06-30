@@ -14,7 +14,7 @@
             <div class=" col-md-6 col-lg-8 col-xl-10">
                 <div class="panel panel-info">
                 <div class="panel-heading " style="display: flex;justify-content: space-between;">
-                        <h3 class="panel-title">Add Categories</h3>
+                        <h3 class="panel-title text-white">Edit Categories</h3>
                         <a class="panel-title fs-4" href="{{URL::to('/all-expense')}}">
                             <i class="bi bi-box-arrow-in-left"style="font-size:24px"></i>
                         </a>

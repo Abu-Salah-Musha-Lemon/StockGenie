@@ -9,7 +9,7 @@
 
 <div class="row " style="display:flex;justify-content:center;align-item:center;">
 	<!-- Basic example -->
-	<div class=" col-md-6 col-lg-8 col-xl-10">
+	<div class=" col-md-6 col-lg-10 col-xl-10">
 		<div class="panel panel-success">
 			<div class="panel-heading " style="display: flex;justify-content: space-between;">
 				<h3 class="panel-title text-white">View Supplier</h3>
@@ -18,13 +18,15 @@
 				</a>
 			</div>
 			<div class="panel-body">
+
+			<div class="row" style="display: flex;justify-content: center;align-items: center;justify-content: space-between;">
+			<div class="col-md-6 col-lg-6">
+
 				<div class="form-group">
 					<label>Name</label>
 					<input type="text" class="form-control" name="name" placeholder="Enter Name" value="{{ $single->name }}"
 						disabled>
 				</div>
-
-
 
 				<div class="form-group">
 					<label>Phone Number</label>
@@ -37,7 +39,8 @@
 					<input type="text" class="form-control" name="address" placeholder="Enter address"
 						value="{{ $single->address }}" disabled>
 				</div>
-
+</div>
+<div class="col-md-6 col-lg-6">
 				<div class="form-group">
 					<label>Type</label>
 					<input type="text" class="form-control" name="address" value="{{ $single->type}}" disabled>
@@ -48,7 +51,7 @@
 					<input type="text" class="form-control" name="shopName" value="{{ $single->shopName }}"
 						placeholder="Enter shopeName" disabled>
 				</div>
-
+</div>
 			</div><!-- panel-body -->
 		</div> <!-- panel -->
 	</div> <!-- col-->

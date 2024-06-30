@@ -54,11 +54,11 @@
                                     <!-- <td>{{$row->date}}</td>
                                     <td>{{$row->month}}</td>
                                     <td>{{$row->year}}</td> -->
-                                    <td>
-                                        <!-- <a href="{{URL::to('/edit-expense/'.$row->id)}}" class="btn btn-sm btn-info">Edit</a> -->
-                                        <!-- <a href="{{URL::to('/delete-expense/'.$row->id)}}" class="btn btn-sm btn-danger"id="delete">Delete</a> -->
-                                        <!-- <a href="{{URL::to('/view-expense/'.$row->id)}}" class="btn btn-sm btn-primary">view</a> -->
-                                    </td>
+                                    <!-- <td>
+                                        <a href="{{URL::to('/edit-expense/'.$row->id)}}" class="btn btn-sm btn-info">Edit</a>
+                                        <a href="{{URL::to('/delete-expense/'.$row->id)}}" class="btn btn-sm btn-danger"id="delete">Delete</a>
+                                        <a href="{{URL::to('/view-expense/'.$row->id)}}" class="btn btn-sm btn-primary">view</a>
+                                    </td> -->
                                 </tr>
                                 @endforeach
                         

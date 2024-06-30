@@ -40,6 +40,7 @@
 							</div>
 
 						</div>
+
 						<div class="col-md-4 col-lg-4">
 							<div class="form-group">
 								<label>Name</label>
@@ -77,6 +78,7 @@
 								<span class='text-danger'>@error('address'){{ $message }} @enderror</span>
 							</div>
 						</div>
+						
 						<div class="col-md-4 col-lg-4">
 							<div class="form-group">
 								<label>Experience</label>
@@ -107,12 +109,13 @@
 							</div>
 						</div>
 					</div>
-<div class="row">
-	<div class="col-12 col-md-6">
-		<button type="submit" class="btn btn-success waves-effect waves-light w-sm m-b-5">Submit</button>
 
-	</div>
-</div>
+					<div class="row">
+						<div class="col-12 col-md-6">
+							<button type="submit" class="btn btn-success waves-effect waves-light w-sm m-b-5">Submit</button>
+
+						</div>
+					</div>
 
 				</form>
 

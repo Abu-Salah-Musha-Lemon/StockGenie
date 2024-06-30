@@ -22,7 +22,7 @@
 						<div class="panel panel-success">
 								
 						<div class="panel-heading " style="display: flex;justify-content: space-between;">
-										<h3 class="panel-title">{{$date = date("F");}} Monthly Sales Report</h3>
+										<h3 class="panel-title text-white">{{$date = date("F");}} Monthly Sales Report</h3>
 										@php
 										$date = date("F");
 										$total = DB::table('orders')->where('order_month',$date)->sum('total');
