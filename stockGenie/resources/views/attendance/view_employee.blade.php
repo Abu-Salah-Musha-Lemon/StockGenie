@@ -10,7 +10,7 @@
 
 <div class="row "style="display:flex;justify-content:center;align-item:center;">
         <!-- Basic example -->
-        <div class=" col-md-6 col-lg-8 col-xl-10">
+        <div class="col-12 col-sm-10 col-md-8 col-lg-8 col-xl-6 col-xxl-6">
     <div class="panel panel-success">
         <div class="panel-heading " style="display: flex;justify-content: space-between;">
                 <h3 class="panel-title">View Employee</h3>
