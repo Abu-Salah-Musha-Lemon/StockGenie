@@ -254,7 +254,7 @@
 		@endif
         });
 	</script>
-	<script>
+	<!-- <script>
 		/* DataTable Initialization */
 		$(document).ready(function () {
 			$('#dataTable').DataTable({
@@ -270,13 +270,44 @@
 							doc.content[1].image = 'data:image/png;base64,...'; // Replace with your logo's base64 data
 							doc.content[2].text = 'Visit our website: stock Genie';
 							doc.content[2].link = 'http://www.StockGenie.com';
-							doc.content[2].color = '#007bff'; // Customize link color
+							doc.content[2].color = '#007bff'; // Customize link 
+							// Remove ignored rows from print
+							$(doc.document.body).find('.ignore-row').remove();
 						}
 					}
 				]
 			});
 		});
-	</script>
+	</script> -->
+	<script>
+    $(document).ready(function () {
+        var table = $('#dataTable').DataTable({
+            responsive: true,
+            dom: 'Bfrtip',
+            buttons: [
+                {
+                    extend: 'print',
+                    text: 'Print',
+                    customize: function (win) {
+                        $(win.document.body).find('h1').text('Stock Genie');
+                        $(win.document.body).prepend('<img src="data:image/png;base64,..."/>'); // Replace with your logo's base64 data
+                        $(win.document.body).append('<a href="http://www.StockGenie.com" style="color:#007bff;">Visit our website: Stock Genie</a>');
+                    },
+                    exportOptions: {
+                        columns: ':not(:last-child)' // Exclude the last column (Actions)
+                    }
+                },
+                {
+                    extend: 'excelHtml5',
+                    text: 'Excel',
+                    exportOptions: {
+                        columns: ':not(:last-child)' // Exclude the last column (Actions)
+                    }
+                }
+            ]
+        });
+    });
+    </script>
 	<script>
 		/* Image Preview */
 		function readURL(input) {

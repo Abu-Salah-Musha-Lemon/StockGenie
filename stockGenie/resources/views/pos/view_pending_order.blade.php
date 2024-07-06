@@ -5,16 +5,22 @@
 	label {
 		width: auto;
 	}
+
 	@media print {
-            @page {
-                size: A4; /* Set page size to A4 */
-                margin: 20mm; /* Adjust the margin as needed */
-            }
-            body {
-                -webkit-print-color-adjust: exact; /* Chrome, Safari */
-                color-adjust: exact; /* Firefox */
-            }
-				}
+		@page {
+			size: A4;
+			/* Set page size to A4 */
+			margin: 20mm;
+			/* Adjust the margin as needed */
+		}
+
+		body {
+			-webkit-print-color-adjust: exact;
+			/* Chrome, Safari */
+			color-adjust: exact;
+			/* Firefox */
+		}
+	}
 </style>
 
 <!-- modal -->
@@ -30,7 +36,7 @@
 				<h4 class="modal-title text-info">
 					Due <span style="float: right">Due: {{$order->due}}</span>
 				</h4>
-			
+
 			</div>
 			<form role="form" action="{{ URL::to('/due-pay/'.$order->id) }}" method="HEAD">
 				@csrf
@@ -114,15 +120,16 @@
 </script>
 
 <div class="row">
-	<div class="col-md-12">
-		<div class="panel panel-default">
-			<!-- <div class="panel-heading">
-                            <h4>Invoice</h4>
-                        </div> -->
-			<div class="panel-body" id="invoice">
+	<!-- Basic example -->
+	<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+		<div class="panel panel-defautl">
+			<div class="panel-heading ">
 				<div class="clearfix">
 					<div class="pull-left">
-						<h4 class="text-right"><h4 class="text-right"><img src="{{asset('images/logo/StockGenie.png')}}" alt="Stock Genie"style="width: 70px; height: 70px; padding: 6px;"></h4></h4>
+						<h4 class="text-right">
+							<h4 class="text-right"><img src="{{asset('images/logo/StockGenie.png')}}" alt="Stock Genie"
+									style="width: 70px; height: 70px; padding: 6px;"></h4>
+						</h4>
 					</div>
 					<div class="pull-right">
 						<h4>
@@ -136,45 +143,50 @@
 					</div>
 				</div>
 				<hr />
+			</div>
+			<div class="panel-body" id="invoice">
+
 				<div class="row">
 					<div class="col-md-12">
 						<div style="display:flex;justify-content:space-between;align-item:center">
-						<div class="pull-left m-t-30">
-							
-							<address>
+							<div class="pull-left m-t-30">
 
-							</address>
-						</div>
-						<div class="pull-center m-t-30">
-							<h4 class="text-center"><img src="{{asset('images/logo/StockGenie.png')}}" alt="Stock Genie"style="width: 70px; height: 70px; padding: 6px;"></h4></h4>
-						</div>
-						<div class="pull-right m-t-30">
-							<p>
-								<strong>Order Date: </strong>{{$order->order_date}}
-							</p>
-							<p class="m-t-10">
-								<strong>Order Status: </strong>
-								@if($order->order_status == 'success' && $order->due > 0)
-								<span class="label label-success">Success</span>
-								<span class="label label-warning">Due</span>
-								@elseif($order->order_status == 'success' && $order->due == 0)
-								<span class="label label-success">Success</span>
-								@else
-								<span class="label label-pink">Pending</span>
-								@endif
-							</p>
-							<p class="m-t-10">
-								<strong>Order ID: </strong> {{$order->id}}
-							</p>
-						</div>
+								<address>
+
+								</address>
+							</div>
+							<div class="pull-center m-t-30">
+								<h4 class="text-center"><img src="{{asset('images/logo/StockGenie.png')}}" alt="Stock Genie"
+										style="width: 70px; height: 70px; padding: 6px;"></h4>
+								</h4>
+							</div>
+							<div class="pull-right m-t-30">
+								<p>
+									<strong>Order Date: </strong>{{$order->order_date}}
+								</p>
+								<p class="m-t-10">
+									<strong>Order Status: </strong>
+									@if($order->order_status == 'success' && $order->due > 0)
+									<span class="label label-success">Success</span>
+									<span class="label label-warning">Due</span>
+									@elseif($order->order_status == 'success' && $order->due == 0)
+									<span class="label label-success">Success</span>
+									@else
+									<span class="label label-pink">Pending</span>
+									@endif
+								</p>
+								<p class="m-t-10">
+									<strong>Order ID: </strong> {{$order->id}}
+								</p>
+							</div>
 						</div>
 					</div>
 				</div>
 				<div class="m-h-50"></div>
 				<div class="row">
 					<div class="col-md-12">
-					<div class="table-responsive">
-							<table class="table table-striped table-bordered m-t-30">
+						<div class="table-responsive">
+							<table class="table m-t-30">
 								<thead>
 									<tr>
 										<th>#</th>
@@ -186,7 +198,7 @@
 									</tr>
 								</thead>
 								<tbody>
-									@php $sl=1; @endphp 
+									@php $sl=1; @endphp
 									@foreach($orderDetails as $row)
 									<tr>
 										<td>{{$sl++}}</td>
@@ -200,10 +212,10 @@
 									@endforeach
 								</tbody>
 							</table>
-</div>
 						</div>
 					</div>
 				</div>
+
 				<div class="row" style="border-radius: 0px">
 					<div class="col-md-3"></div>
 					<div class="col-md-3 col-md-offset-9">
@@ -221,7 +233,7 @@
 						</h4>
 						<hr />
 						<p class="text-right">
-							<b>Payment Method:</b> {{$order->payment_status}} 
+							<b>Payment Method:</b> {{$order->payment_status}}
 						</p>
 						<p class="text-right">
 							<b>Payment:</b> {{$order->pay}} ৳
@@ -258,9 +270,12 @@
 <style>
 	@media print {
 		@page {
-                size: A4; /* Set page size to A4 */
-                margin: 20mm; /* Adjust the margin as needed */
-            }
+			size: A4;
+			/* Set page size to A4 */
+			margin: 20mm;
+			/* Adjust the margin as needed */
+		}
+
 		body * {
 			visibility: hidden;
 		}

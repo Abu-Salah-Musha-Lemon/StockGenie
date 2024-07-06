@@ -37,13 +37,13 @@
 									@foreach($employees as $row)
 									<tr>
 										<td>{{$row->name}}</td>
-										<td>{{$row->phone}}</td>
+										<td >{{$row->phone}}</td>
 										<td>{{$row->address}}</td>
-										<td>
+										<td class="ignore-row">
 											<img src="{{$row->photo}}" style="width:50px;height:50px;object:cover;">
 										</td>
 										<td>{{$row->salary}}</td>
-										<td style="display: flex;gap: 4px;">
+										<td class="ignore-row" style="display: flex;gap: 4px;">
 											<a href="{{URL::to('/edit-employee'.$row->id)}}"
 												class="btn btn-sm btn-info btn-custom waves-effect waves-light m-b-5 p-b-0"><i
 													class="bi bi-pencil-square" style="font-size: 18px;"></i></a>

@@ -17,7 +17,7 @@
 		}
 
 		body {
-			 font-family: 'Nikosh', sans-serif; 
+			font-family: 'Nikosh', sans-serif;
 			font-family: 'SolaimanLipi', sans-serif;
 		}
 
@@ -50,7 +50,8 @@
 		.invoice-header .order-details {
 			text-align: right;
 		}
-		.invoice-header .billing-info{
+
+		.invoice-header .billing-info {
 			text-align: left;
 		}
 
@@ -117,24 +118,23 @@
 <body>
 	<div class="container invoice-container shadow-sm">
 		<div class="invoice-header shadow-sm">
-<table>
-	<tr>
-		<td style="width:90mm">
-		<div class="billing-info">
-				<img src="{{public_path('images/logo/StockGenie.png')}}" 
-					style="width: 70px; height: 70px; padding: 6px;">
-				<p>Hello, Stock Genie.</p>
-				<b>BILLING INFORMATION</b>
-				<p>ASML Lts.<br>312 Madison Ave.<br>Dhaka -1204<br>Bangladesh</p>
-			</div>
+			<table>
+				<tr>
+					<td style="width:90mm">
+						<div class="billing-info">
+							<img src="{{public_path('images/logo/StockGenie.png')}}" style="width: 70px; height: 70px; padding: 6px;">
+							<p>Hello, Stock Genie.</p>
+							<b>BILLING INFORMATION</b>
+							<p>ASML Lts.<br>312 Madison Ave.<br>Dhaka -1204<br>Bangladesh</p>
+						</div>
 
-		</td>
-		
-		<td>
-		<div class="order-details">
-				<h2>Invoice</h2>
-				<h3>ORDER #{{ $order->id }}</h3>
-				<?php
+					</td>
+
+					<td>
+						<div class="order-details">
+							<h2>Invoice</h2>
+							<h3>ORDER #{{ $order->id }}</h3>
+							<?php
 					// Original date string
 					$order_date = $order->order_date;
 
@@ -146,17 +146,14 @@
 
 					//echo $formatted_date; // Output:  June 24 2024
 					?>
-				<p>{{$formatted_date }}</p>
+							<p>{{$formatted_date }}</p>
 
-				<b>PAYMENT INFORMATION</b>
-				<p>{{$order->payment_status}}<br>
-			</div>
-		</td>
-	</tr>
-</table>
-			
-
-			
+							<b>PAYMENT INFORMATION</b>
+							<p>{{$order->payment_status}}<br>
+						</div>
+					</td>
+				</tr>
+			</table>
 
 		</div>
 		<div class="invoice-body">
@@ -177,18 +174,18 @@
 						<td>{{$sl++}}</td>
 						<td>{{$row->product_name}}</td>
 						<td>{{$row->quantity}}</td>
-						<td>{{$row->unitCost}} ৳</td>
+						<td>{{$row->unitCost}} </td>
 						<td class="text-left">
-							{{$row->quantity*$row->unitCost}} ৳
+							{{$row->quantity*$row->unitCost}}
 						</td>
 					</tr>
 					@endforeach
-					
+
 				</tbody>
 				<tfoot>
-				<tr>
+					<tr>
 						<td colspan="4" class="text-right"><strong>SUBTOTAL</strong></td>
-						<td class="text-left">{{$order->sub_total}} <b>৳</b></td>
+						<td class="text-left">{{$order->sub_total}} </td>
 					</tr>
 					<tr>
 						<td colspan="4" class="text-right"><strong>Qty</strong></td>
@@ -196,23 +193,23 @@
 					</tr>
 					<tr>
 						<td colspan="4" class="text-right"><strong>TAX (21%)</strong></td>
-						<td class="text-left">{{$order->vat}} <b>৳</b></td>
+						<td class="text-left">{{$order->vat}} </td>
 					</tr>
 					<tr>
 						<td colspan="4" class="text-right"><strong>Grand TOTAL</strong></td>
-						<td class="text-left"><strong>{{$order->total}} <b>৳</b></strong></td>
+						<td class="text-left"><strong>{{$order->total}} </strong></td>
 					</tr>
 					<tr>
 						<td colspan="4" class="text-right">Payment</td>
-						<td class="text-left">{{$order->pay}} <b>৳</b></td>
+						<td class="text-left">{{$order->pay}} </td>
 					</tr>
 					<tr>
 						<td colspan="4" class="text-right">Due</td>
-						<td class="text-left">{{$order->due}} <b>৳</b></td>
+						<td class="text-left">{{$order->due}} </td>
 					</tr>
 					<tr>
 						<td colspan="4" class="text-right"><strong>Change Amount</strong></td>
-						<td class="text-left"><strong>{{$order->returnAmount}} <b>৳</b></strong></td>
+						<td class="text-left"><strong>{{$order->returnAmount}} </strong></td>
 					</tr>
 				</tfoot>
 			</table>
