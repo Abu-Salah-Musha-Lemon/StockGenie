@@ -22,7 +22,7 @@
 				<div class="table-responsive">
 					<form action="{{ URL::to('update-attendance') }}" method="post">
 						@csrf
-						<table id="datatable" class="table table-striped table-bordered">
+						<table id="dataTable" class="table table-striped table-bordered">
 							<thead>
 								<tr>
 									<th>Name</th>

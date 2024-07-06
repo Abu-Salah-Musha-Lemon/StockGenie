@@ -1,12 +1,12 @@
 @extends('layouts.layout')
+@section('main')
 
 <style>
 	i {
-		font-size: 26px;
+		font-size: 18px;
 	}
 </style>
 
-@section('main')
 <div class="row">
 	<div class="col-12 col-sm-10 col-md-8 col-lg-8 col-xl-6 col-xxl-6 mx-auto">
 		<div class="panel panel-success">
@@ -20,8 +20,8 @@
 				</div>
 			</div>
 			<div class="panel-body">
-				<div class="table-responsive">
-					<table class="table mt-3" id="dataTable" class="table table-striped table-bordered">
+			<div class="table-responsive">
+			<table id="dataTable" class="table table-striped table-bordered">
 						<thead>
 							<tr>
 								<th>Category Name</th>
