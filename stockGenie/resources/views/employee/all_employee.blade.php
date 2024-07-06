@@ -46,13 +46,13 @@
 										<td style="display: flex;gap: 4px;">
 											<a href="{{URL::to('/edit-employee'.$row->id)}}"
 												class="btn btn-sm btn-info btn-custom waves-effect waves-light m-b-5 p-b-0"><i
-													class="bi bi-pencil-square" style="font-size: 25px;"></i></a>
+													class="bi bi-pencil-square" style="font-size: 18px;"></i></a>
 											<a href="{{URL::to('/view-employee'.$row->id)}}"
 												class="btn btn-sm btn-primary btn-custom waves-effect waves-light m-b-5 p-b-0"><i
-													class="bi bi-cast" style="font-size: 25px;"></i></a>
+													class="bi bi-cast" style="font-size: 18px;"></i></a>
 											<a href="{{URL::to('/delete-employee'.$row->id)}}"
 												class="btn btn-sm btn-danger btn-custom waves-effect waves-light m-b-5 p-b-0"><i
-													class="bi bi-trash3" style="font-size: 25px;"></i></a>
+													class="bi bi-trash3" style="font-size: 18px;"></i></a>
 
 										</td>
 									</tr>

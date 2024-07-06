@@ -7,7 +7,7 @@
 </style>
 
 
-<div class="row " style="display:flex;justify-content:center;align-item:center;">
+<div class="row ">
 	<!-- Basic example -->
 	<div class="col-12 col-sm-10 col-md-8 col-lg-8 col-xl-6 col-xxl-6">
 		<div class="panel panel-info">
@@ -20,10 +20,9 @@
 			</div>
 			<div class="panel-body">
 
-				<div class="table-responsive">
 				<form action="{{ route('attendanceEmployee') }}" method="post" enctype="multipart/form-data">
 					@csrf
-
+					<div class="table-responsive">
 						<table id="dataTable" class="table table-striped table-bordered">
 							<thead>
 								<tr>
@@ -61,9 +60,9 @@
 							</tbody>
 							@endforeach
 						</table>
+					</div>
 						<button type="submit" class="btn btn-success">Submit</button>
 					</form>
-				</div>
 
 			</div><!-- panel-body -->
 		</div> <!-- panel -->

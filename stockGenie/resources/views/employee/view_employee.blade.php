@@ -18,9 +18,8 @@
 					<i class="bi bi-box-arrow-in-left" style="font-size:24px;color:white;"></i></a>
 			</div>
 			<div class="panel-body">
-				<div class="row"
-					style="display: flex;justify-content: center;align-items: center;justify-content: space-between;">
-					<div class="col-md-4 col-lg-4">
+				<div class="row">
+					<div class="col-sm-10 col-md-4 col-lg-4">
 
 						<!-- Photo -->
 						<div class="form-group my-2">
@@ -34,7 +33,7 @@
 							</div>
 						</div>
 					</div>
-					<div class="col-md-4 col-lg-4">
+					<div class="col-sm-12 col-md-4 col-lg-4">
 
 						<div class="form-group">
 							<label>Name</label>
@@ -69,7 +68,7 @@
 								value="{{$single->address}}" disabled>
 						</div>
 					</div>
-					<div class="col-md-4 col-lg-4">
+					<div class="col-sm-12 col-md-4 col-lg-4">
 						<div class="form-group">
 							<label>Experience</label>
 							<input type="text" class="form-control" name="experience" placeholder="Enter experience"

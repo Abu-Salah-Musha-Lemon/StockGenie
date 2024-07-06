@@ -9,11 +9,11 @@
 				<div class="div">
 					<h3 class="panel-title text-white">All Sales Reports </h3>
 					<h3 class="btn btn-info"><a class="panel-title fs-4" href="{{URL::to('/today-sales-report')}}"
-							value="Today">Today Sales Reports</h3>
+							value="Today">Today Sales Reports </a></h3>
 					<h3 class="btn btn-warning"><a class="panel-title fs-4" href="{{URL::to('/monthly-sales-report')}}"
-							value="Today">Monthly Sales Reports</h3>
+							value="Today">Monthly Sales Reports </a></h3>
 					<h3 class="btn btn-danger"><a class="panel-title fs-4" href="{{route('yearly-Sales-Reports')}}"
-							value="Today">Yearly Sales Reports</h3>
+							value="Today">Yearly Sales Reports </a></h3>
 				</div>
 
 			</div>

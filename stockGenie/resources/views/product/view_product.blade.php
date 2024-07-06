@@ -19,8 +19,7 @@
 
 			<div class="panel-body">
 				
-					<div class="row"
-						style="display: flex;justify-content: center;align-items: center;justify-content: space-between;">
+					<div class="row">
 						<div class="col-md-4 col-lg-4">
 
 							<!-- Photo -->

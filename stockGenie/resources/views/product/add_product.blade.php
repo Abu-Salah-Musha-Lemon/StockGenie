@@ -29,11 +29,12 @@
 					data-target="#addCategoryModal">
 					<i class="bi bi-journal-plus"style="font-size:24px;color:white;font-weight:800;"></i>
 				</a>
-				<form role="form" action="{{ URL::to('/insert-product') }}" method="post" enctype="multipart/form-data">
+				<form role="form" action="{{ URL::to('/insert-product') }}" method="post" enctype="multipart/form-data"style="margin-top:10px">
 					@csrf
 
-					<div class="row"style="display: flex;justify-content: center;align-items: center;justify-content: space-between;">
-						<div class="col-md-3">
+					<div class="row">
+
+						<div class="col-md-3 mx-2">
 							<!-- Photo -->
 							<div class="form-group my-2">
 								<div class="input-group mb-3" style="display: flex;justify-content: center;align-items: center;flex-direction: column;">

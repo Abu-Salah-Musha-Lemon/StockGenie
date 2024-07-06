@@ -107,7 +107,7 @@
 
 <div class="row">
 
-	<div class="col-md-5">
+	<div class="col-sm-12 col-md-5 col-lg-5 mt-2">
 		<div class="grid-container">
 			<div class="card shadow-sm">
 				<div class="customer">
@@ -130,10 +130,11 @@
 				</div>
 
 				<div class="card-body">
-					<div class="col-sm-6 col-md-6 col-lg-3 mt-2" style="width:100%">
+					<div class="col-sm-6 col-md-4 col-lg-3 mt-2" style="width:100%">
 						<div class="price_card text-center">
 							<div class="pricing-header ">
-								<table class="table">
+							<div class="table-responsive">
+								<table  class="table table-striped table-bordered">
 									<style>
 										.th_color {
 											width: 25%;
@@ -180,10 +181,9 @@
 														<input type="number" name="qty" id="" min="0" value="{{$p->qty}}"
 															class="form-control text-center" style="margin:0px;padding:0px;">
 														<button type="submit" class="btn btn-success  waves-effect waves-light m-0 p-0" style="display: flex;
-    justify-content: center;
-    align-items: center;">
-															<i class="bi bi-check2-circle" style="font-size: 20px;
-    margin: 2px;"></i>
+															justify-content: center;
+															align-items: center;">
+															<i class="bi bi-check2-circle" style="font-size: 20px;    margin: 2px;"></i>
 														</button>
 													</div>
 												</form>
@@ -220,6 +220,7 @@
 
 									</tfoot>
 								</table>
+									</div>
 							</div>
 
 						</div> <!-- end Pricing_card -->
@@ -231,7 +232,7 @@
 
 
 
-	<div class="col-md-7">
+	<div class="col-sm-12 col-md-7 col-lg-7 mt-2">
 		<div class="grid-container">
 			<div class="card shadow-sm">
 				<div class="card-title " style="display: flex;justify-content: space-between;align-items: center; ">

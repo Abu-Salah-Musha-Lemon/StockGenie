@@ -1,12 +1,12 @@
 @extends('layouts.layout')
 @section('main')
 
-<style>
+<!-- <style>
     label {
         width: auto;
     }
-</style>
-<div class="row" style="display:flex;justify-content:center;align-items:center;">
+</style> -->
+<div class="row" >
     <!-- Basic example -->
     <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
         <div class="panel panel-info">
@@ -19,8 +19,8 @@
             <div class="panel-body">
                 <form role="form" action="{{ route('addEmployee') }}" method="post" enctype="multipart/form-data">
                     @csrf
-                    <div class="row" style="display: flex; justify-content: space-between;">
-                        <div class="col-12 col-md-4 mb-4">
+                    <div class="row">
+                        <div class="col-12 col-sm-12 col-md-4 mb-4">
                             <!-- Photo -->
                             <div class="form-group my-2">
                                 <div class="input-group mb-3" style="display: flex; justify-content: center; align-items: center; flex-direction: column;">
@@ -37,7 +37,7 @@
                             </div>
                         </div>
 
-                        <div class="col-12 col-md-4 mb-4">
+                        <div class="col-12 col-sm-12 col-md-4 mb-4">
                             <div class="form-group">
                                 <label>Name</label>
                                 <input type="text" class="form-control @error('name') is-invalid @enderror" name="name" placeholder="Enter Name" value="{{old('name')}}">
@@ -69,7 +69,7 @@
                             </div>
                         </div>
 
-                        <div class="col-12 col-md-4 mb-4">
+                        <div class="col-12 col-sm-12 col-md-4 mb-4">
                             <div class="form-group">
                                 <label>Experience</label>
                                 <input type="text" class="form-control @error('experience') is-invalid @enderror" name="experience" placeholder="Enter experience" value="{{old('experience')}}">

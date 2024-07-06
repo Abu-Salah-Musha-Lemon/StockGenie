@@ -4,16 +4,17 @@
 
 <div class="row">
 	<div class="col-md-12">
-		<div class="panel panel-success">
+		<div class="panel panel-success text-info">
 
 			<div class="panel-heading " style="display: flex;justify-content: space-between;">
-				<h3 class="panel-title text-white">Today Sales Report</h3>
-				<h3 class="btn btn-info"><a class="panel-title fs-4" href="{{route('todaySalesReport')}}" value="Today">Today
-						Sales Report </a></h3>
-				<h3 class="btn btn-warning"><a class="panel-title fs-4" href="{{route('monthlySalesReport')}}"
-						value="Monthly">Monthly Sales Report </a></h3>
-				<h3 class="btn btn-warning"><a class="panel-title fs-4" href="{{route('yearlySalesReport')}}"
-						value="yearly">Yearlyly Sales Report </a></h3>
+				<div class="div">
+					<h3 class="panel-title text-white">Today Sales Reports </h3>
+					<h3 class="btn btn-warning"><a class="panel-title fs-4" href="{{URL::to('/monthly-sales-report')}}"
+							value="Today">Monthly Sales Reports </a></h3>
+					<h3 class="btn btn-danger"><a class="panel-title fs-4" href="{{route('yearly-Sales-Reports')}}"
+							value="Today">Yearly Sales Reports </a></h3>
+				</div>
+
 			</div>
 
 			@php

@@ -2,19 +2,23 @@
 @section('main')
 
 
-<div class="row">
+
+						<div class="row">
 	<div class="col-md-12">
-		<div class="panel panel-success">
+		<div class="panel panel-success text-info">
 
 			<div class="panel-heading " style="display: flex;justify-content: space-between;">
-				<h3 class="panel-title text-white"> @php $date = date("Y");@endphp Sales Report</h3>
-				<h3 class="btn btn-info"><a class="panel-title fs-4" href="{{route('todaySalesReport')}}" value="Today">Today
-						Sales Report </a></h3>
-				<h3 class="btn btn-warning"><a class="panel-title fs-4" href="{{route('monthlySalesReport')}}"
-						value="Monthly">Monthly Sales Report </a></h3>
-				<h3 class="btn btn-warning"><a class="panel-title fs-4" href="{{route('yearlySalesReport')}}"
-						value="yearly">Yearlyly Sales Report </a></h3>
+				<div class="div">
+					<h3 class="panel-title text-white">@php $date = date("Y");@endphp Sales Report</h3>
+					<h3 class="btn btn-info"><a class="panel-title fs-4" href="{{URL::to('/today-sales-report')}}"
+							value="Today">Today Sales Reports </a></h3>
+					<h3 class="btn btn-warning"><a class="panel-title fs-4" href="{{URL::to('/monthly-sales-report')}}"
+							value="Today">Monthly Sales Reports </a></h3>
+					<h3 class="btn btn-danger"><a class="panel-title fs-4" href="{{route('yearly-Sales-Reports')}}"
+							value="Today">Yearly Sales Reports </a></h3>
+				</div>
 
+			</div>
 				@php
 				$date = date("Y");
 				$total = DB::table('orders')->where('order_year',$date)->sum('total');
@@ -25,7 +29,7 @@
 				@endphp
 
 
-			</div>
+			
 			<div class="panel-body">
 				<div class="row">
 
