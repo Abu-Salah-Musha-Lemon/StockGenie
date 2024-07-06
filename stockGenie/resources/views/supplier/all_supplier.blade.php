@@ -15,7 +15,9 @@
 			<div class="panel-body">
 				<div class="row">
 					<div class="col-md-12 col-sm-12 col-xs-12">
-						<table id="dataTable" class="table table-striped table-bordered">
+					<div class="table-responsive">
+
+							<table id="dataTable" class="table table-striped table-bordered">
 							<thead>
 								<tr>
 									<th>Name</th>
@@ -47,6 +49,7 @@
 								@endforeach
 							</tbody>
 						</table>
+</div>
 					</div>
 				</div>
 			</div>

@@ -173,8 +173,8 @@
 				<div class="m-h-50"></div>
 				<div class="row">
 					<div class="col-md-12">
-						<div class="table-responsive">
-							<table class="table m-t-30">
+					<div class="table-responsive">
+							<table class="table table-striped table-bordered m-t-30">
 								<thead>
 									<tr>
 										<th>#</th>
@@ -200,6 +200,7 @@
 									@endforeach
 								</tbody>
 							</table>
+</div>
 						</div>
 					</div>
 				</div>

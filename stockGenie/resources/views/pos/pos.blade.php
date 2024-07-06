@@ -13,10 +13,10 @@
 	<div class="modal-dialog">
 		<div class="modal-content">
 			<div class="modal-header">
-				<div class="invoice"style="display: flex;justify-content: space-between; align-items: center;">
-				<h4 class="modal-title text-info">Final Invoice </h4>
-				<h4 class="modal-title text-info">Total: {{ Cart::total() }}</h4>
-				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">X</button> 
+				<div class="invoice" style="display: flex;justify-content: space-between; align-items: center;">
+					<h4 class="modal-title text-info">Final Invoice </h4>
+					<h4 class="modal-title text-info">Total: {{ Cart::total() }}</h4>
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">X</button>
 				</div>
 				@if(Cart::total()==0)
 				<span class="text-danger fs-2 ">Add Product for Create Invoice</span>
@@ -81,24 +81,24 @@
 </div>
 
 <script>
-    function calculateCashDue() {
-        let paymentAmount = parseFloat(document.getElementById('pay').value) || 0;
-        let totalAmount = parseFloat(document.getElementById('total').value.replace(/,/g, '')) || 0;
-        let cashDue = totalAmount - paymentAmount;
-        let returnAmount = 0.00;
+	function calculateCashDue() {
+		let paymentAmount = parseFloat(document.getElementById('pay').value) || 0;
+		let totalAmount = parseFloat(document.getElementById('total').value.replace(/,/g, '')) || 0;
+		let cashDue = totalAmount - paymentAmount;
+		let returnAmount = 0.00;
 
-        if (cashDue < 0) {
-            returnAmount = Math.abs(cashDue);
-            cashDue = 0.00;
-        }
+		if (cashDue < 0) {
+			returnAmount = Math.abs(cashDue);
+			cashDue = 0.00;
+		}
 
-        document.getElementById('due').value = cashDue.toFixed(2);
-        document.getElementById('returnAmount').value = returnAmount.toFixed(2);
-    }
+		document.getElementById('due').value = cashDue.toFixed(2);
+		document.getElementById('returnAmount').value = returnAmount.toFixed(2);
+	}
 
-    document.getElementById('pay').addEventListener('input', calculateCashDue);
+	document.getElementById('pay').addEventListener('input', calculateCashDue);
 
-    calculateCashDue();
+	calculateCashDue();
 </script>
 
 
@@ -188,7 +188,7 @@
 													</div>
 												</form>
 											</td>
-											
+
 											<td style="width: 25%;">{{$p->price*$p->qty}} ৳</td>
 											<td>
 												<a href="{{ URL::to('/delete-cart/'.$p->rowId) }}" class="btn  m-0" style="padding:2px">
@@ -237,54 +237,57 @@
 				<div class="card-title " style="display: flex;justify-content: space-between;align-items: center; ">
 					<h3 class="portlet-title text-dark text-uppercase"> Products </h3>
 
-						@include('product.add_product_modal')
-						<a class="btn btn-primary btn-custom waves-effect waves-light " data-toggle="modal" data-target="#addProductsModal">
+					@include('product.add_product_modal')
+					<a class="btn btn-primary btn-custom waves-effect waves-light " data-toggle="modal"
+						data-target="#addProductsModal">
 						Add Product
 					</a>
 				</div>
 				<div class="card-body">
 
-					<table id="dataTable" class="table table-striped table-bordered">
-						<thead>
-							<tr>
-								<th>Action</th>
-								<th>Image</th>
-								<th>Name</th>
-								<th>Qty</th>
-								<th>Code</th>
-								<th>Price</th>
-								<th>Route</th>
-							</tr>
-						</thead>
-						<tbody>
-							@foreach($product as $row)
-							<tr style="text-align:center">
-								<td>
-									<form action="{{ URL::to('/add-card') }}" method="post">
-										@csrf
-										<input type="hidden" name="id" value="{{ $row->id }}">
-										<input type="hidden" name="name" value="{{ $row->product_name }}">
-										<input type="hidden" name="qty" value="1">
-										<input type="hidden" name="price" value="{{ $row->selling_price }}">
-										<button type="submit" class="btn btn-primary" class="c-btn">
-											<i class="bi bi-bag-plus-fill" style="font-size:20px"></i>
-										</button>
-									</form>
-								</td>
-								<td><img src="{{ asset($row->product_image) }}" style="width:40px;height:40px;object:cover;"></td>
-								<td>{{ $row->product_name }}</td>
-								<td>
-									<p class="btn btn-{{ $row->product_qty < 5 ? 'danger' : 'success' }} shadow-none">{{ $row->product_qty
-										}}</p>
-								</td>
-								<td>{{ $row->product_code }}</td>
-								<td>{{ $row->selling_price }} ৳</td>
-								<td>{{ $row->product_route }}</td>
-							</tr>
-							@endforeach
-						</tbody>
-					</table>
-
+					<div class="table-responsive">
+						<table id="dataTable" class="table table-striped table-bordered">
+							<thead>
+								<tr>
+									<th>Action</th>
+									<th>Image</th>
+									<th>Name</th>
+									<th>Qty</th>
+									<th>Code</th>
+									<th>Price</th>
+									<th>Route</th>
+								</tr>
+							</thead>
+							<tbody>
+								@foreach($product as $row)
+								<tr style="text-align:center">
+									<td>
+										<form action="{{ URL::to('/add-card') }}" method="post">
+											@csrf
+											<input type="hidden" name="id" value="{{ $row->id }}">
+											<input type="hidden" name="name" value="{{ $row->product_name }}">
+											<input type="hidden" name="qty" value="1">
+											<input type="hidden" name="price" value="{{ $row->selling_price }}">
+											<button type="submit" class="btn btn-primary" class="c-btn">
+												<i class="bi bi-bag-plus-fill" style="font-size:20px"></i>
+											</button>
+										</form>
+									</td>
+									<td><img src="{{ asset($row->product_image) }}" style="width:40px;height:40px;object:cover;"></td>
+									<td>{{ $row->product_name }}</td>
+									<td>
+										<p class="btn btn-{{ $row->product_qty < 5 ? 'danger' : 'success' }} shadow-none">{{
+											$row->product_qty
+											}}</p>
+									</td>
+									<td>{{ $row->product_code }}</td>
+									<td>{{ $row->selling_price }} ৳</td>
+									<td>{{ $row->product_route }}</td>
+								</tr>
+								@endforeach
+							</tbody>
+						</table>
+					</div>
 
 				</div>
 
