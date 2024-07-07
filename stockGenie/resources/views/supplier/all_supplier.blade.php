@@ -56,5 +56,12 @@
 		</div>
 	</div>
 </div>
-
+@section('script')
+<script>
+    $(document).ready(function () {
+        initializeDataTable([	
+					'Name','Phone','Address','	Shop Name']);
+    });
+    </script>
+@endsection
 @endsection

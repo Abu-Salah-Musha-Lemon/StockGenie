@@ -297,5 +297,12 @@
 	</div>
 
 </div>
+@section('script')
+<script>
+    $(document).ready(function () {
+        initializeDataTable([	'Name'	,'Qty','Code',	'Price',	'Route']);
+    });
+    </script>
+@endsection
 
 @endsection

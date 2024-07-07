@@ -89,6 +89,12 @@
 	</div>
 </div>
 
-
+@section('script')
+<script>
+    $(document).ready(function () {
+        initializeDataTable([	'Order ID',	'Order Date',	'Total Products',	'Grand Total Price']);
+    });
+    </script>
+@endsection
 
 @endsection

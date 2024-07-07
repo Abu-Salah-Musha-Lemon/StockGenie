@@ -166,7 +166,9 @@ $year = date("Y");
 <div class="row">
 	<div class="col-lg-12">
 		<div class="panel panel-border panel-purple widget-s-1">
-			<div class="panel-heading"></div>
+			<div class="panel-heading">
+			<h3 class="panel-title">Today Total Financial Statement</h3>
+			</div>
 			<div class="panel-body">
 				<div class="row">
 					@php
@@ -229,7 +231,8 @@ $year = date("Y");
                 <h3 class="panel-title">Financial Statement</h3>
             </div>
             <div class="panel-body">
-                <table class="table table-striped table-bordered">
+						<div class="table-responsive">
+                <table id="dataTable" class="table table-striped table-bordered">
                     <thead>
                         <tr>
                             <th>Description</th>
@@ -238,19 +241,20 @@ $year = date("Y");
                     </thead>
                     <tbody>
                         <tr>
-                            <td>Total Sales</td>
+                            <td>Total Sales (yearly)</td>
                             <td>{{$totalYearlySale}}</td>
                         </tr>
                         <tr>
-                            <td>Total VAT</td>
+                            <td>Total VAT (yearly)</td>
                             <td>{{$totalYearlyVat}}</td>
                         </tr>
                         <tr>
-                            <td>Annual Profit</td>
+                            <td>Annual Profit (yearly)</td>
                             <td>{{$totalYearlySale - $totalYearlyVat}}</td>
                         </tr>
                     </tbody>
                 </table>
+</div>
             </div>
         </div>
     </div>
@@ -292,7 +296,8 @@ $year = date("Y");
                 data: [{{$totalYearlySale}}, {{$totalYearlyVat}}, {{$totalYearlySale - $totalYearlyVat}}],
                 backgroundColor: ['#36A2EB', '#FF6384', '#FFCE56']
             }]
-        }
+        },
+				
     });
 
     var barChart = new Chart(ctxBar, {
@@ -311,7 +316,11 @@ $year = date("Y");
                 ],
                 backgroundColor: '#36A2EB'
             }]
-        }
+        },
+				options: {
+        responsive: true,
+        maintainAspectRatio: false
+    }
     });
 
     var lineChart = new Chart(ctxLine, {
@@ -332,7 +341,11 @@ $year = date("Y");
                 borderColor: 'rgba(54, 162, 235, 1)',
                 borderWidth: 1
             }]
-        }
+        },options: {
+        responsive: true,
+        maintainAspectRatio: false
+    }
+				
     });
 
     var todaySalesChart = new Chart(ctxToday, {
@@ -354,7 +367,24 @@ $year = date("Y");
                 borderColor: 'rgba(75, 192, 192, 1)',
                 borderWidth: 1
             }]
-        }
+        },
+				options: {
+        responsive: true,
+        maintainAspectRatio: false
+    }
     });
 </script>
+@section('script')
+<script>
+    $(document).ready(function () {
+        initializeDataTable([	
+					'Date',	'Total Products',	'Sub Total',	'Total']);
+    });
+    $(document).ready(function () {
+        initializeDataTable([	
+					'Description',	'Amount']);
+    });
+    </script>
+@endsection
+
 @endsection

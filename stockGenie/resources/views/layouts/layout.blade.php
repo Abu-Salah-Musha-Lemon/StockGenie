@@ -221,6 +221,7 @@
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
 	<script src="https://cdn.datatables.net/buttons/2.4.2/js/buttons.html5.min.js"></script>
 	<script src="https://cdn.datatables.net/buttons/2.4.2/js/buttons.print.min.js"></script>
+	<script type="text/javascript" charset="utf8" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/pdfmake.min.js"></script>
 
 	<!-- Toastr for notifications -->
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
@@ -279,9 +280,18 @@
 			});
 		});
 	</script> -->
+	
 	<script>
-    $(document).ready(function () {
-        var table = $('#dataTable').DataTable({
+// datatable-config.js
+
+function initializeDataTable(columnNames) {
+    var table;
+
+    if ($.fn.dataTable.isDataTable('#dataTable')) {
+        table = $('#dataTable').DataTable();
+    } else {
+        table = $('#dataTable').DataTable({
+            paging: false,
             responsive: true,
             dom: 'Bfrtip',
             buttons: [
@@ -290,24 +300,32 @@
                     text: 'Print',
                     customize: function (win) {
                         $(win.document.body).find('h1').text('Stock Genie');
-                        $(win.document.body).prepend('<img src="data:image/png;base64,..."/>'); // Replace with your logo's base64 data
+                        $(win.document.body).prepend('<img src="./images/logo/StockGenie.png" style="width:80px;height:80px;"/>');
                         $(win.document.body).append('<a href="http://www.StockGenie.com" style="color:#007bff;">Visit our website: Stock Genie</a>');
                     },
                     exportOptions: {
-                        columns: ':not(:last-child)' // Exclude the last column (Actions)
+                        columns: function (idx, data, node) {
+                            return columnNames.includes($(node).text().trim());
+                        }
                     }
                 },
                 {
                     extend: 'excelHtml5',
                     text: 'Excel',
                     exportOptions: {
-                        columns: ':not(:last-child)' // Exclude the last column (Actions)
+                        columns: function (idx, data, node) {
+                            return columnNames.includes($(node).text().trim());
+                        }
                     }
                 }
             ]
         });
-    });
+    }
+}
+
     </script>
+
+
 	<script>
 		/* Image Preview */
 		function readURL(input) {

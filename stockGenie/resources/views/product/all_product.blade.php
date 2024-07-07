@@ -69,5 +69,12 @@
 
 	</div>
 </div>
+@section('script')
+<script>
+    $(document).ready(function () {
+        initializeDataTable(['Product Name',	'Code',	'Quantity',	'Selling Price',	'Garage',	'Route']);
+    });
+    </script>
+@endsection
 
 @endsection

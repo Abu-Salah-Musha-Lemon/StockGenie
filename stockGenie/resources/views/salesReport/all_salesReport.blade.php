@@ -70,6 +70,13 @@
 
 	</div>
 </div>
-
+@section('script')
+<script>
+    $(document).ready(function () {
+        initializeDataTable([	
+					'Paid Amount', 'Order Date',	'Order Month',	'Order Year']);
+    });
+    </script>
+@endsection
 
 @endsection

@@ -116,4 +116,12 @@
 		</div>
 	</div>
 </div>
+@section('script')
+<script>
+    $(document).ready(function () {
+        initializeDataTable([	
+					'Category Name',]);
+    });
+    </script>
+@endsection
 @endsection

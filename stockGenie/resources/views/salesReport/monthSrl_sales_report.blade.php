@@ -100,6 +100,14 @@
 
 	</div>
 </div>
-
+@section('script')
+<script>
+    $(document).ready(function () {
+        initializeDataTable([	
+					
+'Date',	'Total Products',	'Sub Total',	'Total',]);
+    });
+    </script>
+@endsection
 
 @endsection
