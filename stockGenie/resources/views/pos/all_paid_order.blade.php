@@ -1,8 +1,6 @@
 @extends('layouts.layout')
 @section('main')
 
-
-
 <div class="row">
 	<div class="col-md-12">
 		<div class="panel panel-success text-info">
@@ -35,7 +33,8 @@
 										<th>Total Products</th>
 										<th>Grand Total Price</th>
 										<!-- <th>Quantity</th> -->
-										<th>Payment Status</th>
+										<!-- <th>Payment Status</th> -->
+										<th>Pay</th>
 										<th>Due</th>
 										<th>Order Status</th>
 										<th>Action</th>

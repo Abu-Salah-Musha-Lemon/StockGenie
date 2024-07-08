@@ -99,11 +99,12 @@
 									</li>
 									<li>
 										<form method="POST" action="{{ route('logout') }}">
-												@csrf
-											<a href="route('logout')" style="padding-left:20px; color:black" onclick="event.preventDefault(); this.closest('form').submit();"><i
+											@csrf
+											<a href="route('logout')" style="padding-left:20px; color:black"
+												onclick="event.preventDefault(); this.closest('form').submit();"><i
 													class="md md-settings-power text-danger"></i> {{ __('Log Out') }}</a>
-												</form>
-										</li>
+										</form>
+									</li>
 								</ul>
 							</li>
 						</ul>
@@ -126,11 +127,12 @@
 							<ul class="dropdown-menu">
 								<li><a href="{{ route('profile.edit') }}"><i class="md md-face-unlock"></i> {{ __('Profile') }}</a></li>
 								<li>
-										<form method="POST" action="{{ route('logout') }}">
-												@csrf
-											<a href="route('logout')" style="padding-left:20px; color:black" onclick="event.preventDefault(); this.closest('form').submit();"><i
-													class="md md-settings-power text-danger"></i> {{ __('Log Out') }}</a>
-												</form>
+									<form method="POST" action="{{ route('logout') }}">
+										@csrf
+										<a href="route('logout')" style="padding-left:20px; color:black"
+											onclick="event.preventDefault(); this.closest('form').submit();"><i
+												class="md md-settings-power text-danger"></i> {{ __('Log Out') }}</a>
+									</form>
 								</li>
 							</ul>
 						</div>
@@ -143,8 +145,8 @@
 					</div>
 				</div>
 				<!-- Divider -->
-				
-					@include('layouts.sideBar')
+
+				@include('layouts.sideBar')
 				<div class="clearfix"></div>
 			</div>
 		</div>
@@ -175,9 +177,9 @@
 						</div>
 					</div>
 
-					
-						@yield('main')
-					
+
+					@yield('main')
+
 
 				</div> <!-- container -->
 			</div> <!-- content -->
@@ -221,7 +223,8 @@
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
 	<script src="https://cdn.datatables.net/buttons/2.4.2/js/buttons.html5.min.js"></script>
 	<script src="https://cdn.datatables.net/buttons/2.4.2/js/buttons.print.min.js"></script>
-	<script type="text/javascript" charset="utf8" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/pdfmake.min.js"></script>
+	<script type="text/javascript" charset="utf8"
+		src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/pdfmake.min.js"></script>
 
 	<!-- Toastr for notifications -->
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
@@ -255,91 +258,105 @@
 		@endif
         });
 	</script>
-	<!-- <script>
-		/* DataTable Initialization */
-		$(document).ready(function () {
-			$('#dataTable').DataTable({
-				responsive: true,
-				dom: 'Bfrtip',
-				buttons: [
-					'excel',
-					{
-						extend: 'print',
-						text: 'Print',
-						customize: function (doc) {
-							doc.content[0].text = 'Stock Genie';
-							doc.content[1].image = 'data:image/png;base64,...'; // Replace with your logo's base64 data
-							doc.content[2].text = 'Visit our website: stock Genie';
-							doc.content[2].link = 'http://www.StockGenie.com';
-							doc.content[2].color = '#007bff'; // Customize link 
-							// Remove ignored rows from print
-							$(doc.document.body).find('.ignore-row').remove();
-						}
-					}
-				]
-			});
-		});
-	</script> -->
-	
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.68/vfs_fonts.js"></script>
+
 	<script>
-// datatable-config.js
+		// Initialize DataTable with embedded fonts in PDF
+		function initializeDataTable(columnNames) {
+			var table;
 
-function initializeDataTable(columnNames) {
-    var table;
+			if ($.fn.dataTable.isDataTable('#dataTable')) {
+				table = $('#dataTable').DataTable();
+			} else {
+				table = $('#dataTable').DataTable({
+					paging: false,
+					responsive: true,
+					dom: 'Bfrtip',
+					buttons: [
+						{
+							extend: 'print',
+							text: 'Print',
+							customize: function (win) {
+								$(win.document.body).find('h1').text('Stock Genie');
+								$(win.document.body).prepend('<img src="./images/logo/StockGenie.png" style="width:80px;height:80px;display:block;margin:auto;"/>');
+								$(win.document.body).append('<a href="http://www.StockGenie.com" style="color:#007bff;">Visit our website: Stock Genie</a>');
+							},
+							exportOptions: {
+								columns: function (idx, data, node) {
+									return columnNames.includes($(node).text().trim());
+								}
+							}
+						},
+						{
+							extend: 'excelHtml5',
+							text: 'Excel',
+							exportOptions: {
+								columns: function (idx, data, node) {
+									return columnNames.includes($(node).text().trim());
+								}
+							}
+						},
+						{
+							extend: 'pdfHtml5',
+							text: 'PDF',
+							exportOptions: {
+								columns: function (idx, data, node) {
+									return columnNames.includes($(node).text().trim());
+								}
+							},
+							customize: function (doc) {
+								doc.content.splice(0, 0, {
+									text: 'Stock Genie',
+									fontSize: 20,
+									bold: true,
+									margin: [0, 0, 0, 12]
+								});
+								// Optionally include logo image if needed
+								// doc.content.splice(1, 0, {
+								//     image: 'StockGenie.png',
+								//     width: 50,
+								//     alignment: 'center',
+								//     margin: [0, 0, 0, 12]
+								// });
+								doc.content.push({
+									text: 'Visit our website: Stock Genie',
+									link: 'http://www.StockGenie.com',
+									color: '#007bff'
+								});
 
-    if ($.fn.dataTable.isDataTable('#dataTable')) {
-        table = $('#dataTable').DataTable();
-    } else {
-        table = $('#dataTable').DataTable({
-            paging: false,
-            responsive: true,
-            dom: 'Bfrtip',
-            buttons: [
-                {
-                    extend: 'print',
-                    text: 'Print',
-                    customize: function (win) {
-                        $(win.document.body).find('h1').text('Stock Genie');
-                        $(win.document.body).prepend('<img src="./images/logo/StockGenie.png" style="width:80px;height:80px;"/>');
-                        $(win.document.body).append('<a href="http://www.StockGenie.com" style="color:#007bff;">Visit our website: Stock Genie</a>');
-                    },
-                    exportOptions: {
-                        columns: function (idx, data, node) {
-                            return columnNames.includes($(node).text().trim());
-                        }
-                    }
-                },
-                {
-                    extend: 'excelHtml5',
-                    text: 'Excel',
-                    exportOptions: {
-                        columns: function (idx, data, node) {
-                            return columnNames.includes($(node).text().trim());
-                        }
-                    }
-                }
-            ]
-        });
-    }
-}
-
-    </script>
+								// Embed fonts directly into the PDF document
+								doc.defaultStyle.font = 'Roboto';
+								doc.styles = {
+									Roboto: {
+										normal: 'Roboto-Regular.ttf',
+										bold: 'Roboto-Bold.ttf',
+										italics: 'Roboto-Italic.ttf',
+										bolditalics: 'Roboto-BoldItalic.ttf'
+									}
+								};
+							}
+						}
+					]
+				});
+			}
+		}
+	</script>
 
 
 	<script>
 		/* Image Preview */
 		function readURL(input) {
-    if (input.files && input.files[0]) {
-        var reader = new FileReader();
-        reader.onload = function (e) {
-            $('#image').attr('src', e.target.result)
-                       .width(190)
-                       .height(190)
-                       .css('border-radius', '16px'); // Adding border-radius
-        };
-        reader.readAsDataURL(input.files[0]);
-    }
-}
+			if (input.files && input.files[0]) {
+				var reader = new FileReader();
+				reader.onload = function (e) {
+					$('#image').attr('src', e.target.result)
+						.width(190)
+						.height(190)
+						.css('border-radius', '16px'); // Adding border-radius
+				};
+				reader.readAsDataURL(input.files[0]);
+			}
+		}
 
 	</script>
 	@yield('script');
