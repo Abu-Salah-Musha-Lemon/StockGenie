@@ -36,7 +36,10 @@ class SuppliersController extends Controller
         'address' => 'required',
         'type' => 'required',
         'shopName' => 'required',
-    ]);
+    ], [
+        'type' => 'Select the Supplier Type.'
+    ]
+    );
 
    
         // Creating an array of data to insert into the database

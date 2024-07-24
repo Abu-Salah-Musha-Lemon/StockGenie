@@ -20,10 +20,16 @@
 	<link href="{{ asset('css/bootstrap.min.css') }}" rel="stylesheet">
 
 	<!-- Data Table CSS -->
-	<link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap5.min.css">
+	<!-- <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap5.min.css">
 	<link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.4.2/css/buttons.dataTables.min.css">
 	<link rel="stylesheet" href="https://cdn.datatables.net/searchbuilder/1.6.0/css/searchBuilder.dataTables.min.css">
-	<link rel="stylesheet" href="https://cdn.datatables.net/datetime/1.5.1/css/dataTables.dateTime.min.css">
+	<link rel="stylesheet" href="https://cdn.datatables.net/datetime/1.5.1/css/dataTables.dateTime.min.css"> -->
+
+	<!-- Data Table CSS local server -->
+	<link rel="stylesheet" href="{{asset('dataTable/dataTables.bootstrap5.min.css')}}">
+	<link rel="stylesheet" href="{{asset('dataTable/buttons.dataTables.min.css')}}">
+	<link rel="stylesheet" href="{{asset('dataTable/searchBuilder.dataTables.min.css')}}">
+	<link rel="stylesheet" href="{{asset('dataTable/dataTables.dateTime.min.css')}}">
 
 	<!-- Font Icons -->
 	<link href="{{ asset('assets/font-awesome/css/font-awesome.min.css') }}" rel="stylesheet">
@@ -39,8 +45,12 @@
 	<!-- Custom Files -->
 	<link href="{{ asset('css/helper.css') }}" rel="stylesheet" type="text/css">
 	<link href="{{ asset('css/style.css') }}" rel="stylesheet" type="text/css">
-	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-	<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css">
+	<!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"> -->
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css">
+
+	<!-- local server  -->
+	<link rel="stylesheet" href="{{asset('dataTable/bootstrap-icons.min.css')}}">
+	<link rel="stylesheet" href="{{asset('dataTable/toastr.min.css')}}">
 	<link href="{{ asset('assets/datatables/jquery.dataTables.min.css') }}" rel="stylesheet" type="text/css">
 
 	<script src="{{ asset('js/modernizr.min.js') }}"></script>
@@ -213,7 +223,7 @@
 	<script src="{{ asset('assets/jquery-slimscroll/jquery.slimscroll.js') }}"></script>
 	<script src="{{ asset('assets/jquery-blockui/jquery.blockUI.js') }}"></script>
 
-	<!-- DataTables -->
+	<!-- DataTables
 	<script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
 	<script src="https://cdn.datatables.net/buttons/2.4.2/js/dataTables.buttons.min.js"></script>
 	<script src="https://cdn.datatables.net/searchbuilder/1.6.0/js/dataTables.searchBuilder.min.js"></script>
@@ -224,13 +234,28 @@
 	<script src="https://cdn.datatables.net/buttons/2.4.2/js/buttons.html5.min.js"></script>
 	<script src="https://cdn.datatables.net/buttons/2.4.2/js/buttons.print.min.js"></script>
 	<script type="text/javascript" charset="utf8"
-		src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/pdfmake.min.js"></script>
+		src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/pdfmake.min.js"></script> -->
+
+	<!-- DataTables -->
+	<script src="{{asset('dataTable/jquery.dataTables.min.js')}}"></script>
+	<script src="{{asset('dataTable/dataTables.buttons.min.js')}}"></script>
+	<script src="{{asset('dataTable/dataTables.searchBuilder.min.js')}}"></script>
+	<script src="{{asset('dataTable/dataTables.dateTime.min.js')}}"></script>
+	<script src="{{asset('dataTable/jszip.min.js')}}"></script>
+	<script src="{{asset('dataTable/pdfmake.min.js')}}"></script>
+	<!-- <script src="{{asset('dataTable/vfs_fonts.js')}}"></script> -->
+	<script src="{{asset('dataTable/buttons.html5.min.js')}}"></script>
+	<script src="{{asset('dataTable/buttons.print.min.js')}}"></script>
+	<script src="{{asset('dataTable/pdfmake.1.36.min.js')}}"></script>
 
 	<!-- Toastr for notifications -->
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
+	<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script> -->
+
+	<!-- Toastr for notifications local server -->
+	<script src="{{asset('dataTable/toastr.min.js')}}"></script>
 
 	<!-- CUSTOM JS -->
-	<script src="{{ asset('js/jquery.app.js') }}"></script>
+	<script src="{{asset('js/jquery.app.js') }}"></script>
 	<script src="{{asset('assets/datatables/jquery.dataTables.min.js')}}"></script>
 	<script src="{{asset('assets/datatables/dataTables.bootstrap.js')}}"></script>
 	<script>
@@ -258,7 +283,9 @@
 		@endif
         });
 	</script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.68/vfs_fonts.js"></script>
+	<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.68/vfs_fonts.js"></script> -->
+	 <!-- work this file only -->
+	<script src="{{asset('dataTable/vfs_fonts.1.68.js')}}"></script>
 
 	<script>
 		// Initialize DataTable with embedded fonts in PDF

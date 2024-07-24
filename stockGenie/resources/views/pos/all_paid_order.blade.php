@@ -69,7 +69,7 @@
 								</tbody>
 								<tfoot>
 									<tr>
-										<td colspan=3>Total amount : </td>
+										<td colspan=4>Total amount : </td>
 										<td>@php $total = DB::table('orders')->sum('total');
 											echo number_format($total, 2); @endphp</td>
 										<td>Total Due : </td>
