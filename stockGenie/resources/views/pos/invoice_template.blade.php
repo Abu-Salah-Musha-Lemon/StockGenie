@@ -21,10 +21,10 @@
 			font-family: 'SolaimanLipi', sans-serif;
 		}
 
-		/* body {
-			margin: 20px;
+		body {
+			margin: 10px;
 			font-family: Arial, sans-serif;
-		} */
+		}
 
 		.invoice-container {
 			background: #fff;
@@ -49,10 +49,12 @@
 
 		.invoice-header .order-details {
 			text-align: right;
+			font-size:12px;
 		}
 
 		.invoice-header .billing-info {
 			text-align: left;
+			font-size:12px;
 		}
 
 		.order-details h3,
@@ -61,17 +63,25 @@
 		}
 
 		.invoice-body {
-			margin-top: 20px;
+			margin-top: 1px;
 		}
 
 		.invoice-body h5 {
 			margin-bottom: 20px;
 		}
-
-		.table thead th {
-			border-bottom: 2px solid #dee2e6;
+		.invoice-body table thead {
+			font-size:17px;
+			font-weight: 100;
+		}
+		.invoice-body table tbody tr {
+			font-size:14px;
 		}
 
+		.table thead th{
+			border-bottom: 2px solid #dee2e6;
+			font-weight: 100;
+		}
+		
 		.invoice-footer {
 			display: flex;
 			justify-content: space-between;
@@ -120,9 +130,9 @@
 		<div class="invoice-header shadow-sm">
 			<table>
 				<tr>
-					<td style="width:90mm">
+					<td style="width:45mm">
 						<div class="billing-info">
-							<img src="{{public_path('images/logo/StockGenie.png')}}" style="width: 70px; height: 70px; padding: 6px;">
+							<img src="{{public_path('images/logo/StockGenie.png')}}" style="width: 70px; height: 70px; padding: 6px;aline-items:center;justify-content:center;">
 							<p>Hello, Stock Genie.</p>
 							<b>BILLING INFORMATION</b>
 							<p>ASML Lts.<br>312 Madison Ave.<br>Dhaka -1204<br>Bangladesh</p>
@@ -130,7 +140,7 @@
 
 					</td>
 
-					<td>
+					<td style="width:45mm">
 						<div class="order-details">
 							<h2>Invoice</h2>
 							<h3>ORDER #{{ $order->id }}</h3>
@@ -182,7 +192,7 @@
 					@endforeach
 
 				</tbody>
-				<tfoot>
+				<tfoot style="font-size: 12px; font-weight: 100;">
 					<tr>
 						<td colspan="4" class="text-right"><strong>SUBTOTAL</strong></td>
 						<td class="text-left">{{$order->sub_total}} </td>
@@ -216,7 +226,7 @@
 		</div>
 
 		<div class="invoice-footer">
-			Thank you for your order.
+			Thank for shopping at Stock Genie.
 		</div>
 	</div>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>

@@ -45,7 +45,7 @@
 							</div>
 							<div class="col-md-4">
 								<label for="pay">Cash</label>
-								<input type="number" name="pay" id="pay" class="form-control" step="0.01">
+								<input type="number" name="pay" id="pay" value="0" class="form-control" step="0.01">
 								<span class='text-danger fs-bolder'>@error('pay'){{ $message }} @enderror</span>
 							</div>
 							<div class="col-md-4">
@@ -130,11 +130,11 @@
 				</div>
 
 				<div class="card-body">
-					<div class="col-sm-6 col-md-4 col-lg-3 mt-2" style="width:100%">
-						<div class="price_card text-center">
+					<div class="col-sm-6 col-md-4 col-lg-3 mt-2" style="width:100%;padding:2px">
+						<div class="price_card text-center" style="margin:0px;padding:0px">
 							<div class="pricing-header ">
-							<div class="table-responsive">
-								<table  class="table table-striped table-bordered">
+							<div class="table-responsive"style="margin:0px;padding: 6px;border: 1px solid rgba(255,255,255,.5);border-radius: 4px;">
+								<table  class="table table-striped table-bordered"style="margin:0px;padding:0px">
 									<style>
 										.th_color {
 											width: 25%;

@@ -131,6 +131,7 @@
 									style="width: 70px; height: 70px; padding: 6px;"></h4>
 						</h4>
 					</div>
+
 					<div class="pull-right">
 						<h4>
 							Invoice # <br />
@@ -143,7 +144,9 @@
 					</div>
 				</div>
 				<hr />
+				
 			</div>
+
 			<div class="panel-body" id="invoice">
 
 				<div class="row">
@@ -182,6 +185,7 @@
 						</div>
 					</div>
 				</div>
+
 				<div class="m-h-50"></div>
 				<div class="row">
 					<div class="col-md-12">
@@ -246,23 +250,39 @@
 					</div>
 				</div>
 				<hr />
+
 				<div class="hidden-print">
 					<div class="pull-right">
+
 						@if($order->order_status == 'success' && $order->due >0.00)
+
+						<a href="{{URL::to('/download-invoice/'.$order->id)}}"
+								class="btn btn-success  waves-effect waves-light"><i class="bi bi-printer"></i>
+						</a>
+
 						<button type="submit" class="btn btn-inverse waves-effect waves-light" id="printPi">
 							<i class="fa fa-print"></i>
 						</button>
+
 						<a href="#" class="btn btn-primary waves-effect waves-light" data-toggle="modal" data-target="#due">Due</a>
+
 						@elseif($order->order_status == 'success' && $order->due== 0.00)
+
+						<a href="{{URL::to('/download-invoice/'.$order->id)}}"
+								class="btn btn-success  waves-effect waves-light"><i class="bi bi-printer"></i>
+						</a>
+
 						<button type="submit" class="btn btn-inverse waves-effect waves-light" id="printPi">
 							<i class="fa fa-print"></i>
 						</button>
+
 						@else
 						<a href="#" class="btn btn-primary waves-effect waves-light" data-toggle="modal" data-target="#due">Due</a>
 						<a href="{{ URL::to('/paid/'.$order->id) }}" class="btn btn-primary waves-effect waves-light">Submit</a>
 						@endif
 					</div>
 				</div>
+
 			</div>
 		</div>
 	</div>

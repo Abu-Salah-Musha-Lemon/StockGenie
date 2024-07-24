@@ -9,7 +9,9 @@
 
 <div class="row" style="display:flex;justify-content:center;align-item:center;">
 	<!-- Basic example -->
+
 	<div class="col-xl-10 col-lg-8 col-md-6 col-12 m-auto">
+
 		<div class="panel panel-info">
 			<div class="panel-heading " style="display: flex;justify-content: space-between;">
 				<h3 class="panel-title text-white">Edit Supplier</h3>
@@ -20,7 +22,8 @@
 
 			<div class="panel-body">
 
-			<form role="form" action="{{ URL::to('/update-supplier'.$editUser->id) }}" method="post" enctype="multipart/form-data">
+				<form role="form" action="{{ URL::to('/update-supplier'.$editUser->id) }}" method="post"
+					enctype="multipart/form-data">
 
 					@csrf
 					<div class="form-group">
@@ -60,14 +63,18 @@
 						<span class="text-danger">@error('shopName') {{$message}}@enderror <span>
 					</div>
 					<br>
+
 					<button type="submit" class="btn btn-success btn-custom waves-effect waves-light">Update</button>
 
 				</form>
 
 
 			</div><!-- panel-body -->
+
 		</div> <!-- panel -->
+
 	</div> <!-- col-->
+	
 </div>
 
 

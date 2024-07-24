@@ -13,21 +13,21 @@
 				@csrf
 				<div class="form-group">
 					<label>Name</label>
-					<input type="text" class="form-control" name="name" placeholder="Enter Name" value="{{ old('name') }}" />
+					<input type="text" class="form-control" name="name" placeholder="Enter Name" value="{{ old('name') }}" required/>
 					<span class="text-danger">@error('name'){{ $message }}@enderror</span>
 				</div>
 
 				<div class="form-group">
 					<label>Phone Number</label>
 					<input type="tel" class="form-control" name="phone" placeholder="Enter Phone Number"
-						value="{{ old('phone') }}" />
+						value="{{ old('phone') }}" required/>
 					<span class="text-danger">@error('phone'){{ $message }}@enderror</span>
 				</div>
 
 				<div class="form-group">
 					<label>Address</label>
 					<input type="text" class="form-control" name="address" placeholder="Enter address"
-						value="{{ old('address') }}" />
+						value="{{ old('address') }}" required/>
 					<span class="text-danger">@error('address'){{ $message }}@enderror</span>
 				</div>
 
@@ -45,7 +45,7 @@
 				<div class="form-group">
 					<label>Shop Name</label>
 					<input type="text" class="form-control" name="shopName" placeholder="Enter Shop Name"
-						value="{{ old('shopName') }}" />
+						value="{{ old('shopName') }}" required/>
 					<span class="text-danger">@error('shopName'){{ $message }}@enderror</span>
 				</div>
 

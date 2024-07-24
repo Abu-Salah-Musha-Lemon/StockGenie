@@ -44,10 +44,10 @@
 									<img id="image"
 										style="width: 190px;height: 190px;border-radius:16px;border:1px solid rgba(0 0 0 0.1) ">
 
-									<div class="fileUpload btn btn-success waves-effect waves-light" style="margin:5px 0 5px 0">
+									<div class="fileUpload btn btn-success waves-effect waves-light" style="margin-top:10px">
 										<span><i class="ion-upload m-r-5"></i>Upload</span>
-										<input type="file" name="photo" id="photo" accept="image/*" class="upload" class="form-control"
-											onchange="readURL(this);" />
+										<input type="file" name="photo" id="photo" accept="image/*" class="upload" class="form-control" style="width:100%"
+											onchange="readURL(this);"  required/>
 									</div>
 
 									<span class='text-danger'>@error('photo'){{ $message }}@enderror</span>
@@ -58,7 +58,7 @@
 							<div class="form-group">
 								<label>Product Name</label>
 								<input type="text" class="form-control @error('product_name') @enderror" name="product_name"
-									placeholder="Enter Name" value="{{old('product_name')}}">
+									placeholder="Enter Name" value="{{old('product_name')}}" required>
 								<span class='text-danger'>@error('product_name'){{ $message }}@enderror</span>
 
 							</div>
@@ -98,17 +98,17 @@
 
 							<div class="form-group">
 								<label>Product Code</label>
-								<input type="text" class="form-control" name="product_code" value="{{old('product_code')}}" placeholder="Enter Product Code">
+								<input type="text" class="form-control" name="product_code" value="{{old('product_code')}}" placeholder="Enter Product Code" required>
 								<span class='text-danger'>@error('product_code'){{ $message }}@enderror</span>
 							</div>
 							<div class="form-group">
 								<label>Product Quantity</label>
-								<input type="text" class="form-control" name="product_qty" value="{{old('product_qty')}}" placeholder="Enter Product Quantity">
+								<input type="number" class="form-control" name="product_qty" value="{{old('product_qty')}}" placeholder="Enter Product Quantity" required>
 								<span class='text-danger'>@error('product_qty'){{ $message }}@enderror</span>
 							</div>
 							<div class="form-group">
 								<label>Product Garage</label>
-								<input type="text" class="form-control" name="product_garage" value="{{old('product_garage')}}" placeholder="Enter Product Garage">
+								<input type="text" class="form-control" name="product_garage" value="{{old('product_garage')}}" placeholder="Enter Product Garage" required>
 								<span class='text-danger'>@error('product_garage'){{ $message }}@enderror</span>
 							</div>
 						</div>
@@ -116,28 +116,28 @@
 						<div class="col-md-4">
 							<div class="form-group">
 								<label>Product Route</label>
-								<input type="text" class="form-control" name="product_route" value="{{old('product_route')}}" placeholder="Enter Product Route">
+								<input type="text" class="form-control" name="product_route" value="{{old('product_route')}}" placeholder="Enter Product Route" required>
 								<span class='text-danger'>@error('product_route'){{ $message }}@enderror</span>
 							</div>
 							<div class="form-group">
 								<label>Product Buying Date</label>
-								<input type="date" class="form-control" name="buy_date" value="{{old('buy_date')}}" placeholder="Enter Product Buying Date">
+								<input type="date" class="form-control" name="buy_date" value="{{old('buy_date')}}" placeholder="Enter Product Buying Date" required>
 								<span class='text-danger'>@error('buy_date'){{ $message }}@enderror</span>
 							</div>
 							<div class="form-group">
 								<label>Product Expire Date</label>
-								<input type="date" class="form-control" name="expire_date" value="{{old('expire_date')}}" placeholder="Enter Product Expire Date">
+								<input type="date" class="form-control" name="expire_date" value="{{old('expire_date')}}" placeholder="Enter Product Expire Date" required>
 								<span class='text-danger'>@error('expire_date'){{ $message }}@enderror</span>
 							</div>
 							<div class="form-group">
 								<label>Product Buying Prize</label>
-								<input type="number" class="form-control" name="buying_price" value="{{old('buying_price')}}" placeholder="Enter Product  Buying Prize">
+								<input type="number" class="form-control" name="buying_price" value="{{old('buying_price')}}" placeholder="Enter Product  Buying Prize" required>
 								<span class='text-danger'>@error('buying_price'){{ $message }}@enderror</span>
 							</div>
 							<div class="form-group">
 								<label>Product Selling Prize</label>
 								<input type="number" class="form-control" name="selling_price" value="{{old('selling_price')}}"
-									placeholder="Enter Product  Selling Prize">
+									placeholder="Enter Product  Selling Prize" required>
 								<span class='text-danger'>@error('selling_price'){{ $message }}@enderror</span>
 							</div>
 						</div>
