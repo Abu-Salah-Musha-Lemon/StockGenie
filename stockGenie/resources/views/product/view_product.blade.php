@@ -18,37 +18,60 @@
 			</div>
 
 			<div class="panel-body">
-				
-					<div class="row">
-						<div class="col-md-4 col-lg-4">
 
-							<!-- Photo -->
-							<div class="form-group my-2">
-								<div class="input-group mb-3"
-									style="display: flex;justify-content: center;align-items: center;flex-direction: column;">
-									<div class="input-group-prepend">
-										<span>Product Photo</span>
-									</div>
-									<img id="image"
-										style="width: 190px;height: 190px;border-radius:16px;border:1px solid rgba(0 0 0 0.1) "
-										src="{{ asset($show->product_image) }}" /><br />
+				<div class="row">
+					<div class="col-md-4 col-lg-4">
+
+						<!-- Photo -->
+						<div class="form-group my-2">
+							<div class="input-group mb-3"
+								style="display: flex;justify-content: center;align-items: center;flex-direction: column;">
+								<div class="input-group-prepend">
+									<span>Product Photo</span>
 								</div>
+
+								<img id="image" style="width: 190px;height: 190px;border-radius:16px;border:1px solid rgba(0 0 0 0.1) "
+									src="{{asset('/'.$show->product_image)}}" /><br />
+
 							</div>
 						</div>
-						<div class="col-md-4 col-lg-4">
-							<div class="form-group">
-								<label>Product Name</label>
-								<input type="text" class="form-control" name="product_name" value="{{$show->product_name}}" disabled>
-							</div>
 
-							<div class="form-group">
-								<label>Categories Name</label>
-								<input type="text" class="form-control" value="{{$show->category_name}}" disabled>
-							</div>
-							<div class="form-group">
-								<label>Suppliers Name</label>
-								<input type="text" class="form-control" value="{{$show->name}}" disabled>
-							</div>
+					</div>
+
+					<div class="col-md-4 col-lg-4">
+						<div class="form-group">
+							<label>Product Name</label>
+							<input type="text" class="form-control" name="product_name" value="{{$show->product_name}}" disabled>
+						</div>
+
+						<div class="form-group">
+    <label>Category Name</label>
+    @php
+        // Fetch categories and suppliers from the database
+        $categories = DB::table('category')->get();
+        $suppliers = DB::table('suppliers')->get(); // Assuming suppliers are in a different table
+			 
+					
+    @endphp
+    
+    @foreach ($categories as $category)
+		
+		@if ($category->id === $show->cat_id)
+
+            <input type="text" class="form-control" value="@php print_r( $category->category_name); @endphp" disabled>
+        @endif
+    @endforeach
+
+    <div class="form-group">
+        <label>Supplier Name</label>
+        @foreach ($suppliers as $supplier)
+            @if ($supplier->id === $show->sup_id)
+						<p>{{ $supplier->name }}</p>
+                <input type="text" class="form-control" value="" disabled>
+            @endif
+        @endforeach
+    </div>
+
 
 							<div class="form-group">
 								<label>Product Code</label>
@@ -65,30 +88,30 @@
 							</div>
 
 						</div>
-						<div class="col-md-4 col-lg-4">
-							<div class="form-group">
-								<label>Product Route</label>
-								<input type="text" class="form-control" name="product_route" value="{{$show->product_route}}" disabled>
-							</div>
-							<div class="form-group">
-								<label>Product Buying Date</label>
-								<input type="date" class="form-control" name="buy_date" value="{{$show->buy_date}}" disabled>
-							</div>
-							<div class="form-group">
-								<label>Product Expire Date</label>
-								<input type="date" class="form-control" name="expire_date" value="{{$show->expire_date}}" disabled>
-							</div>
-							<div class="form-group">
-								<label>Product Buying Prize</label>
-								<input type="number" class="form-control" name="buying_price" value="{{$show->buying_price}}" disabled>
-							</div>
-							<div class="form-group">
-								<label>Product Selling Prize</label>
-								<input type="number" class="form-control" name="selling_price" value="{{$show->selling_price}}"
-									disabled>
-							</div>
+					</div>
+					<div class="col-md-4 col-lg-4">
+						<div class="form-group">
+							<label>Product Route</label>
+							<input type="text" class="form-control" name="product_route" value="{{$show->product_route}}" disabled>
+						</div>
+						<div class="form-group">
+							<label>Product Buying Date</label>
+							<input type="date" class="form-control" name="buy_date" value="{{$show->buy_date}}" disabled>
+						</div>
+						<div class="form-group">
+							<label>Product Expire Date</label>
+							<input type="date" class="form-control" name="expire_date" value="{{$show->expire_date}}" disabled>
+						</div>
+						<div class="form-group">
+							<label>Product Buying Prize</label>
+							<input type="number" class="form-control" name="buying_price" value="{{$show->buying_price}}" disabled>
+						</div>
+						<div class="form-group">
+							<label>Product Selling Prize</label>
+							<input type="number" class="form-control" name="selling_price" value="{{$show->selling_price}}" disabled>
 						</div>
 					</div>
+				</div>
 			</div><!-- panel-body -->
 		</div> <!-- panel -->
 	</div> <!-- col-->

@@ -14,9 +14,9 @@ class DashboardController extends Controller
         $month = date("M");
         $year = date("Y");
     
-        $totalTodaySale = DB::table('orders')->where('order_date', $day)->sum('pay');
-        $totalMonthSale = DB::table('orders')->where('order_month', $month)->sum('pay');
-        $totalYearlySale = DB::table('orders')->where('order_year', $year)->sum('pay');
+        $totalTodaySale = DB::table('orders')->where('order_date', $day)->sum('total');
+        $totalMonthSale = DB::table('orders')->where('order_month', $month)->sum('total');
+        $totalYearlySale = DB::table('orders')->where('order_year', $year)->sum('total');
         $totalTodayVat = DB::table('orders')->where('order_date', $day)->sum('vat');
         $totalMonthVat = DB::table('orders')->where('order_month', $month)->sum('vat');
         $totalYearlyVat = DB::table('orders')->where('order_year', $year)->sum('vat');

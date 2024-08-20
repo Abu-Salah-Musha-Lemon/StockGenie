@@ -177,16 +177,24 @@ class ProductController extends Controller
      */
     public function show(string $id)
     {
-        $show = DB::table('products')
-                ->join('category','products.cat_id','category.id')
-                ->join('suppliers','products.sup_id','suppliers.id')
-                ->select('products.*','category.category_name','suppliers.name')
-                ->where('products.id',$id)
-                ->first();
-                return view('product.view_product',compact('show'));
+       
+        // $show = DB::table('products')
+        //     ->join('category', 'products.cat_id', '=', 'category.id')
+        //     ->join('suppliers', 'products.sup_id', '=', 'suppliers.id')
+        //     ->select('products.*', 'category.category_name', 'suppliers.name as supplier_name')
+        //     ->where('products.id', $id)
+        //     ->get();
+        $show = DB::table('products')->where('id', $id)->first();
+// Fetch categories and suppliers
+$categories = DB::table('category')->get();
+$suppliers = DB::table('suppliers')->get();
 
+// Debug output
+// dd($show, $categories, $suppliers);
+return view('product.view_product', compact('show', 'categories', 'suppliers'));
+        // return view('product.view_product', compact('show'));
     }
-
+    
     /**
      * Show the form for editing the specified resource.
      */
