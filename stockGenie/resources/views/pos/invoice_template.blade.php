@@ -167,7 +167,7 @@
 
 		</div>
 		<div class="invoice-body">
-			<table class="table table-sm">
+			<table class="table table-sm" style="width:90mm">
 				<thead>
 					<tr class="text-center">
 						<th>#</th>

@@ -51,28 +51,31 @@
 							$categories = DB::table('category')->get();
 							$suppliers = DB::table('suppliers')->get(); // Assuming suppliers are in a different table
 
-
+							// Find category by id
+							$selectedCategory = $categories->firstWhere('id', $show->cat_id);
 							@endphp
 
-							@foreach ($categories as $category)
-
-							@if ($category->id == $show->cat_id)
-
-							<input type="text" class="form-control" value="{{ $category->category_name}}" disabled>
-
+							@if ($selectedCategory)
+							<input type="text" class="form-control" value="{{ $selectedCategory->category_name }}" disabled>
+							@else
+							<input type="text" class="form-control" value="Category was Deleted" disabled>
 							@endif
-							@endforeach
 						</div>
 
 						<div class="form-group">
 							<label>Supplier Name</label>
-							@foreach ($suppliers as $supplier)
-							@if ($supplier->id == $show->sup_id)
+							@php
+							// Find supplier by id
+							$selectedSupplier = $suppliers->firstWhere('id', $show->sup_id);
+							@endphp
 
-							<input type="text" class="form-control" value="{{ $supplier->name }}" disabled>
+							@if ($selectedSupplier)
+							<input type="text" class="form-control" value="{{ $selectedSupplier->name }}" disabled>
+							@else
+							<input type="text" class="form-control" value="Supplier was Deleted" disabled>
 							@endif
-							@endforeach
 						</div>
+
 
 						<div class="form-group">
 							<label>Product Code</label>
