@@ -184,15 +184,14 @@ class ProductController extends Controller
         //     ->select('products.*', 'category.category_name', 'suppliers.name as supplier_name')
         //     ->where('products.id', $id)
         //     ->get();
-        $show = DB::table('products')->where('id', $id)->first();
-// Fetch categories and suppliers
-$categories = DB::table('category')->get();
-$suppliers = DB::table('suppliers')->get();
-
-// Debug output
-// dd($show, $categories, $suppliers);
-return view('product.view_product', compact('show', 'categories', 'suppliers'));
         // return view('product.view_product', compact('show'));
+
+        $show = DB::table('products')->where('id', $id)->first();
+       
+        $categories = DB::table('category')->get();
+        $suppliers = DB::table('suppliers')->get();
+
+        return view('product.view_product', compact('show', 'categories', 'suppliers'));
     }
     
     /**

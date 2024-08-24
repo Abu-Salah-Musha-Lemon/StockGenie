@@ -19,7 +19,7 @@
 
 			<div class="panel-body">
 
-				<div class="row">
+				<div class="row" style="display: flex;align-items: center;flex-wrap: wrap;">
 					<div class="col-md-4 col-lg-4">
 
 						<!-- Photo -->
@@ -45,50 +45,52 @@
 						</div>
 
 						<div class="form-group">
-    <label>Category Name</label>
-    @php
-        // Fetch categories and suppliers from the database
-        $categories = DB::table('category')->get();
-        $suppliers = DB::table('suppliers')->get(); // Assuming suppliers are in a different table
-			 
-					
-    @endphp
-    
-    @foreach ($categories as $category)
-		
-		@if ($category->id === $show->cat_id)
-
-            <input type="text" class="form-control" value="@php print_r( $category->category_name); @endphp" disabled>
-        @endif
-    @endforeach
-
-    <div class="form-group">
-        <label>Supplier Name</label>
-        @foreach ($suppliers as $supplier)
-            @if ($supplier->id === $show->sup_id)
-						<p>{{ $supplier->name }}</p>
-                <input type="text" class="form-control" value="" disabled>
-            @endif
-        @endforeach
-    </div>
+							<label>Category Name</label>
+							@php
+							// Fetch categories and suppliers from the database
+							$categories = DB::table('category')->get();
+							$suppliers = DB::table('suppliers')->get(); // Assuming suppliers are in a different table
 
 
-							<div class="form-group">
-								<label>Product Code</label>
-								<input type="text" class="form-control" name="product_code" value="{{$show->product_code}}" disabled>
-							</div>
-							<div class="form-group">
-								<label>Product Quantity</label>
-								<input type="text" class="form-control" name="product_qty" value="{{$show->product_qty}}" disabled>
-							</div>
-							<div class="form-group">
-								<label>Product Garage</label>
-								<input type="text" class="form-control" name="product_garage" value="{{$show->product_garage}}"
-									disabled>
-							</div>
+							@endphp
 
+							@foreach ($categories as $category)
+
+							@if ($category->id == $show->cat_id)
+
+							<input type="text" class="form-control" value="{{ $category->category_name}}" disabled>
+
+							@endif
+							@endforeach
 						</div>
+
+						<div class="form-group">
+							<label>Supplier Name</label>
+							@foreach ($suppliers as $supplier)
+							@if ($supplier->id == $show->sup_id)
+
+							<input type="text" class="form-control" value="{{ $supplier->name }}" disabled>
+							@endif
+							@endforeach
+						</div>
+
+						<div class="form-group">
+							<label>Product Code</label>
+							<input type="text" class="form-control" name="product_code" value="{{$show->product_code}}" disabled>
+						</div>
+
+						<div class="form-group">
+							<label>Product Quantity</label>
+							<input type="text" class="form-control" name="product_qty" value="{{$show->product_qty}}" disabled>
+						</div>
+
+						<div class="form-group">
+							<label>Product Garage</label>
+							<input type="text" class="form-control" name="product_garage" value="{{$show->product_garage}}" disabled>
+						</div>
+
 					</div>
+
 					<div class="col-md-4 col-lg-4">
 						<div class="form-group">
 							<label>Product Route</label>
@@ -113,7 +115,10 @@
 					</div>
 				</div>
 			</div><!-- panel-body -->
+
 		</div> <!-- panel -->
+
 	</div> <!-- col-->
+
 </div>
 @endsection
