@@ -171,7 +171,7 @@
 				<thead>
 					<tr class="text-center">
 						<th>#</th>
-						<th>Item Description</th>
+						<th>Item Name</th>
 						<th>Quantity</th>
 						<th>Unit Cost</th>
 						<th class="text-left">Total</th>
@@ -201,10 +201,12 @@
 						<td colspan="4" class="text-right"><strong>Qty</strong></td>
 						<td class="text-left">{{$order->total_products}}</td>
 					</tr>
+					@if($order->vat>0)
 					<tr>
-						<td colspan="4" class="text-right"><strong>TAX (21%)</strong></td>
+						<td colspan="4" class="text-right"><strong>TAX (10%)</strong></td>
 						<td class="text-left">{{$order->vat}} </td>
 					</tr>
+					@endif
 					<tr>
 						<td colspan="4" class="text-right"><strong>Grand TOTAL</strong></td>
 						<td class="text-left"><strong>{{$order->total}} </strong></td>
@@ -213,10 +215,12 @@
 						<td colspan="4" class="text-right">Payment</td>
 						<td class="text-left">{{$order->pay}} </td>
 					</tr>
+					@if($order->due > 0)
 					<tr>
 						<td colspan="4" class="text-right">Due</td>
 						<td class="text-left">{{$order->due}} </td>
 					</tr>
+					@endif
 					<tr>
 						<td colspan="4" class="text-right"><strong>Change Amount</strong></td>
 						<td class="text-left"><strong>{{$order->returnAmount}} </strong></td>
