@@ -37,9 +37,8 @@
 								</div>
 								@endif
 								<select name="payment_status" class="form-control">
-									<option value="HandCase">HandCase</option>
+									<option value="Cash">Cash</option>
 									<option value="Bank">Bank</option>
-									<option value="Check">Check</option>
 								</select>
 								<span class='text-danger fs-bolder'>@error('payment_status'){{ $message }} @enderror</span>
 							</div>
