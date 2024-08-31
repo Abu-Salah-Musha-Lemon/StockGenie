@@ -4,6 +4,7 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\SuppliersController;
+use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ExpenseController;
@@ -120,6 +121,8 @@ Route::middleware('auth')->group(function () {
     Route::get('/paid-orders', [PosController::class, 'paidAllOrder'])->name('paidOrder');
     Route::get('/download-invoice/{orderId}', [pdfController::class, 'downloadInvoice'])->name('downloadInvoice');
 
+    // customer
+    Route::post('/save-customer-details', [CustomerController::class, 'store']);
 
 
     // Card Controller
