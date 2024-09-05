@@ -29,8 +29,10 @@
                                         <td>{{ $sr++ }}</td>
                                         <td>{{ $row->edit_date }}</td>
                                         <td>
-                                            <a href="{{ URL::to('/edit-attendance/'.$row->edit_date) }}" class="btn btn-sm btn-info">Edit</a>
-                                            <a href="{{ URL::to('/delete-attendance/'.$row->edit_date) }}" class="btn btn-sm btn-danger" id="delete">Delete</a>
+                                            <a href="{{ URL::to('/edit-attendance/'.$row->edit_date) }}"class="btn btn-sm btn-info btn-custom waves-effect waves-light m-b-5 p-b-0"><i
+                                            class="bi bi-pencil-square"></i></a>
+                                            <a href="{{ URL::to('/delete-attendance/'.$row->edit_date) }}" class="btn btn-sm btn-danger btn-custom waves-effect waves-light m-b-5 p-b-0"><i
+                                            class="bi bi-trash3" ></i></a>
                                         </td>
                                     </tr>
                                     @endforeach
