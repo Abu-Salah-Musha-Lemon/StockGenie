@@ -6,15 +6,23 @@
         width: auto;
     }
 </style>
-
+<!-- 
+	
+g represents the hour in 12-hour format without leading zeros.
+i represents minutes with leading zeros.
+A represents AM or PM.
+-->
+@php
+    //date_default_timezone_set("Asia/Dhaka");   
+    //echo date('d-m-Y g:i:s A');
+    //echo  date('h:i:s A ') ;
+@endphp
 <div class="row justify-content-center align-items-center">
     <div class="col-12 col-sm-10 col-md-8 col-lg-8 col-xl-6 col-xxl-6">
         <div class="panel panel-info">
             <div class="panel-heading" style="display:flex; justify-content:space-between; align-items:center">
                 <h3 class="panel-title">Edit Attendance</h3>
-                @if($data->count() > 0)
-                    <span class='text-white'>{{ $data->first()->edit_date }}</span>
-                @endif
+                <span class='text-white'>{{ $data->first()->edit_date  }}</span>
                 <a class="panel-title fs-4" href="{{ URL::to('/all-attendance') }}">
                     <i class="bi bi-box-arrow-in-left" style="font-size:24px;color:white;"></i>
                 </a>
@@ -29,20 +37,24 @@
                                 <tr>
                                     <th>Name</th>
                                     <th>Date</th>
+                                    <!-- <th>Time</th> -->
                                     <th>Photo</th>
-                                    <th>Attendance Action</th>
+                                    <th>Attendance Status</th>
+                                   
                                 </tr>
                             </thead>
                             <tbody>
                                 @foreach($data as $row)
+																{{print_r($row)}}
                                 <tr>
                                     <td>{{ $row->name }}</td>
                                     <td>{{ $row->edit_date }}</td>
+                                    <!-- <td>{{ $row->att_time }}</td> -->
                                     <td>
                                         <img src="{{ URL::to($row->photo) }}" style="width:50px;height:50px;object-fit:cover;">
                                     </td>
                                     <td>
-                                        <div>
+																				<div>
                                             <input type="radio" name="attendance[{{ $row->id }}]" value="Present" @if($row->attendance == 'Present') checked @endif required> Present <br>
                                             <input type="radio" name="attendance[{{ $row->id }}]" value="Absent" @if($row->attendance == 'Absent') checked @endif required> Absent
                                         </div>
@@ -53,6 +65,8 @@
                                     </td>
                                 </tr>
                                 @endforeach
+                                <!-- Row for adding new attendance -->
+
                             </tbody>
                         </table>
                         <button type="submit" class="btn btn-purple waves-effect waves-light">Update</button>

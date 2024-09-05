@@ -51,9 +51,10 @@
 										<input type="radio" name="attendance[{{$row->id}}]" id="attendance" value="Absent"
 											placeholder="Present" required>Absent
 
-										<input type="hidden" name="user_id" value="{{$row->id}}">
-										<input type="hidden" name="att_date" value="{{date('d/m/y')}}">
-										<input type="hidden" name="att_year" value="{{date('Y')}}">
+										<input type="hidden" name="user_id" value="{{ $row->id }}">
+										<input type="hidden" name="att_time" value="{{ now()->format('H:i:s') }}"> <!-- Correct time format -->
+										<input type="hidden" name="att_date" value="{{ now()->format('Y-m-d') }}"> <!-- Correct date format -->
+										<input type="hidden" name="att_year" value="{{ now()->format('Y') }}">
 									</td>
 								</tr>
 
