@@ -19,14 +19,4 @@ yarn-error.log
 /.idea
 /.vscode
 # Ignore image files
-*.jpg
-*.jpeg
-*.png
-*.gif
-*.bmp
-*.tiff
-*.ico
-*.svg
-*.webp
-/image/
-/folder2/
+

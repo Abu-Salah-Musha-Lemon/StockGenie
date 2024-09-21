@@ -7,27 +7,6 @@
 	}
 </style>
 
-
-@php
-$day=date("d-m-y");
-$month=date("M");
-$year=date("Y");
-$totalTodaySale = DB::table('orders')->where('order_date',$day)->sum('pay');
-$totalMonthSale = DB::table('orders')->where('order_month',$month)->sum('pay');
-$totalYearlySale = DB::table('orders')->where('order_year',$year)->sum('pay');
-$totalTodayVat = DB::table('orders')->where('order_date',$day)->sum('vat');
-$totalMonthVat = DB::table('orders')->where('order_month',$month)->sum('vat');
-$totalYearlyVat = DB::table('orders')->where('order_year',$year)->sum('vat');
-$totalOrder = DB::table('orders')->sum('total_products');
-$totalProductUnitcost = DB::table('order_details')->sum('unitcost');
-$totalProduct = DB::table('order_details')->sum('unitcost');
-
-@endphp
-
-
-
-
-
 @php
 $day = date("d-m-y");
 $month = date("M");
@@ -244,8 +223,168 @@ $year = date("Y");
 	</div>
 </div>
 
+<!-- Financial Statement Table -->
+<div class="row">
+    <div class="col-lg-12">
+        <div class="panel panel-border panel-purple">
+            <div class="panel-heading">
+                <h3 class="panel-title">Financial Statement</h3>
+            </div>
+            <div class="panel-body">
+						<div class="table-responsive">
+                <table id="dataTable" class="table table-striped table-bordered">
+                    <thead>
+                        <tr>
+                            <th>Description</th>
+                            <th>Amount</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Total Sales (yearly)</td>
+                            <td>{{$totalYearlySale}}</td>
+                        </tr>
+                        <tr>
+                            <td>Total VAT (yearly)</td>
+                            <td>{{$totalYearlyVat}}</td>
+                        </tr>
+                        <tr>
+                            <td>Annual Profit (yearly)</td>
+                            <td>{{$totalYearlySale - $totalYearlyVat}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+</div>
+            </div>
+        </div>
+    </div>
+</div>
 
+<!-- Chart Containers -->
+<div class="row">
+    <div class="col-lg-4">
+        <canvas id="pieChart"></canvas>
+    </div>
+    <div class="col-lg-4">
+        <canvas id="barChart"></canvas>
+    </div>
+    <div class="col-lg-4">
+        <canvas id="lineChart"></canvas>
+    </div>
+</div>
 
+<!-- Today's Sales Chart Container -->
+<div class="row">
+    <div class="col-lg-12">
+        <canvas id="todaySalesChart"></canvas>
+    </div>
+</div>
 
+<!-- Chart.js Script -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    var ctxPie = document.getElementById('pieChart').getContext('2d');
+    var ctxBar = document.getElementById('barChart').getContext('2d');
+    var ctxLine = document.getElementById('lineChart').getContext('2d');
+    var ctxToday = document.getElementById('todaySalesChart').getContext('2d');
+
+    var pieChart = new Chart(ctxPie, {
+        type: 'pie',
+        data: {
+            labels: ['Total Sales', 'Total VAT', 'Annual Profit'],
+            datasets: [{
+                data: [{{$totalYearlySale}}, {{$totalYearlyVat}}, {{$totalYearlySale - $totalYearlyVat}}],
+                backgroundColor: ['#36A2EB', '#FF6384', '#FFCE56']
+            }]
+        },
+				
+    });
+
+    var barChart = new Chart(ctxBar, {
+        type: 'bar',
+        data: {
+            labels: [
+                'January', 'February', 'March', 'April', 'May', 'June', 'July', 
+                'August', 'September', 'October', 'November', 'December'
+            ],
+            datasets: [{
+                label: 'Monthly Sales',
+                data: [
+                    @foreach($monthlySales as $monthlySale)
+                        {{$monthlySale->total_sales}},
+                    @endforeach
+                ],
+                backgroundColor: '#36A2EB'
+            }]
+        },
+				options: {
+        responsive: true,
+        maintainAspectRatio: false
+    }
+    });
+
+    var lineChart = new Chart(ctxLine, {
+        type: 'line',
+        data: {
+            labels: [
+                'January', 'February', 'March', 'April', 'May', 'June', 'July', 
+                'August', 'September', 'October', 'November', 'December'
+            ],
+            datasets: [{
+                label: 'Monthly Sales',
+                data: [
+                    @foreach($monthlySales as $monthlySale)
+                        {{$monthlySale->total_sales}},
+                    @endforeach
+                ],
+                backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                borderColor: 'rgba(54, 162, 235, 1)',
+                borderWidth: 1
+            }]
+        },options: {
+        responsive: true,
+        maintainAspectRatio: false
+    }
+				
+    });
+
+    var todaySalesChart = new Chart(ctxToday, {
+        type: 'line',
+        data: {
+            labels: [
+                @for ($i = 0; $i < 24; $i++) 
+                    {{$i}}, 
+                @endfor
+            ],
+            datasets: [{
+                label: 'Today\'s Sales',
+                data: [
+                    @foreach($todaySales as $hourSale)
+                        {{$hourSale->total_sales}},
+                    @endforeach
+                ],
+                backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                borderColor: 'rgba(75, 192, 192, 1)',
+                borderWidth: 1
+            }]
+        },
+				options: {
+        responsive: true,
+        maintainAspectRatio: false
+    }
+    });
+</script>
+@section('script')
+<script>
+    $(document).ready(function () {
+        initializeDataTable([	
+					'Date',	'Total Products',	'Sub Total',	'Total']);
+    });
+    $(document).ready(function () {
+        initializeDataTable([	
+					'Description',	'Amount']);
+    });
+    </script>
+@endsection
 
 @endsection
