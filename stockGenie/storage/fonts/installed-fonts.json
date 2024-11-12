@@ -1,0 +1,22 @@
+{
+    "nikosh": {
+        "normal": "nikosh_normal_a7f1725bd3b66dbbff7a8f907bfe141f"
+    },
+    "solaimanlipi": {
+        "normal": "solaimanlipi_normal_42f6b103752e0f96edc271a3284649bf"
+    },
+    "noto serif bengali": {
+        "100": "C:\\Users\\srleo\\Desktop\\project Report\\Stock-Genie\\storage\\fonts\/noto_serif_bengali_100_3b9b2b0ad4ce632a3af5e6c1e5315be8",
+        "200": "C:\\Users\\srleo\\Desktop\\project Report\\Stock-Genie\\storage\\fonts\/noto_serif_bengali_200_941894b0836322952bfd9e463ed4627d",
+        "300": "C:\\Users\\srleo\\Desktop\\project Report\\Stock-Genie\\storage\\fonts\/noto_serif_bengali_300_5a89aa033dc10c165e94fa9a8d27ed1b",
+        "normal": "C:\\Users\\srleo\\Desktop\\project Report\\Stock-Genie\\storage\\fonts\/noto_serif_bengali_normal_7c35b5459eaafca02f871fd5620d2884",
+        "500": "C:\\Users\\srleo\\Desktop\\project Report\\Stock-Genie\\storage\\fonts\/noto_serif_bengali_500_39d956e00c01333938ae14078a7fe338",
+        "600": "C:\\Users\\srleo\\Desktop\\project Report\\Stock-Genie\\storage\\fonts\/noto_serif_bengali_600_bdd9a78394fdc0a62387331968671dae",
+        "bold": "C:\\Users\\srleo\\Desktop\\project Report\\Stock-Genie\\storage\\fonts\/noto_serif_bengali_bold_00b3093a8d80a282aaac74446d6021db",
+        "800": "C:\\Users\\srleo\\Desktop\\project Report\\Stock-Genie\\storage\\fonts\/noto_serif_bengali_800_58cc75a7ee3ac4361d07e774f59492d3",
+        "900": "noto_serif_bengali_900_e0a04d60cfc1182adb0bbb7b848ccf0f"
+    },
+    "noto sans bengali": {
+        "normal": "noto_sans_bengali_normal_9285346d1e124c6ce3587a9f546cbbf1"
+    }
+}
