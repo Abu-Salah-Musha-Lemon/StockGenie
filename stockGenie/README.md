@@ -1,70 +1,152 @@
-xa<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Stock Genie
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+## Developed by
+**Abu Salah Musha Lemon**
 
-## About Laravel
+## Project Description
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+**Stock Genie** is a comprehensive inventory management and point-of-sale (POS) system tailored for small businesses. Developed using Laravel 11 and PHP 8.2.12, this single-user system streamlines inventory tracking and sales transactions with a user-friendly interface.
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+### Key Features
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+1. **Inventory Management:**
+   - Efficiently manage stock levels, product details, and categories.
+   - Track inventory changes and maintain accurate stock records.
 
-## Learning Laravel
+2. **Point of Sale (POS):**
+   - Seamless sales transactions with an intuitive checkout process.
+   - Real-time updates to inventory as sales are processed.
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+3. **User Authentication:**
+   - Secure login and user authentication provided by `laravel/breeze`.
+   - Personalized user experience with role-based access control (if applicable).
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+4. **PDF Reports:**
+   - Generate and download PDF reports for sales, inventory, and other business metrics using `barryvdh/laravel-dompdf`.
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+5. **Shopping Cart:**
+   - Manage and review shopping carts with the `hardevine/shoppingcart` package, providing a smooth user experience for handling sales.
 
-## Laravel Sponsors
+6. **Interactive DataTables:**
+   - Utilize jQuery DataTables for dynamic, sortable, and searchable tables, enhancing data management efficiency.
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+7. **Responsive Design:**
+   - Built with Bootstrap and Bootstrap Icons, ensuring a responsive and visually appealing interface across devices.
 
-### Premium Partners
+8. **Notifications:**
+   - Implement Toastr for displaying real-time notifications and alerts, keeping users informed of system events and updates.
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[WebReinvent](https://webreinvent.com/)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Jump24](https://jump24.co.uk)**
-- **[Redberry](https://redberry.international/laravel/)**
-- **[Active Logic](https://activelogic.com)**
-- **[byte5](https://byte5.de)**
-- **[OP.GG](https://op.gg)**
+## Technologies Used
+
+### Backend
+- **Framework:** Laravel 11
+- **Programming Language:** PHP 8.2.12
+- **Packages:**
+  - `laravel/breeze`: Provides authentication scaffolding for easy user management.
+  - `barryvdh/laravel-dompdf`: Enables PDF generation for reports and invoices.
+  - `hardevine/shoppingcart`: Adds shopping cart functionality for handling sales and transactions.
+
+### Frontend
+- **JavaScript:** Enhances interactivity and user experience.
+- **Bootstrap:** Ensures responsive and visually appealing design.
+- **Bootstrap Icons:** Provides a variety of icons for a cleaner UI.
+- **Toastr:** Displays notifications to keep users informed of important actions and updates.
+- **jQuery DataTables:** Facilitates interactive and user-friendly tables for managing and viewing data.
+
+## Installation
+
+To get started with Stock Genie, follow these steps:
+
+1. **Clone the Repository:**
+   ```bash
+   git clone https://github.com/Abu-Salah-Musha-Lemon/Stock-Genie.git
+   cd stock-genie
+   ```
+
+2. **Install Backend Dependencies:**
+   ```bash
+   composer install
+   ```
+
+3. **Install Frontend Dependencies:**
+   ```bash
+   npm install
+   ```
+
+4. **Configure Environment:**
+   - Copy the `.env.example` file to `.env` and update the environment variables as needed.
+   - Generate an application key:
+     ```bash
+     php artisan key:generate
+     ```
+   - Cache configuration:
+     ```bash
+     php artisan config:cache
+     ```
+
+5. **Additional Configuration:**
+   Configuration `php.ini`
+
+    - Ensure the following extension is enabled in your `php.ini` file:(it is use for download and unzip file)
+
+    ```ini
+    extension=zip
+    ```
+   - Ensure the following extension is enabled in your `php.ini` file:(it is use for pdf)
+
+    ```ini
+    extension=gd
+    ```
+
+6. **Run Migrations:**
+   ```bash
+   php artisan migrate
+   ```
+
+7. **Build Frontend Assets:**
+   ```bash
+   npm run dev
+   ```
+
+8. **Start the Development Server:**
+   ```bash
+   php artisan serve
+   ```
+
+## Usage
+
+Stock Genie is designed for small business owners who require a straightforward and effective tool to manage their inventory and sales operations. With its single-user system architecture, it provides a focused solution without the complexities of multi-user management. Access Stock Genie by navigating to `http://localhost:8000` in your web browser. Log in using the credentials set up during the installation process.
 
 ## Contributing
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+We welcome contributions to enhance Stock Genie. Please follow the standard fork-and-pull request workflow:
 
-## Code of Conduct
-
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
-
-## Security Vulnerabilities
-
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+1. Fork the repository.
+2. Create a feature branch (`git checkout -b feature-branch`).
+3. Commit your changes (`git commit -am 'Add new feature'`).
+4. Push to the branch (`git push origin feature-branch`).
+5. Create a new Pull Request.
 
 ## License
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+Stock Genie is open-source software licensed under the MIT License. See the [LICENSE](LICENSE) file for more details.
 
+## Contact
 
-### change tax amount  
-stockGenie\vendor\hardevine\shoppingcart\config\cart.php
+For any inquiries or support, please reach out to [lemonahmed512@gmail.com](mailto:lemonahmed512@gmail.com).
+
+---
+
+Thank you for using Stock Genie! We hope it helps you efficiently manage your inventory and sales operations.
+
+## Additional Configuration
+
+### Changing Tax Amount
+
+To update the tax amount, modify the configuration file located at:
+
+```
+stockGenie/vendor/hardevine/shoppingcart/config/cart.php
+```
+
+Make the necessary adjustments to the tax amount in this file to suit your business requirements.

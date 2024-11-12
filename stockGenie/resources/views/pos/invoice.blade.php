@@ -13,13 +13,10 @@
 	<div class="modal-dialog">
 		<div class="modal-content">
 			<div class="modal-header">
-				<div class="invoice" style="display: flex;
-   
-  
-    justify-content: space-between;">
-				<h4 class="modal-title text-info">Final Invoice </span></h4>
-				<h4 class="modal-title text-info">Total: {{ number_format(Cart::total(), 0) }}</h4>
-				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">X</button> <br>
+				<div class="invoice" style="display: flex; justify-content: space-between;">
+					<h4 class="modal-title text-info">Final Invoice </span></h4>
+					<h4 class="modal-title text-info">Total: {{ number_format(Cart::total(), 0) }}</h4>
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">X</button> <br>
 				</div>
 
 				<form role="form" action="{{ URL::to('/final-invoice/') }}" method="GET">
@@ -71,7 +68,8 @@
 					<input type="hidden" name="vat" value="{{ number_format(Cart::tax(), 0) }}" step="1">
 					<input type="hidden" name="total" value="{{ number_format(Cart::total(), 0) }}" step="1">
 					<div class="modal-footer">
-						<button type="button" class="btn btn-danger w-md waves-effect waves-light w-sm" data-dismiss="modal">Close</button>
+						<button type="button" class="btn btn-danger w-md waves-effect waves-light w-sm"
+							data-dismiss="modal">Close</button>
 						<button type="submit" class="btn btn-primary w-md waves-effect waves-light w-sm">Print Invoice</button>
 					</div>
 				</form>
@@ -109,7 +107,8 @@
 			<div class="panel-body" id='invoice'>
 				<div class="clearfix">
 					<div class="pull-left">
-						<h4 class="text-right"><img src="{{asset('images/logo/StockGenie.png')}}" alt="Stock Genie"style="width: 70px; height: 70px; padding: 6px;"></h4>
+						<h4 class="text-right"><img src="{{asset('images/logo/StockGenie.png')}}" alt="Stock Genie"
+								style="width: 70px; height: 70px; padding: 6px;"></h4>
 					</div>
 					<div class="pull-right">
 						<h4>Invoice <br>

@@ -7,33 +7,12 @@
 	}
 </style>
 
-
-@php
-$day=date("d-m-y");
-$month=date("M");
-$year=date("Y");
-$totalTodaySale = DB::table('orders')->where('order_date',$day)->sum('pay');
-$totalMonthSale = DB::table('orders')->where('order_month',$month)->sum('pay');
-$totalYearlySale = DB::table('orders')->where('order_year',$year)->sum('pay');
-$totalTodayVat = DB::table('orders')->where('order_date',$day)->sum('vat');
-$totalMonthVat = DB::table('orders')->where('order_month',$month)->sum('vat');
-$totalYearlyVat = DB::table('orders')->where('order_year',$year)->sum('vat');
-$totalOrder = DB::table('orders')->sum('total_products');
-$totalProductUnitcost = DB::table('order_details')->sum('unitcost');
-$totalProduct = DB::table('order_details')->sum('unitcost');
-
-@endphp
-
-
-
-
-
 @php
 $day = date("d-m-y");
 $month = date("M");
 $year = date("Y");
 @endphp
-
+@if(auth()->user()->role === 0)
 <div class="row">
 
 	<div class="col-md-6 col-sm-6 col-lg-3">
@@ -184,11 +163,12 @@ $year = date("Y");
 
 </div>
 
+<!-- Today Total Financial Statement  -->
 <div class="row">
 	<div class="col-lg-12">
 		<div class="panel panel-border panel-purple widget-s-1">
 			<div class="panel-heading">
-			<h3 class="panel-title">Today Total Financial Statement</h3>
+				<h3 class="panel-title">Today Total Financial Statement</h3>
 			</div>
 			<div class="panel-body">
 				<div class="row">
@@ -203,7 +183,7 @@ $year = date("Y");
 					@endphp
 					<div class="col-12">
 						<div class="table-responsive">
-							<table id="dataTable" class="table table-striped table-bordered">
+							<table id="todayTotalFinancialTable" class="table table-striped table-bordered">
 								<thead>
 									<tr>
 										<th>Date</th>
@@ -244,8 +224,150 @@ $year = date("Y");
 	</div>
 </div>
 
+<!-- Financial Statement Table -->
+<div class="row">
+	<div class="col-lg-12">
+		<div class="panel panel-border panel-purple">
+			<div class="panel-heading">
+				<h3 class="panel-title">Financial Statement</h3>
+			</div>
+			<div class="panel-body">
+				<div class="table-responsive">
+					<table id="financialStatementTable" class="table table-striped table-bordered">
+						<thead>
+							<tr>
+								<th>Description</th>
+								<th>Amount</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td>Total Sales (yearly)</td>
+								<td>{{$totalYearlySale}}</td>
+							</tr>
+							<tr>
+								<td>Total VAT (yearly)</td>
+								<td>{{$totalYearlyVat}}</td>
+							</tr>
+							<tr>
+								<td>Annual Profit (yearly)</td>
+								<td>{{$totalYearlySale - $totalYearlyVat}}</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+@endif
+<!-- Stock details  -->
+<div class="row">
+    <div class="col-lg-6">
+        <div class="panel panel-border panel-danger widget-s-1">
+            <div class="panel-heading">
+                <h3 class="panel-title">Low Stock alert</h3>
+            </div>
+            <div class="panel-body">
+                <div class="row">
+                    @php
+                    // Filter products with quantity less than 10 and paginate
+                    $lowStockProducts = DB::table('products')
+                        ->where('product_qty', '<', 10)
+                        ->get();
+                    @endphp
+                    <div class="col-12">
+                        <div class="table-responsive">
+                            <table class="table table-striped table-bordered" id="lowStockTable">
+                                <thead>
+                                    <tr>
+                                        <th>SL</th>
+                                        <th>Product Name</th>
+                                        <th>Product Code</th>
+                                        <th>Quantity</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @php $s = 1; @endphp
+                                    @foreach($lowStockProducts as $row)
+                                    <tr>
+                                        <td>{{ $s++ }}</td>
+                                        <td>{{ $row->product_name }}</td>
+                                        <td>{{ $row->product_code }}</td>
+                                        <td><span class='badge badge-danger'>{{ $row->product_qty }}</span></td>
+                                    </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-6">
+        <div class="panel panel-border panel-success widget-s-1">
+            <div class="panel-heading">
+                <h3 class="panel-title">New Product Alert</h3>
+            </div>
+            <div class="panel-body">
+                <div class="row">
+                    @php
+                    $date = date("Y-m-d");
+                    // Fetch all products
+                    $newProducts = DB::table('products')->get();
+                    @endphp
+                    <div class="col-12">
+                        <div class="table-responsive">
+                            <table class="table table-striped table-bordered" id="newProductTable">
+                                <thead>
+                                    <tr>
+                                        <th>SL</th>
+                                        <th>Product Name</th>
+                                        <th>Product Code</th>
+                                        <th>Quantity</th>
+                                        <th>Price</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @php $s = 1; @endphp
+                                    @foreach($newProducts as $row)
+                                    @if(explode(' ', $row->updated_at)[0] == $date)
+                                    <tr>
+                                        <td>{{ $s++ }}</td>
+                                        <td>{{ $row->product_name }}</td>
+                                        <td>{{ $row->product_code }}</td>
+                                        <td><span class='badge badge-success'>{{ $row->product_qty }}</span></td>
+                                        <td>{{ $row->selling_price }} ৳</td>
+                                    </tr>
+                                    @endif
+                                    @endforeach
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
 
 
+@section('script')
+<script>
+    $(document).ready(function () {
+        // Initialize specific tables with their IDs
+        initializeDataTable(['Date', 'Total Products', 'Sub Total', 'Total'], '#todayTotalFinancialTable');
+        initializeDataTable(['Description', 'Amount'], '#financialStatementTable');
+        initializeDataTable(['SL', 'Product Name', 'Product Code', 'Quantity'], '#lowStockTable');
+        initializeDataTable(['SL', 'Product Name', 'Product Code', 'Quantity', 'Price'], '#newProductTable');
+        
+        // Initialize default table with only column names
+        initializeDataTable(['Column1', 'Column2']); // This will initialize #dataTable
+    });
+</script>
+@endsection
 
 @endsection

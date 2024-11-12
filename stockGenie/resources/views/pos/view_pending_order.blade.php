@@ -144,7 +144,7 @@
 					</div>
 				</div>
 				<hr />
-				
+
 			</div>
 
 			<div class="panel-body" id="invoice">
@@ -230,8 +230,10 @@
 						<p class="text-right">
 							Total Qty: {{$order->total_products}}
 						</p>
+						@if($order->vat>0)
 						<p class="text-right">Tax: {{$order->vat}} ৳</p>
 						<hr />
+						@endif
 						<h4 class="text-right">
 							Grand Total : {{$order->total}} ৳
 						</h4>
@@ -256,8 +258,8 @@
 
 						@if($order->order_status == 'success' && $order->due >0.00)
 
-						<a href="{{URL::to('/download-invoice/'.$order->id)}}"
-								class="btn btn-success  waves-effect waves-light"><i class="bi bi-printer"></i>
+						<a href="{{URL::to('/download-invoice/'.$order->id)}}" class="btn btn-success  waves-effect waves-light"><i
+								class="bi bi-printer"></i>
 						</a>
 
 						<button type="submit" class="btn btn-inverse waves-effect waves-light" id="printPi">
@@ -268,8 +270,8 @@
 
 						@elseif($order->order_status == 'success' && $order->due== 0.00)
 
-						<a href="{{URL::to('/download-invoice/'.$order->id)}}"
-								class="btn btn-success  waves-effect waves-light"><i class="bi bi-printer"></i>
+						<a href="{{URL::to('/download-invoice/'.$order->id)}}" class="btn btn-success  waves-effect waves-light"><i
+								class="bi bi-printer"></i>
 						</a>
 
 						<button type="submit" class="btn btn-inverse waves-effect waves-light" id="printPi">

@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('attendances', function (Blueprint $table) {
             $table->id();
             $table->integer('user_id');
+            $table->string('att_time');
             $table->string('att_date');
             $table->string('att_year');
             $table->string('attendance');

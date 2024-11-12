@@ -22,49 +22,54 @@ class AttendanceController extends Controller
      */
     public function create()
     {
-        $employees = DB::table('employees')->get();
+        $employees = DB::table('employees')
+                    ->join('users','employees.user_id','users.id')
+                    ->select('employees.*','users.name')
+                    ->get();
+        
         return view('attendance.take_attendance',compact('employees'));
     }
 
     public function store(Request $request)
-{   
-    $today = $request->att_date;
+    {   
+        $today = $request->att_date;
 
-    $table = DB::table('attendances')->where('att_date',$today)->first();
+        $table = DB::table('attendances')->where('att_date',$today)->first();
 
-    if ($table !=null) {
-        $notification = array(
-                    'message' => 'Attendance already Taken ',
-                    'alert-type' => 'error'
-                ); 
-                return redirect()->back()->with($notification);
-                
-    }else{
-            $data = [];
-                foreach ($request->attendance as $user_id => $attendance) {
-                    $data[] = [
-                        'user_id' => $user_id,
-                        'att_date' => $request->att_date,
-                        'att_year' => $request->att_year,
-                        'attendance' => $attendance,
-                        'edit_date' => date('d_m_y'), // If you're capturing edit date as well
-                    ];
-                }
-                $insert = DB::table('attendances')->insert($data);
-                
-                // Optionally, you might want to check if the insertion was successful
-                if ($insert) {
-                    $notification = array(
-                        'message' => 'Attendance recorded successfully ',
-                        'alert-type' => 'success'
+        if ($table !=null) {
+            $notification = array(
+                        'message' => 'Attendance already Taken ',
+                        'alert-type' => 'error'
                     ); 
-                    return redirect()->route('allAttendance')->with($notification);
-                } else {
-                    return redirect()->back()->with('error', 'Failed to record attendance.');
-                }
+                    return redirect()->back()->with($notification);
+                    
+        }else{
+                $data = [];
+                    foreach ($request->attendance as $user_id => $attendance) {
+                        $data[] = [
+                            'user_id' => $user_id,
+                            'att_time' => $request->att_time,
+                            'att_date' => $request->att_date,
+                            'att_year' => $request->att_year,
+                            'attendance' => $attendance,
+                            'edit_date' => date('d_m_y'), // If you're capturing edit date as well
+                        ];
+                    }
+                    $insert = DB::table('attendances')->insert($data);
+                    
+                    // Optionally, you might want to check if the insertion was successful
+                    if ($insert) {
+                        $notification = array(
+                            'message' => 'Attendance recorded successfully ',
+                            'alert-type' => 'success'
+                        ); 
+                        return redirect()->route('allAttendance')->with($notification);
+                    } else {
+                        return redirect()->back()->with('error', 'Failed to record attendance.');
+                    }
+        }
+    
     }
-   
-}
 
     
     /**
@@ -74,7 +79,8 @@ class AttendanceController extends Controller
     {
         $allAtt = DB::table('attendances')
         ->join('employees','employees.id','attendances.user_id')
-        ->select('employees.name','attendances.*')
+        ->join('users','employees.user_id','users.id')
+        ->select('employees.*','attendances.*','users.name')
         ->where('attendances.id',$attendance)
         ->first();
         return view('attendance.all_attendance',compact('allAtt'));
@@ -84,53 +90,60 @@ class AttendanceController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
+
     public function edit(string $edit_date)
     {
-        $date=DB::table('attendances')->where('edit_date',$edit_date)->first();
-       $data = DB::table('attendances')
-       ->join('employees','attendances.user_id','employees.id')
-       ->select('employees.name','employees.photo','attendances.*')
-       ->get();
-       
-       return view('attendance.edit_attendance',compact('data','date'));
+        $data = DB::table('attendances')
+        ->join('employees','employees.id','attendances.user_id')
+        ->join('users','employees.user_id','users.id')
+        ->select('employees.*','attendances.*','users.name')
+            ->where('attendances.edit_date', $edit_date)
+            ->orderBy('attendances.att_time') // Optional: order by time
+            ->get();
+    
+        return view('attendance.edit_attendance', compact('data'));
     }
+    
 
     /**
      * Update the specified resource in storage.
      */
 
-    public function update(Request $request)
-    {
-        $data = [];
-        foreach ($request->attendance as $id => $attendance) {
-            $data[] = [
-                'id' => $id,
-                'att_date' => $request->att_date,
-                'att_year' => $request->att_year,
-                'attendance' => $attendance,
-            ];
-        }
-    
-        // Now you have an array of attendance data with correct keys
-    
-        // You can perform the update operation here using $data array
-    
-        // Example update operation:
-        foreach ($data as $attendanceData) {
-            DB::table('attendances')
-                ->where('id', $attendanceData['id'])
-                ->update([
-                    'att_date' => $attendanceData['att_date'],
-                    'att_year' => $attendanceData['att_year'],
-                    'attendance' => $attendanceData['attendance'],
-                    // Add more columns to update if necessary
-                ]);
-        }
-    
-        // You might want to add success/error handling here
-    
-        return redirect()->route('allAttendance')->with('message', 'Attendance updated successfully');
-    }
+     public function update(Request $request)
+     {
+         // Validate the incoming data
+         $request->validate([
+             'attendance.*' => 'required|in:Present,Absent',
+             'ids.*' => 'required|integer|exists:attendances,id',
+             'new_user_id' => 'nullable|integer|exists:employees,id',
+             'new_att_time' => 'nullable|date_format:H:i',
+             'new_attendance_status' => 'nullable|in:Present,Absent',
+         ]);
+     
+         // Update existing records
+         foreach ($request->attendance as $id => $attendance) {
+             DB::table('attendances')
+                 ->where('id', $id)
+                 ->update([
+                     'attendance' => $attendance, // Ensure this matches the column name
+                     'att_time' => $request->att_time,
+                 ]);
+         }
+     
+        //  // Insert new records
+        //  if ($request->new_user_id && $request->new_att_time && $request->new_attendance_status) {
+        //      DB::table('attendances')->insert([
+        //          'user_id' => $request->new_user_id,
+        //          'edit_date' => $request->new_edit_date,
+        //          'att_time' => $request->new_att_time,
+        //          'attendance' => $request->new_attendance_status, // Ensure this matches the column name
+        //      ]);
+        //  }
+     
+         return redirect()->route('allAttendance')->with('message', 'Attendance updated successfully');
+     }
+     
+     
     
     /**
      * Remove the specified resource from storage.

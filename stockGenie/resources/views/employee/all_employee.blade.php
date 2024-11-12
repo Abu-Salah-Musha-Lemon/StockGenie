@@ -24,6 +24,7 @@
 							<table id="dataTable" class="table table-striped table-bordered">
 								<thead>
 									<tr>
+										<th>SR/N</th>
 										<th>Name</th>
 										<th>Phone</th>
 										<th>Address</th>
@@ -34,29 +35,38 @@
 								</thead>
 
 								<tbody>
-									@foreach($employees as $row)
-									<tr>
-										<td>{{$row->name}}</td>
-										<td >{{$row->phone}}</td>
-										<td>{{$row->address}}</td>
-										<td class="ignore-row">
-											<img src="{{$row->photo}}" style="width:50px;height:50px;object:cover;">
-										</td>
-										<td>{{$row->salary}}</td>
-										<td class="ignore-row" style="display: flex;gap: 4px;">
-											<a href="{{URL::to('/edit-employee'.$row->id)}}"
-												class="btn btn-sm btn-info btn-custom waves-effect waves-light m-b-5 p-b-0"><i
-													class="bi bi-pencil-square" style="font-size: 18px;"></i></a>
-											<a href="{{URL::to('/view-employee'.$row->id)}}"
-												class="btn btn-sm btn-primary btn-custom waves-effect waves-light m-b-5 p-b-0"><i
-													class="bi bi-cast" style="font-size: 18px;"></i></a>
-											<a href="{{URL::to('/delete-employee'.$row->id)}}"
-												class="btn btn-sm btn-danger btn-custom waves-effect waves-light m-b-5 p-b-0"><i
-													class="bi bi-trash3" style="font-size: 18px;"></i></a>
+								@php $s = 0; @endphp
+								@foreach($employees as $row)
+    <tr>
+        <td>{{ $s+=1 }}</td>
+        <td>{{ $row->name }}</td>
+        <td>{{ $row->phone }}</td>
+        <td>{{ $row->address }}</td>
+        <td class="ignore-row">
+					<img src="{{ asset($row->photo) }}" style="width:50px;height:50px;object-fit:cover;">
+        </td>
+        <td>{{ $row->salary }}</td>
+        <td class="ignore-row" style="display: flex; gap: 4px;">
+            <!-- Edit button -->
+            <a href="{{ route('edit-employee', ['id' => $row->id]) }}" class="btn btn-sm btn-info btn-custom waves-effect waves-light m-b-5 p-b-0">
+                <i class="bi bi-pencil-square" style="font-size: 18px;"></i>
+            </a>
 
-										</td>
-									</tr>
-									@endforeach
+            <!-- View button -->
+            <a href="{{ route('view-employee', ['id' => $row->id]) }}" class="btn btn-sm btn-primary btn-custom waves-effect waves-light m-b-5 p-b-0">
+                <i class="bi bi-cast" style="font-size: 18px;"></i>
+            </a>
+
+            <!-- Delete button only for role 1 -->
+            @if($row->role == 1) 
+                <a href="{{ route('delete-employee', ['id' => $row->id]) }}" class="btn btn-sm btn-danger btn-custom waves-effect waves-light m-b-5 p-b-0" onclick="confirmation(event)">
+                    <i class="bi bi-trash3" style="font-size: 18px;"></i>
+                </a>
+            @endif
+        </td>
+    </tr>
+@endforeach
+
 								</tbody>
 							</table>
 						</div>
@@ -70,6 +80,24 @@
 </div>
 @section('script')
 <script>
+	 function confirmation(ev) {
+    ev.preventDefault();  // Prevent the default link behavior
+    var urlToRedirect = ev.currentTarget.getAttribute('href');  
+    console.log(urlToRedirect); 
+
+    swal({
+        title: "Are you sure to delete this Employee?",
+        text: "You will not be able to revert this!",
+        icon: "warning",
+        buttons: true,
+        dangerMode: true,
+    }).then((willDelete) => {
+        if (willDelete) {
+            // Redirect if confirmed
+            window.location.href = urlToRedirect;
+        }
+    });
+}
     $(document).ready(function () {
         initializeDataTable(['Name', 'Phone', 'Salary', 'Salary']);
     });

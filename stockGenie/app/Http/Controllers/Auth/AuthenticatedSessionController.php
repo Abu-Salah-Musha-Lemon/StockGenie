@@ -28,7 +28,17 @@ class AuthenticatedSessionController extends Controller
 
         $request->session()->regenerate();
 
-        return redirect()->intended(route('dashboard', absolute: false));
+        $authRole = Auth::user()->role; // Access role as a property
+    
+        if ($authRole === 0 ) {
+            return redirect()->intended(route('admin.dashboard'));  // Redirect to the same dashboard for both roles
+        } elseif ( $authRole === 1) {
+            return redirect()->intended(route('employee.dashboard'));  // Redirect to the same dashboard for both roles
+            # code...
+        } else{
+            // If the user has an undefined role, redirect them back to the login page or show an error
+            return redirect()->route('login')->withErrors('Unauthorized access.');
+        }
     }
 
     /**

@@ -49,7 +49,7 @@
 												class="btn btn-sm btn-info btn-custom waves-effect waves-light"><i
 													class="bi bi-pencil-square fs-2"></i></a>
 											<a href="{{URL::to('/delete-supplier'.$row->id)}}"
-												class="btn btn-sm btn-danger btn-custom waves-effect waves-light" id="delete"><i
+												class="btn btn-sm btn-danger btn-custom waves-effect waves-light" id="delete"  onclick="confirmation(event)"><i
 													class="bi bi-trash fs-2"></i></a>
 										</td>
 									</tr>
@@ -71,6 +71,24 @@
 </div>
 @section('script')
 <script>
+	 function confirmation(ev) {
+    ev.preventDefault();  // Prevent the default link behavior
+    var urlToRedirect = ev.currentTarget.getAttribute('href');  
+    console.log(urlToRedirect); 
+
+    swal({
+        title: "Are you sure to delete this Supplier?",
+        text: "You will not be able to revert this!",
+        icon: "warning",
+        buttons: true,
+        dangerMode: true,
+    }).then((willDelete) => {
+        if (willDelete) {
+            // Redirect if confirmed
+            window.location.href = urlToRedirect;
+        }
+    });
+}
 	$(document).ready(function () {
 		initializeDataTable([
 			'Name', 'Phone', 'Address', '	Shop Name']);

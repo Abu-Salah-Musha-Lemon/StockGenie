@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules;
 use Illuminate\View\View;
-
+use DB;
 class RegisteredUserController extends Controller
 {
     /**
@@ -40,6 +40,13 @@ class RegisteredUserController extends Controller
             'email' => $request->email,
             'password' => Hash::make($request->password),
         ]);
+         // Insert employee_id into the employee table
+        DB::table('employees')->insert([
+            'employee_id' => $user->id,
+            'name' => $user->name, 
+            'email' => $user->email, 
+        ]);
+       
 
         event(new Registered($user));
 

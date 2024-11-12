@@ -65,7 +65,23 @@
                             </div>
                         </div>
 
-                        <div class="col-12 col-sm-12 col-md-4 mb-4">
+                        <div class="col-12 col-sm-12 col-md-4 ">
+                            <div class="form-group">
+                                <label>Password</label>
+                                <div class="col-xs-12 " style="margin-bottom:10px">
+                                    <input class="form-control" id="password" type="password" name="password" required
+                                        autocomplete="new-password" placeholder="Password">
+                                </div>
+                                <x-input-error :messages="$errors->get('password')" class="mt-2" />
+                            </div>
+
+                            <div class="form-group">
+                                <div class="col-xs-12 " style="margin-bottom:10px">
+                                    <input class="form-control" id="password_confirmation" type="password"
+                                        name="password_confirmation" required autocomplete="new-password" placeholder="Confirmation Password" />
+                                </div>
+                                <x-input-error :messages="$errors->get('password_confirmation')" class="mt-2" />
+                            </div>
                             <div class="form-group">
                                 <label>Experience</label>
                                 <input type="text" class="form-control @error('experience') is-invalid @enderror" name="experience" placeholder="Enter experience" value="{{old('experience')}}" required>

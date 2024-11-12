@@ -34,7 +34,7 @@
 										<span>Photo</span>
 									</div>
 									<img id="image" style="width: 190px;height: 190px; object: cover; border-radius: 16px;"
-										src="{{ $editUser->photo}}" /><br />
+										src="{{ asset($editUser->photo)}}" /><br />
 									<div class="fileUpload btn btn-success waves-effect waves-light" style="margin-top:10px">
 										<span><i class="ion-upload m-r-5"></i>Upload</span>
 										<input type="file" name="photo" id="photo" accept="image/*" class="upload" class="form-control"
@@ -50,7 +50,7 @@
 							<div class="form-group">
 								<label>Name</label>
 								<input type="text" class="form-control" name="name" id="name" placeholder="Enter Name"
-									value="{{$editUser->name}}">
+									value="{{$user->name}}">
 								<span class='text-danger'>@error('name'){{ $message }} @enderror</span>
 							</div>
 
@@ -71,7 +71,7 @@
 							<div class="form-group">
 								<label>Email address</label>
 								<input type="email" class="form-control" name="email" id="email" placeholder="Enter email"
-									value="{{$editUser->email}}">
+									value="{{$user->email}}">
 								<span class='text-danger'>@error('email'){{ $message }} @enderror</span>
 							</div>
 

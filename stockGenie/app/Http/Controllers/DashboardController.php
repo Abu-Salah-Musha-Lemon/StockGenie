@@ -4,9 +4,10 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use DB;
+use Illuminate\Support\Facades\Auth;
+
 class DashboardController extends Controller
 {
- 
     public function index()
     {
         // Fetch the necessary data
@@ -37,21 +38,44 @@ class DashboardController extends Controller
             ->groupBy(DB::raw('HOUR(created_at)'))
             ->get();
     
-        return view('dashboard', compact(
-            'totalTodaySale',
-            'totalMonthSale',
-            'totalYearlySale',
-            'totalTodayVat',
-            'totalMonthVat',
-            'totalYearlyVat',
-            'totalOrder',
-            'totalProductUnitcost',
-            'totalProductStore',
-            'monthlySales',
-            'todaySales'
-        ));
-    }
-    
-    
+        // Get the authenticated user role
+        $user = Auth::user();
+        $role = $user->role;  // Assuming role is stored as an integer or string
 
+        // Check if the user is an admin or an employee
+        if ($role == 0) {
+            // Logic for admin dashboard
+            return view('dashboard', compact(
+                'totalTodaySale',
+                'totalMonthSale',
+                'totalYearlySale',
+                'totalTodayVat',
+                'totalMonthVat',
+                'totalYearlyVat',
+                'totalOrder',
+                'totalProductUnitcost',
+                'totalProductStore',
+                'monthlySales',
+                'todaySales'
+            ));
+        } elseif ($role == 1) {
+            // Logic for employee dashboard
+            return view('dashboard', compact(
+                'totalTodaySale',
+                'totalMonthSale',
+                'totalYearlySale',
+                'totalTodayVat',
+                'totalMonthVat',
+                'totalYearlyVat',
+                'totalOrder',
+                'totalProductUnitcost',
+                'totalProductStore',
+                'monthlySales',
+                'todaySales'
+            ));
+        }
+
+        // If no role or unrecognized role, return a default dashboard or error
+        abort(403, 'Unauthorized access.');
+    }
 }

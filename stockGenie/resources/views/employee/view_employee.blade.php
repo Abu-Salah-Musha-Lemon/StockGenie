@@ -26,10 +26,10 @@
 							<div class="input-group mb-3"
 								style="display: flex;justify-content: center;align-items: center;flex-direction: column;">
 								<div class="input-group-prepend">
-									<span>Product Photo</span>
+									<span>Photo</span>
 								</div>
 								<img id="image" style="width: 190px;height: 190px;border-radius:16px;border:1px solid rgba(0 0 0 0.1) "
-									src="{{ $single->photo}}" /><br />
+									src="{{asset( $single->photo)}}" /><br />
 							</div>
 						</div>
 					</div>
@@ -37,7 +37,7 @@
 
 						<div class="form-group">
 							<label>Name</label>
-							<input type="text" class="form-control" name="name" placeholder="Enter Name" value="{{$single->name}}"
+							<input type="text" class="form-control" name="name" placeholder="Enter Name" value="{{$singleUser->name}}"
 								disabled>
 						</div>
 
@@ -56,7 +56,7 @@
 
 						<div class="form-group">
 							<label>Email address</label>
-							<input type="email" class="form-control" name="email" placeholder="Enter email" value="{{$single->email}}"
+							<input type="email" class="form-control" name="email" placeholder="Enter email" value="{{$singleUser->email}}"
 								disabled>
 						</div>
 
