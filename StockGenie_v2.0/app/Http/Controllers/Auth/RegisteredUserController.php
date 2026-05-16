@@ -35,23 +35,38 @@ class RegisteredUserController extends Controller
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
         ]);
 
+           DB::beginTransaction();
+
+    try {
+
         $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
         ]);
-         // Insert employee_id into the employee table
-         DB::table('employees')->insert([
-            'user_id' => $user->id,
-            // 'name' => $request->name, 
-            // 'email' => $request->email, 
-        ]);
-       
 
-        event(new Registered($user));
+        $employeeCode = 'EMP-' . date('Y') . '-' . rand(1000, 9999);
+
+        DB::table('employees')->insert([
+            'user_id' => $user->id,
+            'employee_code' => $employeeCode,
+            'hire_date' => now(),
+            'created_at' => now(),
+            'updated_at' => now(),
+        ]);
+
+        DB::commit();
 
         Auth::login($user);
 
-        return redirect(route('dashboard', absolute: false));
+        return redirect()->route('dashboard');
+
+    } catch (\Exception $e) {
+
+        DB::rollBack();
+
+        dd($e->getMessage()); // show real error
+
     }
+}
 }

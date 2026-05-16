@@ -27,56 +27,45 @@ class SuppliersController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
-{
-    // Validating the incoming request
-    $validated = $request->validate([
-        'name' => 'required',
-        'phone' => 'required|unique:suppliers,phone|digits_between:10,11',
-        'address' => 'required',
-        'type' => 'required',
-        'shopName' => 'required',
-    ], [
-        'type' => 'Select the Supplier Type.'
-    ]
-    );
+   public function store(Request $request)
+    {
+        $validated = $request->validate([
+            'name' => 'required',
+            'phone' => 'required|unique:suppliers,phone|digits_between:10,11|regex:/^[0-9\-\+\(\)\s]+$/',
+            'address' => 'required',
+            'type' => 'required',
+            'shopName' => 'required',
+        ], [
+            'type.required' => 'Select the Supplier Type.',
+        ]);
 
-   
-        // Creating an array of data to insert into the database
-        $data = [
-            'name' => $request->input('name'),
-            'phone' => $request->input('phone'),
-            'address' => $request->input('address'),
-            'type' => $request->input('type'),
-            'shopName' => $request->input('shopName'),
-        ];
+        try {
 
-        // Inserting data into the database
-        $insert = DB::table('suppliers')->insert($data);
+            DB::transaction(function () use ($validated) {
 
-        if ($insert) {
-            // Data inserted successfully
-            $notification = [
+                DB::table('suppliers')->insert([
+                    'name' => $validated['name'],
+                    'phone' => $validated['phone'],
+                    'address' => $validated['address'],
+                    'type' => $validated['type'],
+                    'shopName' => $validated['shopName'],
+                ]);
+
+            });
+
+            return redirect()->back()->with([
                 'message' => 'Supplier added successfully',
                 'alert-type' => 'success'
-            ];
-            return redirect()->back()->with($notification);
-        } else {
-            // Insert failed
-            $notification = [
-                'message' => 'Failed to add supplier',
-                'alert-type' => 'error'
-            ];
-            return redirect()->back()->with($notification);
-        }
-   
-    $notification = [
-        'message' => 'Input all the data Correctly',
-        'alert-type' => 'error'
-    ];
-    return redirect()->back()->with($notification);
-}
+            ]);
 
+        } catch (\Exception $e) {
+
+            return redirect()->back()->withInput()->with([
+                'message' => $e->getMessage(),
+                'alert-type' => 'error'
+            ]);
+        }
+    }
 
     /**
      * Display the specified resource.
@@ -104,80 +93,71 @@ class SuppliersController extends Controller
     
     public function update(Request $request, $id)
     {
-        // Validating the incoming request
-        $validated = $request->validate([
-            'name' => 'required',
-            'phone' => 'required|digits_between:11,14',
-            'address' => 'required',
-            'type' => 'required',
-            'shopName' => 'required',
+        // only allows numeric digits (0-9) and counts the digits only.
+        // 'phone' => 'sometimes|required|regex:/^[0-9\-\+\(\)\s]+$/',
+         $request->merge([
+        'phone' => preg_replace('/\D/', '', $request->phone)
         ]);
-    
+
+        $validated = $request->validate([
+            'name' => 'sometimes|required',
+            'phone' => 'sometimes|required|regex:/^[0-9\-\+\(\)\s]+$/',
+            'address' => 'sometimes|required',
+            'type' => 'sometimes|required',
+            'shopName' => 'sometimes|required',
+        ]);
+
         try {
-            // Creating an array of data to update the record
-            $data = [
-                'name' => $request->input('name'),
-                'phone' => $request->input('phone'),
-                'address' => $request->input('address'),
-                'type' => $request->input('type'),
-                'shopName' => $request->input('shopName'),
-            ];
-    
-            // Updating the record in the database
-            $updateUser = DB::table('suppliers')->where('id', $id)->update($data);
-    
-            if ($updateUser) {
-                // Update successful
-                $notification = [
+
+            DB::transaction(function () use ($validated, $id) {
+
+                DB::table('suppliers')
+                    ->where('id', $id)
+                    ->update($validated);
+
+            });
+
+            return redirect()
+                ->route('admin.suppliers.index')
+                ->with([
                     'message' => 'Successfully Updated',
                     'alert-type' => 'success'
-                ];
-                return redirect()->route('supplier.all-supplier')->with($notification);
-            } else {
-                // Update failed
-                $notification = [
-                    'message' => 'Failed to Update',
-                    'alert-type' => 'error'
-                ];
-                return redirect()->route('supplier.all-supplier')->with($notification);
-            }
+                ]);
+
         } catch (\Exception $e) {
-            // Handle any exceptions
-            $notification = [
-                'message' => 'Error: ' . $e->getMessage(),
-                'alert-type' => 'error'
-            ];
-            return redirect()->back()->withInput()->with($notification);
+
+            return redirect()
+                ->back()
+                ->withInput()
+                ->with([
+                    'message' => $e->getMessage(),
+                    'alert-type' => 'error'
+                ]);
         }
     }
     
     
-
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy($id)
     {
-        $delete = DB::table('suppliers')
+        $deleted = DB::table('suppliers')
             ->where('id', $id)
             ->delete();
-    
-        if ($delete) {
-                $notification = array(
-                    'message' => 'Supplier Deleted Successfully',
-                    'alert-type' => 'success'
-                );
-            return redirect()->back()->with($notification);
-        } else {
-            
-                $notification = array(
-                    'message' => 'Supplier not Deleted ',
-                    'alert-type' => 'warning'
-                );
-            // Handle case where supplier with the given ID doesn't exist
-            return redirect()->back()->with($notification);
+
+        if ($deleted) {
+
+             return response()->json([
+                'message' => 'Supplier deleted successfully'
+            ]);
         }
+
+        return redirect()->back()->with([
+            'message' => 'Supplier Not Found',
+            'alert-type' => 'warning'
+        ]);
+       
     }
-    
 }

@@ -13,23 +13,52 @@ return new class extends Migration
     {
         Schema::create('employees', function (Blueprint $table) {
             $table->id();
+
+            $table->unsignedBigInteger('user_id')->unique();
+
             $table->string('employee_code')->unique();
+
             $table->string('first_name');
-            $table->string('last_name');
+            $table->string('last_name')->nullable();
+
+            $table->string('phone_number')->unique();
             $table->string('email')->unique();
-            $table->string('phone_number')->nullable();
-            $table->date('date_of_birth')->nullable();
-            $table->enum('gender', ['male', 'female', 'other'])->nullable();
+            $table->string('nid')->unique();
+
             $table->text('address')->nullable();
+            $table->string('city')->nullable();
+
+            $table->string('experience')->nullable();
+            $table->decimal('salary', 10, 2)->nullable();
+            $table->integer('vacation')->nullable();
+
+            $table->date('date_of_birth')->nullable();
+            $table->enum('gender', ['male','female','other'])->nullable();
+
             $table->date('hire_date');
+
             $table->unsignedBigInteger('department_id')->nullable();
-            $table->string('position')->nullable();
-            $table->decimal('salary', 15, 2)->nullable();
-            $table->string('status')->default('active');
+            $table->string('position_id')->nullable();
+
+            $table->string('photo')->nullable();
+
+            $table->enum('status', ['active','inactive','terminated'])->default('active');
+
             $table->timestamps();
 
-            // $table->integer('department_id');
-        });
+                        // Foreign keys
+            $table->foreign('position_id')
+                ->references('id')
+                ->on('positions')
+                ->onDelete('set null');
+
+            // Optional (recommended if departments table exists)
+            $table->foreign('department_id')
+                ->references('id')
+                ->on('departments')
+                ->onDelete('set null');
+            });
+
 
     }
     /**

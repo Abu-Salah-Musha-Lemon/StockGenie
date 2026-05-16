@@ -1,9 +1,8 @@
 <?php
-
 namespace App\Http\Controllers\POS;
 
 use App\Http\Controllers\Controller;
-use App\Http\Repositories\SaleStoreRequest;
+use App\Http\Requests\SaleStoreRequest;
 use App\Services\POS\SaleService;
 
 class SaleController extends Controller
@@ -20,7 +19,12 @@ class SaleController extends Controller
         );
 
         return redirect()
-            ->back()
+            ->route('pos.sales.index')
             ->with('success', 'Sale completed successfully');
+    }
+
+    public function index()
+    {
+        return view('pos.pos');
     }
 }

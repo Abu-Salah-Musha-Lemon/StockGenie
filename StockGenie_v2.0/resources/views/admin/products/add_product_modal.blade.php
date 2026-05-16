@@ -58,7 +58,7 @@
 									<span class='text-danger'>@error('product_name'){{ $message }}@enderror</span>
 								</div>
 								<div class="form-group">
-									@php $cat =DB::table('category')->get() @endphp
+									@php $cat =DB::table('categories')->get() @endphp
 									<label>Category Name</label>
 									<select name="cat_id" id="cat_id" class="form-control">
 										<option disabled="" selected="">Select</option>
@@ -139,7 +139,7 @@
 				
 				<!-- Supplier Form -->
 				<div class="tab-pane" id="Supplier">
-					<form role="form" action="{{ route('supplier.store') }}" method="post" enctype="multipart/form-data">
+					<form role="form" action="{{ route('admin.suppliers.store') }}" method="post" enctype="multipart/form-data">
 						@csrf
 						<div class="row m-3">
 							<div class="col-lg-6 mb-3">
@@ -188,7 +188,7 @@
 				</div>
 				<!-- Category Form -->
 				<div class="tab-pane" id="Category">
-					<form action="{{ route('category.store') }}" method="POST" class="m-3">
+					<form action="{{ route('admin.categories.store') }}" method="POST" class="m-3">
 						@csrf
 						<div class="form-group">
 							<label for="category_name">Category Name</label>

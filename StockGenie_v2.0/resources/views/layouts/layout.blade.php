@@ -149,6 +149,7 @@
                         </button>
                     </div>
                 </div>
+                
                 @include('layouts.sideBar')
                 <div class="clearfix"></div>
             </div>
@@ -326,6 +327,64 @@
                 reader.readAsDataURL(input.files[0]);
             }
         }
+// ajaxDelete function.
+function getCsrfToken() {
+    return document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+}
+
+function confirmDelete() {
+    $(document).on('click', '.js-delete', function (e) {
+        e.preventDefault();
+
+        const url = $(this).data('url');
+        const button = $(this);
+
+        swal({
+            title: "Are you sure?",
+            text: "This will be permanently deleted!",
+            icon: "warning",
+            buttons: true,
+            dangerMode: true,
+        }).then((confirmed) => {
+
+            if (!confirmed) return;
+
+            $.ajax({
+                url: url,
+                type: "POST",
+                data: {
+                    _method: "DELETE",
+                    _token: getCsrfToken()
+                },
+                success: function (res) {
+
+                    swal("Deleted!", res.message || "Deleted successfully", "success");
+
+                    // ✅ DataTables-safe removal
+                    const table = $('#dataTable').DataTable();
+                    const row = button.closest('tr');
+
+                    if ($.fn.DataTable.isDataTable('#dataTable')) {
+                        table.row(row).remove().draw(false);
+                    } else {
+                        row.fadeOut(200, function () {
+                            $(this).remove();
+                        });
+                    }
+                },
+                error: function (xhr) {
+                    console.error(xhr.responseText);
+                    swal("Error!", "Delete failed", "error");
+                }
+            });
+        });
+    });
+}
+
+// initialize once
+$(document).ready(function () {
+    confirmDelete();
+});
     </script>
 
     @yield('script');

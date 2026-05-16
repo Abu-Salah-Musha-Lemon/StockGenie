@@ -25,8 +25,8 @@ class DashboardService
 
     private function todayProfit(): float
     {
-        return (float) DB::table('sale_items')
-            ->join('sales', 'sales.id', '=', 'sale_items.sale_id')
+        return (float) DB::table('sales_items')
+            ->join('sales', 'sales.id', '=', 'sales_items.sale_id')
             ->whereDate('sales.sale_date', today())
             ->selectRaw('SUM((sale_price - cost_price) * qty) as profit')
             ->value('profit') ?? 0;

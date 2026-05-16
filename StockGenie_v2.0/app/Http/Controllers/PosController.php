@@ -16,50 +16,52 @@ class PosController extends Controller
         return view('pos.pos',compact('product'));
     }
 
-    public function pendingOrder(){
+   public function pendingOrder()
+    {
+        $pending = DB::table('sales')
+            ->where('payment_status', 'pending')
+            ->get();
 
-        $pending = DB::table('orders')
-                
-                ->where('order_status','pending')->get();
-        return view('pos.all_pending_order',compact('pending'));
-
+        return view('pos.all_pending_order', compact('pending'));
     }
 
     public function viewOrder($id)
-{
-    
-    
-    $order = DB::table('orders')
-        ->where('id', $id)
-        ->first();
+    {
+        // Sale header
+        $sale = DB::table('sales')
+            ->where('id', $id)
+            ->first();
 
-   
-    $orderDetails = DB::table('order_details')
-                ->join('products', 'order_details.product_id', 'products.id')
-                ->select('products.product_name', 'order_details.*')
-                ->where('order_details.order_id', $id)
-                ->get();
+        // Sale items with product info
+        $saleItems = DB::table('sales_items')
+            ->join('products', 'sales_items.product_id', '=', 'products.id')
+            ->select('products.product_name', 'sales_items.*')
+            ->where('sales_items.sale_id', $id)
+            ->get();
 
-    return view('pos.view_pending_order', compact('order', 'orderDetails'));
-}
-
-
-
-    public function paidOrder($id) {
-        $aproned = DB::table('orders')->where('id',$id)->update(['order_status'=>'success']);
-        return Redirect()->route('paidOrder');
+        return view('pos.view_pending_order', compact('sale', 'saleItems'));
     }
 
-    public function paidAllOrder(){
-        $success = DB::table('orders')
-                   
-                    // if you are not use all the data of customer and order, use this method because
-                    // customer and order id are same . so data can not get form data base 
-                    // ->select('customers.*','order.*','order.id as order_id')
-                    ->where('order_status','success')
-                    ->get();
 
-        return view('pos.all_paid_order',compact('success'));
+
+   public function paidOrder($id)
+    {
+        DB::table('sales')
+            ->where('id', $id)
+            ->update([
+                'payment_status' => 'success'
+            ]);
+
+        return redirect()->route('paidOrder');
+    }
+
+    public function paidAllOrder()
+    {
+        $success = DB::table('sales')
+            ->where('payment_status', 'success')
+            ->get();
+
+        return view('pos.all_paid_order', compact('success'));
     }
 
 

@@ -9,7 +9,7 @@
 				</button>
 				<h5 class="modal-title">Add Supplier</h5>
 			</div>
-			<form role="form" action="{{ route('supplier.store') }}" method="post" enctype="multipart/form-data">
+			<form role="form" action="{{ route('admin.suppliers.store') }}" method="post" enctype="multipart/form-data">
 				@csrf
 				<div class="form-group">
 					<label>Name</label>

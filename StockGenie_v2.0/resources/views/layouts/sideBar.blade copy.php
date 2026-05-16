@@ -1,7 +1,7 @@
 <div id="sidebar-menu">
 <ul>
 	<li>
-		<a href="{{URL::to('dashboard')}}" class="waves-effect"><i class="ion-arrow-graph-up-right"></i><span> Dashboard
+		<a href="{{route('dashboard')}}" class="waves-effect"><i class="ion-arrow-graph-up-right"></i><span> Dashboard
 			</span></a>
 	</li>
 

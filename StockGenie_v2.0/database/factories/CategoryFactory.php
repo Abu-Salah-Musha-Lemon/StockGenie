@@ -12,7 +12,11 @@ class CategoryFactory extends Factory
     public function definition()
     {
         return [
-            'category_name' => $this->faker->word, // Generates a random word for category name
-        ];
+            // Generates a random word for category name
+            'name' => fake()->word(),
+            'slug' => fake()->slug(),
+            'description' => fake()->sentence(),
+            'status' => true,
+           ];
     }
 }

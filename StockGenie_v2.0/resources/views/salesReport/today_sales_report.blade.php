@@ -1,95 +1,114 @@
 @extends('layouts.layout')
+
 @section('main')
 
-
 <div class="row">
-	<div class="col-md-12">
-		<div class="panel panel-success text-info">
+    <div class="col-md-12">
 
-			<div class="panel-heading " style="display: flex;justify-content: space-between;">
-				<div class="div">
-					<h3 class="panel-title text-white">Today Sales Reports </h3>
-					<h3 class="btn btn-warning"><a class="panel-title fs-4" href="{{URL::to('/monthly-sales-report')}}"
-							value="Today">Monthly Sales Reports </a></h3>
-					<h3 class="btn btn-danger"><a class="panel-title fs-4" href="{{route('yearly-Sales-Reports')}}"
-							value="Today">Yearly Sales Reports </a></h3>
-				</div>
+        <div class="panel panel-success text-info">
 
-			</div>
+            <!-- HEADER -->
+            <div class="panel-heading" style="display:flex; justify-content:space-between;">
 
-			@php
-			$date = date("d-m-y");
-			$total = DB::table('orders')->where('order_date',$date)->sum('total');
-			$sub_total = DB::table('orders')->where('order_date',$date)->sum('sub_total');
-			$pay = DB::table('orders')->where('order_date',$date)->sum('pay');
-			$due = DB::table('orders')->where('order_date',$date)->sum('due');
-			$total_product = DB::table('orders')->where('order_date',$date)->sum('total_products');
-			@endphp
+                <div>
+                    <h3 class="panel-title text-white">Today Sales Report</h3>
 
-			<div class="panel-body">
-				<div class="row">
+                     <a href="{{ route('reports.sales.monthly') }}" class="btn btn-secondary">Monthly Sales</a>
+            					<a href="{{ route('reports.sales.yearly') }}" class="btn btn-success">Yearly Sales</a>
+                </div>
 
-					<div class="col-md-12 col-sm-12 col-xs-12">
-						<div class="table-responsive">
+            </div>
 
-							<table id="dataTable" class="table table-striped table-bordered">
-								<thead>
-									<tr>
-										<th>#</th>
-										<th>Date</th>
-										<th>Total Products</th>
-										<th>Sub Total</th>
-										<th>Total</th>
-										<th>Paid</th>
-										<th>Due</th>
+            @php
+                $date = date("Y-m-d");
 
-									</tr>
-								</thead>
+                $total = DB::table('sales')
+                    ->whereDate('sale_date', $date)
+                    ->sum('grand_total');
 
-								<tbody>
-									@php
-									$sl =1;
-									@endphp
-									@foreach($today->reverse() as $row)
-									<tr>
-										<td>{{$sl++}}</td>
-										<td>{{$row->order_date}}</td>
-										<td>{{$row->total_products}}</td>
-										<td>{{$row->sub_total}}</td>
-										<td>{{$row->total}}</td>
-										<td>{{$row->pay}}</td>
-										<td>{{$row->due}}</td>
-									</tr>
-									@endforeach
-								</tbody>
-								<tfoot>
-									<tr>
-										<td colspan=2>Total Products:{{$total_product}}</td>
-										<td>Total:{{$sub_total}}</td>
-										<td>Total:{{$total}}</td>
-										<td>Total Paid:{{$pay}}</td>
-										<td>Total Due:{{$due}}</td>
-									</tr>
-								</tfoot>
-							</table>
+                $discount = DB::table('sales')
+                    ->whereDate('sale_date', $date)
+                    ->sum('discount');
 
-						</div>
-					</div>
+                $tax = DB::table('sales')
+                    ->whereDate('sale_date', $date)
+                    ->sum('tax');
+            @endphp
 
-				</div>
-			</div>
-		</div>
+            <div class="panel-body">
 
-	</div>
+                <div class="table-responsive">
+
+                    <table id="dataTable" class="table table-striped table-bordered">
+
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Date</th>
+                                <th>Invoice</th>
+                                <th>Discount</th>
+                                <th>Tax</th>
+                                <th>Total</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+
+                            @php $sl = 1; @endphp
+
+                            @foreach($todaySales->reverse() as $row)
+                            <tr>
+                                <td>{{ $sl++ }}</td>
+                                <td>{{ $row->sale_date }}</td>
+                                <td>{{ $row->invoice_no }}</td>
+                                <td>{{ $row->discount }}</td>
+                                <td>{{ $row->tax }}</td>
+                                <td>{{ $row->grand_total }}</td>
+
+                                <td>
+                                    @if($row->payment_status == 'paid')
+                                        <span class="label label-success">Paid</span>
+                                    @else
+                                        <span class="label label-danger">
+                                            {{ $row->payment_status }}
+                                        </span>
+                                    @endif
+                                </td>
+                            </tr>
+                            @endforeach
+
+                        </tbody>
+
+                        <!-- FOOTER -->
+                        <tfoot>
+                            <tr>
+                                <td colspan="3"><b>Totals</b></td>
+                                <td><b>{{ $discount }}</b></td>
+                                <td><b>{{ $tax }}</b></td>
+                                <td><b>{{ $total }}</b></td>
+                                <td></td>
+                            </tr>
+                        </tfoot>
+
+                    </table>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
 </div>
+
+@endsection
+
+
 @section('script')
 <script>
     $(document).ready(function () {
-        initializeDataTable([	
-					
-'#','Date',	'Total Products',	'Sub Total',	'Total',]);
+        $('#dataTable').DataTable();
     });
-    </script>
-@endsection
-
+</script>
 @endsection

@@ -1,101 +1,114 @@
 @extends('layouts.layout')
+
 @section('main')
 
 <div class="row">
-	<div class="col-md-12">
-		<div>
-			<a href="{{route('JanuarySalesReport')}}" class="btn btn-primary" style="margin-bottom:2px;">January</a>
-			<a href="{{route('FebruarySalesReport')}}" class="btn btn-secondary" style="margin-bottom:2px;">February</a>
-			<a href="{{route('MarchSalesReport')}}" class="btn btn-info" style="margin-bottom:2px;">March</a>
-			<a href="{{route('AprilSalesReport')}}" class="btn btn-danger" style="margin-bottom:2px;">April</a>
-			<a href="{{route('MaySalesReport')}}" class="btn btn-warning" style="margin-bottom:2px;">May</a>
-			<a href="{{route('JuneSalesReport')}}" class="btn btn-purple" style="margin-bottom:2px;">June</a>
-			<a href="{{route('JulySalesReport')}}" class="btn btn-pink" style="margin-bottom:2px;">July</a>
-			<a href="{{route('AugustSalesReport')}}" class="btn btn-primary" style="margin-bottom:2px;">August</a>
-			<a href="{{route('SeptemberSalesReport')}}" class="btn btn-default" style="margin-bottom:2px;">September</a>
-			<a href="{{route('OctoberSalesReport')}}" class="btn btn-danger" style="margin-bottom:2px;">October</a>
-			<a href="{{route('NovemberSalesReport')}}" class="btn btn-success" style="margin-bottom:2px;">November</a>
-			<a href="{{route('DecemberSalesReport')}}" class="btn btn-inverse" style="margin-bottom:2px;">December</a>
-		</div>
-		<div class="panel panel-success">
+    <div class="col-md-12">
 
-			<div class="panel-heading " style="display: flex;justify-content: space-between;">
-				<h3 class="panel-title text-white">{{$date = date("F");}} Monthly Sales Report</h3>
-				@php
-				$date = date("F");
-				$total = DB::table('orders')->where('order_month',$date)->sum('total');
-				$sub_total = DB::table('orders')->where('order_month',$date)->sum('sub_total');
-				$pay = DB::table('orders')->where('order_month',$date)->sum('pay');
-				$due = DB::table('orders')->where('order_month',$date)->sum('due');
-				$total_product = DB::table('orders')->where('order_month',$date)->sum('total_products');
-				@endphp
+        <!-- MONTH FILTER BUTTONS -->
+        <div style="margin-bottom:10px;">
 
-				<a class="panel-title fs-4" href="{{URL::to('/add-SalesReport')}}">
-					<i class="bi bi-bag-plus-fill" style="font-size:24px;color:white;font-weight:800;"></i>
-				</a>
-			</div>
-			<div class="panel-body">
-				<div class="row">
+        </div>
 
-					<div class="col-md-12 col-sm-12 col-xs-12">
-						<div class="table-responsive">
+        @php
+            $month = date("m");
+            $year = date("Y");
 
-							<table id="dataTable" class="table table-striped table-bordered">
-								<thead>
-									<tr>
-										<th>Date</th>
-										<th>Total Products</th>
-										<th>Sub Total</th>
-										<th>Total</th>
-										<th>Paid</th>
-										<th>Due</th>
-									</tr>
-								</thead>
+            $total = DB::table('sales')
+                ->whereMonth('sale_date', $month)
+                ->whereYear('sale_date', $year)
+                ->sum('grand_total');
 
-								<tbody>
+            $discount = DB::table('sales')
+                ->whereMonth('sale_date', $month)
+                ->whereYear('sale_date', $year)
+                ->sum('discount');
 
-									@foreach($monthly as $row)
-									<tr>
+            $tax = DB::table('sales')
+                ->whereMonth('sale_date', $month)
+                ->whereYear('sale_date', $year)
+                ->sum('tax');
+        @endphp
 
-										<td>{{$row->order_date}}</td>
-										<td>{{$row->total_products}}</td>
-										<td>{{$row->sub_total}}</td>
-										<td>{{$row->total}}</td>
-										<td>{{$row->pay}}</td>
-										<td>{{$row->due}}</td>
+        <!-- PANEL -->
+        <div class="panel panel-success">
 
+            <div class="panel-heading" style="display:flex; justify-content:space-between;">
+                <h3 class="panel-title text-white">
+                    {{ date("F") }} Monthly Sales Report
+                </h3>
+            </div>
 
-									</tr>
-									@endforeach
-								</tbody>
-								<tfoot>
-									<tr>
-										<td colspan=2>Total Products: {{$total_product}}</td>
-										<td>Sub Total : {{$sub_total}}</td>
-										<td>Total: {{$total}}</td>
-										<td>Total Paid: {{$pay}}</td>
-										<td>Total Due:{{$due}}</td>
+            <div class="panel-body">
 
-									</tr>
-								</tfoot>
-							</table>
-						</div>
-					</div>
+                <div class="table-responsive">
 
-				</div>
-			</div>
-		</div>
+                    <table id="dataTable" class="table table-striped table-bordered">
 
-	</div>
+                        <thead>
+                            <tr>
+                                <th>Invoice No</th>
+                                <th>Date</th>
+                                <th>Discount</th>
+                                <th>Tax</th>
+                                <th>Grand Total</th>
+                                <th>Payment Status</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+
+                            @foreach($monthlySales as $row)
+                            <tr>
+                                <td>{{ $row->invoice_no }}</td>
+                                <td>{{ $row->sale_date }}</td>
+                                <td>{{ $row->discount }}</td>
+                                <td>{{ $row->tax }}</td>
+                                <td>{{ $row->grand_total }}</td>
+
+                                <td>
+                                    @if($row->payment_status == 'paid')
+                                        <span class="label label-success">Paid</span>
+                                    @else
+                                        <span class="label label-danger">
+                                            {{ $row->payment_status }}
+                                        </span>
+                                    @endif
+                                </td>
+                            </tr>
+                            @endforeach
+
+                        </tbody>
+
+                        <!-- FOOTER TOTAL -->
+                        <tfoot>
+                            <tr>
+                                <td colspan="2"><b>Total</b></td>
+                                <td><b>{{ $discount }}</b></td>
+                                <td><b>{{ $tax }}</b></td>
+                                <td><b>{{ $total }}</b></td>
+                                <td></td>
+                            </tr>
+                        </tfoot>
+
+                    </table>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
 </div>
+
+@endsection
+
+
 @section('script')
 <script>
     $(document).ready(function () {
-        initializeDataTable([	
-					
-'Date',	'Total Products',	'Sub Total',	'Total',]);
+        $('#dataTable').DataTable();
     });
-    </script>
-@endsection
-
+</script>
 @endsection

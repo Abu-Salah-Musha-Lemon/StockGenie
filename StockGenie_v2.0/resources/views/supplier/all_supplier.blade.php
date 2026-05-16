@@ -42,16 +42,24 @@
 										<td>{{$row->address}}</td>
 										<td>{{$row->shopName}}</td>
 										<td>
-											<a href="{{URL::to('/view-supplier'.$row->id)}}"
-												class="btn btn-sm btn-primary btn-custom waves-effect waves-light"><i
-													class="bi bi-eye fs-2"></i></a>
-											<a href="{{URL::to('/edit-supplier'.$row->id)}}"
-												class="btn btn-sm btn-info btn-custom waves-effect waves-light"><i
-													class="bi bi-pencil-square fs-2"></i></a>
-											<a href="{{URL::to('/delete-supplier'.$row->id)}}"
-												class="btn btn-sm btn-danger btn-custom waves-effect waves-light" id="delete"  onclick="confirmation(event)"><i
-													class="bi bi-trash fs-2"></i></a>
-										</td>
+											<a href="{{ route('admin.suppliers.show', $row->id) }}"
+													class="btn btn-sm btn-primary btn-custom waves-effect waves-light">
+													<i class="bi bi-eye fs-2"></i>
+											</a>
+
+											<a href="{{ route('admin.suppliers.edit', $row->id) }}"
+													class="btn btn-sm btn-info btn-custom waves-effect waves-light">
+													<i class="bi bi-pencil-square fs-2"></i>
+											</a>
+
+													<button
+															type="button"
+															class="btn btn-sm btn-danger js-delete"
+															data-url="{{ route('admin.suppliers.destroy', $row->id) }}"
+													>
+															<i class="bi bi-trash"></i>
+													</button>
+									</td>
 									</tr>
 									@endforeach
 								</tbody>
@@ -71,24 +79,12 @@
 </div>
 @section('script')
 <script>
-	 function confirmation(ev) {
-    ev.preventDefault();  // Prevent the default link behavior
-    var urlToRedirect = ev.currentTarget.getAttribute('href');  
-    console.log(urlToRedirect); 
+$(document).ready(function () {
+    if (!$.fn.DataTable.isDataTable('#dataTable')) {
+        $('#dataTable').DataTable();
+    }
+});
 
-    swal({
-        title: "Are you sure to delete this Supplier?",
-        text: "You will not be able to revert this!",
-        icon: "warning",
-        buttons: true,
-        dangerMode: true,
-    }).then((willDelete) => {
-        if (willDelete) {
-            // Redirect if confirmed
-            window.location.href = urlToRedirect;
-        }
-    });
-}
 	$(document).ready(function () {
 		initializeDataTable([
 			'Name', 'Phone', 'Address', '	Shop Name']);

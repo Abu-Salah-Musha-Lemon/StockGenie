@@ -8,10 +8,10 @@
 		<div class="panel panel-success">
 
 			<div class="panel-heading" style="display:flex; justify-content:space-between;">
-				<h3 class="panel-title">All Categories</h3>
+				<h3 class="panel-title">All Departments</h3>
 
-				<button class="btn btn-primary" data-toggle="modal" data-target="#addCategoryModal">
-					Add Category
+				<button class="btn btn-primary" data-toggle="modal" data-target="#addDepartmentsModal">
+					Add Departments
 				</button>
 			</div>
 
@@ -27,16 +27,16 @@
 					</thead>
 
 					<tbody>
-						@foreach($categories as $category)
+						@foreach($departments as $department)
 						<tr>
-							<td>{{ $category->name }}</td>
+							<td>{{ $department->name }}</td>
 
 							<td>
-								<button class="btn btn-info" data-toggle="modal" data-target="#editModal{{ $category->id }}">
+								<button class="btn btn-info" data-toggle="modal" data-target="#editModal{{ $department->id }}">
 									Edit
 								</button>
 
-								<form action="{{ route('admin.categories.destroy', $category->id) }}" method="POST" style="display:inline;">
+								<form action="{{ route('admin.departments.destroy', $department->id) }}" method="POST" style="display:inline;">
 									@csrf
 									@method('DELETE')
 									<button class="btn btn-danger">Delete</button>
@@ -56,20 +56,22 @@
 </div>
 
 <!-- ================= ADD MODAL ================= -->
-<div class="modal fade" id="addCategoryModal">
+<div class="modal fade" id="addDepartmentsModal">
 	<div class="modal-dialog">
 		<div class="modal-content">
 
-			<form method="POST" action="{{ route('admin.categories.store') }}">
+			<form method="POST" action="{{ route('admin.departments.store') }}">
 				@csrf
 
 				<div class="modal-body">
 
 					<label>Name</label>
 					<input type="text" name="name" class="form-control" required>
+					@error('name')<span class="text-danger">{{ $message }}</span>@enderror
 
 					<label>Description</label>
 					<textarea name="description" class="form-control"></textarea>
+					@error('name')<span class="text-danger">{{ $description }}</span>@enderror
 
 				</div>
 
@@ -85,22 +87,22 @@
 </div>
 
 <!-- ================= EDIT MODAL ================= -->
-@foreach($categories as $category)
-<div class="modal fade" id="editModal{{ $category->id }}">
+@foreach($departments as $department)
+<div class="modal fade" id="editModal{{ $department->id }}">
 	<div class="modal-dialog">
 		<div class="modal-content">
 
-			<form method="POST" action="{{ route('admin.categories.update', $category->id) }}">
+			<form method="POST" action="{{ route('admin.departments.update', $department->id) }}">
 				@csrf
 				@method('PUT')
 
 				<div class="modal-body">
 
 					<label>Name</label>
-					<input type="text" name="name" value="{{ $category->name }}" class="form-control">
+					<input type="text" name="name" value="{{ $department->name }}" class="form-control">
 
 					<label>Description</label>
-					<textarea name="description" class="form-control">{{ $category->description }}</textarea>
+					<textarea name="description" class="form-control">{{ $department->description }}</textarea>
 
 				</div>
 

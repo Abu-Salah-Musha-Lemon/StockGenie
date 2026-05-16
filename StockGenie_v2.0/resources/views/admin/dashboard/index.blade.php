@@ -135,7 +135,6 @@
     </div>
 </div>
 
-@endsection
 
 
 @section('script')
@@ -145,4 +144,5 @@
         initializeDataTable(['Product', 'Quantity'], '#lowStockTable');
     });
 </script>
+@endsection
 @endsection

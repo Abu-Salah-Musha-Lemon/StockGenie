@@ -239,7 +239,7 @@
 				<div class="card-title " style="display: flex;justify-content: space-between;align-items: center; ">
 					<h3 class="portlet-title text-dark text-uppercase"> Products </h3>
 
-					@include('product.add_product_modal')
+					@include('admin.products.add_product_modal')
 					@if(Auth::user()->role==0)
 					<a class="btn btn-primary btn-custom waves-effect waves-light " data-toggle="modal"
 						data-target="#addProductsModal">
@@ -264,30 +264,30 @@
 							</thead>
 							<tbody>
 								@foreach($product as $row)
-										@if( $row->product_qty>0)
+										@if( $row->alert_qty>0)
 								<tr style="text-align:center">
 									<td>
 										<form action="{{ URL::to('/add-card') }}" method="post">
 											@csrf
 											<input type="hidden" name="id" value="{{ $row->id }}">
-											<input type="hidden" name="name" value="{{ $row->product_name }}">
+											<input type="hidden" name="name" value="{{ $row->name }}">
 											<input type="hidden" name="qty" value="1">
-											<input type="hidden" name="price" value="{{ $row->selling_price }}">
+											<input type="hidden" name="price" value="{{ $row->sale_price }}">
 											<button type="submit" class="btn btn-primary" class="c-btn">
 												<i class="bi bi-bag-plus-fill" style="font-size:20px"></i>
 											</button>
 										</form>
 									</td>
 									<td><img src="{{ asset($row->product_image) }}" style="width:40px;height:40px;object:cover;"></td>
-									<td>{{ $row->product_name }}</td>
+									<td>{{ $row->name }}</td>
 									<td>
-										<p class="btn btn-{{ $row->product_qty < 5 ? 'danger' : 'success' }} shadow-none">{{
-											$row->product_qty
+										<p class="btn btn-{{ $row->alert_qty < 5 ? 'danger' : 'success' }} shadow-none">{{
+											$row->alert_qty
 											}}</p>
-											@if($row->product_qty ==0) @endif
+											@if($row->alert_qty ==0) @endif
 									</td>
 									<td>{{ $row->product_code }}</td>
-									<td>{{ $row->selling_price }} ৳</td>
+									<td>{{ $row->sale_price }} ৳</td>
 									<td>{{ $row->product_route }}</td>
 								</tr>
 								@endif

@@ -11,13 +11,13 @@ use Illuminate\Support\Facades\File;
 class EmployeeController extends Controller
 {
     // Show the "Add Employee" form
-    public function addEmployee()
+    public function create()
     {
         return view('employee.add_employee');
     }
 
     // Display all employees
-    public function allEmployee()
+    public function index()
     {
         $employees = DB::table('employees')
             ->join('users', 'users.id', '=', 'employees.user_id')
@@ -31,56 +31,81 @@ class EmployeeController extends Controller
     // Store a new employee
     public function store(Request $request)
     {
-        $validated = $request->validate([
-            'name' => 'required',
-            'email' => 'required|email|unique:users,email',
-            'phone' => 'required|unique:employees,phone|digits_between:10,11',
-            'address' => 'required',
-            'experience' => 'required|numeric',
-            'salary' => 'required|numeric',
-            'vacation' => 'required|numeric',
-            'city' => 'required',
-            'nid' => 'required|unique:employees,nid|digits_between:10,15',
-            'photo' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
-            'password' => ['required', 'confirmed', Rules\Password::defaults()],
-        ]);
+        DB::beginTransaction();
 
-        // Prepare employee data
-        $data = $request->only([
-           'phone', 'address', 'experience', 'salary', 'vacation', 'city', 'nid'
-        ]);
+        try {
 
-        // Handle the image upload
-        if ($image = $request->file('photo')) {
-            $image_name = time() . '.' . $image->getClientOriginalExtension();
-            $image_url = 'image/employee/' . $image_name;
-            $image->move(public_path('image/employee'), $image_name);
-            $data['photo'] = $image_url;
-        } else {
-            return redirect()->back()->with([
-                'message' => 'Employee image could not be uploaded',
-                'alert-type' => 'error',
+            // ✅ Validation
+            $request->validate([
+                'name' => 'required|string|max:255',
+                'email' => 'required|email|unique:users,email',
+                'phone' => 'required|unique:employees,phone_number',
+                'nid' => 'required|unique:employees,nid',
+                'password' => 'required|min:8|confirmed',
+                'photo' => 'required|image|mimes:jpg,jpeg,png|max:2048',
             ]);
+
+            // ✅ Split name
+            $names = explode(' ', $request->name, 2);
+
+            $firstName = $names[0];
+            $lastName = $names[1] ?? null;
+
+            // ✅ 1. Create User
+            $userId = DB::table('users')->insertGetId([
+                'name' => $request->name,
+                'email' => $request->email,
+                'password' => Hash::make($request->password),
+                'created_at' => now(),
+                'updated_at' => now(),
+            ]);
+
+            // ✅ 2. Upload Photo
+            $photoPath = null;
+
+            if ($request->hasFile('photo')) {
+                $file = $request->file('photo');
+                $fileName = time() . '_' . uniqid() . '.' . $file->getClientOriginalExtension();
+                $file->move(public_path('uploads/employees'), $fileName);
+                $photoPath = 'uploads/employees/' . $fileName;
+            }
+
+            // ✅ 3. Insert Employee
+            DB::table('employees')->insert([
+                'user_id' => $userId,
+                'employee_code' => 'EMP-' . time(),
+
+                'first_name' => $firstName,
+                'last_name' => $lastName,
+
+                'phone_number' => $request->phone,
+                'nid' => $request->nid,
+
+                'address' => $request->address,
+                'city' => $request->city,
+
+                'experience' => $request->experience,
+                'salary' => $request->salary,
+                'vacation' => $request->vacation,
+
+                'hire_date' => now(),
+
+                'photo' => $photoPath,
+
+                'created_at' => now(),
+                'updated_at' => now(),
+            ]);
+
+            DB::commit();
+
+            return redirect()->back()->with('success', 'Employee created successfully');
+
+        } catch (\Exception $e) {
+
+            DB::rollBack();
+
+            return redirect()->back()->with('error', $e->getMessage());
         }
-
-        // Create user and insert employee record
-        $userId = DB::table('users')->insertGetId([
-            'name' => $request->name,
-            'email' => $request->email,
-            'password' => Hash::make($request->password),
-        ]);
-
-        // Add user ID to employee data
-        $data['user_id'] = $userId;
-
-        // Insert employee data into the employees table
-        DB::table('employees')->insert($data);
-
-        // Return success notification
-        return redirect()->route('employee.all-employee')->with([
-            'message' => 'Employee added successfully',
-            'alert-type' => 'success',
-        ]);
     }
 
     // View a single employee's details
@@ -105,7 +130,11 @@ class EmployeeController extends Controller
     // Update an existing employee's details
     public function updateEmployee(Request $request, $id)
     {
-        $validated = $request->validate([
+    DB::beginTransaction();
+
+    try {
+
+        $request->validate([
             'name' => 'required',
             'email' => 'required|email',
             'phone' => 'required',
@@ -115,69 +144,102 @@ class EmployeeController extends Controller
             'vacation' => 'required',
             'city' => 'required',
             'nid' => 'required',
-            'photo' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
+            'photo' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
 
-        $data = $request->only([
-           'phone', 'address', 'experience', 'salary', 'vacation', 'city', 'nid'
-        ]);
-
-        // Handle image upload
-        if ($image = $request->file('photo')) {
-            $image_name = time() . '.' . $image->getClientOriginalExtension();
-            $image_url = 'image/employee/' . $image_name;
-            $image->move(public_path('image/employee'), $image_name);
-            $data['photo'] = $image_url;
-
-            // Delete the old image
-            $oldEmployee = DB::table('employees')->where('id', $id)->first();
-            if ($oldEmployee && File::exists(public_path($oldEmployee->photo))) {
-                File::delete(public_path($oldEmployee->photo));
-            }
-        }
-        // Update employee record
-        DB::table('employees')->where('id', $id)->update($data);
-
-        $employee = DB::table('employees')->where('id', $id)->first();// assuming employee has user_id field
-        $user = DB::table('users')->where('id',$employee->user_id); // assuming employee has user_id field
-        $user->update([
-            'name' => $request->name,
-            'email' => $request->email,
-        ]);
-     
-        return redirect()->route('employee.all-employee')->with([
-            'message' => 'Employee updated successfully',
-            'alert-type' => 'success',
-        ]);
-    }
-
-    // Delete an employee
-    public function delete($id)
-    {
-        // Fetch the employee record
+        // Get employee
         $employee = DB::table('employees')->where('id', $id)->first();
 
-        if ($employee) {
-            // Delete the associated photo if exists
+        if (!$employee) {
+            return back()->with('error', 'Employee not found');
+        }
+
+        // Prepare data
+        $data = [
+            'phone' => $request->phone,
+            'address' => $request->address,
+            'experience' => $request->experience,
+            'salary' => $request->salary,
+            'vacation' => $request->vacation,
+            'city' => $request->city,
+            'nid' => $request->nid,
+            'updated_at' => now(),
+        ];
+
+        // Handle photo update
+        if ($request->hasFile('photo')) {
+
+            $file = $request->file('photo');
+            $fileName = time() . '.' . $file->getClientOriginalExtension();
+            $file->move(public_path('uploads/employees'), $fileName);
+            $data['photo'] = 'uploads/employees/' . $fileName;
+
+            // delete old photo
+            if ($employee->photo && File::exists(public_path($employee->photo))) {
+                File::delete(public_path($employee->photo));
+            }
+        }
+
+        // Update employee table
+        DB::table('employees')->where('id', $id)->update($data);
+
+        // Update user table
+        DB::table('users')
+            ->where('id', $employee->user_id)
+            ->update([
+                'name' => $request->name,
+                'email' => $request->email,
+                'updated_at' => now(),
+            ]);
+
+        DB::commit();
+
+        return redirect()->route('admin.employee.index')
+            ->with('success', 'Employee updated successfully');
+
+    } catch (\Exception $e) {
+
+        DB::rollBack();
+
+        return back()->with('error', $e->getMessage());
+    }
+}
+
+    // Delete an employee
+   public function delete($id)
+    {
+        DB::beginTransaction();
+
+        try {
+
+            // Get employee
+            $employee = DB::table('employees')->where('id', $id)->first();
+
+            if (!$employee) {
+                return back()->with('error', 'Employee not found');
+            }
+
+            // Delete photo if exists
             if ($employee->photo && File::exists(public_path($employee->photo))) {
                 File::delete(public_path($employee->photo));
             }
 
-            // Delete the employee record
+            // Delete employee record
             DB::table('employees')->where('id', $id)->delete();
 
-            // Optionally, delete the associated user if needed
+            // Delete related user
             DB::table('users')->where('id', $employee->user_id)->delete();
 
-            return redirect()->route('employee.all-employee')->with([
-                'message' => 'Employee deleted successfully',
-                'alert-type' => 'success',
-            ]);
-        }
+            DB::commit();
 
-        return redirect()->back()->with([
-            'message' => 'Employee not found',
-            'alert-type' => 'error',
-        ]);
+            return redirect()->route('admin.employee.index')
+                ->with('success', 'Employee deleted successfully');
+
+        } catch (\Exception $e) {
+
+            DB::rollBack();
+
+            return back()->with('error', $e->getMessage());
+        }
     }
 }
