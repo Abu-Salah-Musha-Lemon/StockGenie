@@ -1,4 +1,4 @@
-# Stock Genie v2.0
+# Stock Genie
 
 ## Developed by
 **Abu Salah Musha Lemon**
@@ -150,3 +150,5 @@ stockGenie/vendor/hardevine/shoppingcart/config/cart.php
 ```
 
 Make the necessary adjustments to the tax amount in this file to suit your business requirements.
+
+
