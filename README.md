@@ -1,6 +1,6 @@
 
 # <p align="center">🧞 Stock Genie</p>
-### <p align="center">👨‍💻 Developer by [Abu Salah Musha Lemon](<https://github.com/Abu-Salah-Musha-Lemon>)</p>
+### <p align="center">👨‍💻 Developed by <a href="https://github.com/Abu-Salah-Musha-Lemon">Abu Salah Musha Lemon</a></p>
 
 
 
