@@ -1,4 +1,4 @@
-# Stock Genie v2.0
+# Stock Genie
 
 ## Developed by
 **Abu Salah Musha Lemon**
