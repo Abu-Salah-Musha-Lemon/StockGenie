@@ -35,14 +35,41 @@ use App\Http\Controllers\POS\SaleController;
 //             ->name('invoice.download');
 //     });
 
-Route::prefix('pos')
+
+
+
+Route::middleware('auth')
+    ->prefix('pos')
     ->name('pos.')
-    ->middleware('auth')
     ->group(function () {
 
-        Route::get('/sales', [PosController::class, 'index'])->name('sales.index');
-        Route::post('/sales', [SaleController::class, 'store'])->name('sales.store');
+        Route::get('/', [PosController::class, 'index'])
+            ->name('index');
 
-        Route::get('/pending-orders', [PosController::class, 'pendingOrder'])->name('orders.pending');
-        Route::get('/paid-orders', [PosController::class, 'paidAllOrder'])->name('orders.paid');
+        Route::post('/cart/add', [PosController::class, 'addCart'])
+            ->name('cart.add');
+
+        Route::post('/cart/update/{rowId}', [PosController::class, 'updateCart'])
+            ->name('cart.update');
+
+        Route::post('/cart/delete/{rowId}', [PosController::class, 'deleteCart'])
+            ->name('cart.delete');
+
+        Route::post('/cart/clear', [PosController::class, 'clearCart'])
+            ->name('cart.clear');
+
+        Route::post('/checkout', [PosController::class, 'finalInvoice'])
+            ->name('checkout');
+
+        Route::get('/pending-orders', [PosController::class, 'pendingOrder'])
+            ->name('orders.pending');
+
+        Route::get('/pending-orders/{id}', [PosController::class, 'viewOrder'])
+            ->name('orders.view');
+
+        Route::post('/pending-orders/{id}/paid', [PosController::class, 'paidOrder'])
+            ->name('orders.paid');
+
+        Route::get('/paid-orders', [PosController::class, 'paidAllOrder'])
+            ->name('orders.paid.index');
     });

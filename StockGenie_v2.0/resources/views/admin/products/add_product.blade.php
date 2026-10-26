@@ -29,7 +29,7 @@
 					data-target="#addCategoryModal">
 					<i class="bi bi-journal-plus"style="font-size:24px;color:white;font-weight:800;"></i>
 				</a>
-				<form role="form" action="{{ URL::to('/insert-product') }}" method="post" enctype="multipart/form-data"style="margin-top:10px">
+				<form role="form" action="{{ route('admin.products.store') }}" method="post" enctype="multipart/form-data"style="margin-top:10px">
 					@csrf
 
 					<div class="row">
@@ -65,7 +65,7 @@
 
 							<div class="form-group">
 								@php
-								$cat =DB::table('category')->get()
+								$cat =DB::table('categories')->get()
 								@endphp
 								<label>Category Name</label>
 
@@ -73,7 +73,7 @@
 									<option disabled="" selected="">Select</option>
 
 									@foreach($cat as $row)
-									<option value="{{$row->id}}">{{$row->category_name}}</option>
+									<option value="{{$row->id}}">{{$row->name}}</option>
 									@endforeach
 
 								</select>

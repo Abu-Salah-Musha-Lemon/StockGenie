@@ -32,7 +32,7 @@ class AuthenticatedSessionController extends Controller
     
         if ($authRole === 0 ) {
             return redirect()->intended(route('admin.dashboard'));  // Redirect to the same dashboard for both roles
-        } elseif ( $authRole === 1) {
+        } elseif ( $authRole === 3) {
             return redirect()->intended(route('employee.dashboard'));  // Redirect to the same dashboard for both roles
             # code...
         } else{

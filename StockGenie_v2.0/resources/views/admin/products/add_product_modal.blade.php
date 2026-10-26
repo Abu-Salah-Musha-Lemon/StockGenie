@@ -63,7 +63,7 @@
 									<select name="cat_id" id="cat_id" class="form-control">
 										<option disabled="" selected="">Select</option>
 										@foreach($cat as $row)
-										<option value="{{$row->id}}">{{$row->category_name}}</option>
+										<option value="{{$row->id}}">{{$row->name}}</option>
 										@endforeach
 									</select>
 									<span class='text-danger'>@error('cat_id'){{ $message }}@enderror</span>

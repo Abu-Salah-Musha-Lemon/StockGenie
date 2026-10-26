@@ -31,42 +31,141 @@ class RegisteredUserController extends Controller
     {
         $request->validate([
             'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:'.User::class],
-            'password' => ['required', 'confirmed', Rules\Password::defaults()],
+
+            'email' => [
+                'required',
+                'string',
+                'lowercase',
+                'email',
+                'max:255',
+                'unique:' . User::class,
+            ],
+
+            'password' => [
+                'required',
+                'confirmed',
+                Rules\Password::defaults(),
+            ],
         ]);
 
-           DB::beginTransaction();
+        try {
 
-    try {
+            $user = DB::transaction(function () use ($request) {
 
-        $user = User::create([
-            'name' => $request->name,
-            'email' => $request->email,
-            'password' => Hash::make($request->password),
-        ]);
+                /*
+                |--------------------------------------------------------------------------
+                | Determine Role
+                |--------------------------------------------------------------------------
+                |
+                | role 1 = Admin
+                | role 3 = Employee
+                |
+                | If no admin exists, new user becomes admin.
+                | Otherwise new user becomes employee.
+                |
+                */
 
-        $employeeCode = 'EMP-' . date('Y') . '-' . rand(1000, 9999);
+                $adminExists = User::where('role', 0)->exists();
 
-        DB::table('employees')->insert([
-            'user_id' => $user->id,
-            'employee_code' => $employeeCode,
-            'hire_date' => now(),
-            'created_at' => now(),
-            'updated_at' => now(),
-        ]);
+                $role = $adminExists ? 3 : 0;
 
-        DB::commit();
 
-        Auth::login($user);
+                /*
+                |--------------------------------------------------------------------------
+                | Create User
+                |--------------------------------------------------------------------------
+                */
 
-        return redirect()->route('dashboard');
+                $user = User::create([
+                    'name' => $request->name,
+                    'email' => $request->email,
+                    'password' => Hash::make($request->password),
+                    'role' => $role,
+                ]);
 
-    } catch (\Exception $e) {
 
-        DB::rollBack();
+                /*
+                |--------------------------------------------------------------------------
+                | Split Name
+                |--------------------------------------------------------------------------
+                */
 
-        dd($e->getMessage()); // show real error
+                $nameParts = explode(' ', trim($request->name), 2);
 
+                $firstName = $nameParts[0];
+                $lastName = $nameParts[1] ?? null;
+
+
+                /*
+                |--------------------------------------------------------------------------
+                | Generate Employee Code
+                |--------------------------------------------------------------------------
+                */
+
+                do {
+
+                    $employeeCode =
+                        'EMP-' .
+                        now()->format('Y') .
+                        '-' .
+                        random_int(1000, 9999);
+
+                } while (
+                    DB::table('employees')
+                        ->where('employee_code', $employeeCode)
+                        ->exists()
+                );
+
+
+                /*
+                |--------------------------------------------------------------------------
+                | Create Employee
+                |--------------------------------------------------------------------------
+                */
+
+                DB::table('employees')->insert([
+
+                    'user_id' => $user->id,
+
+                    'employee_code' => $employeeCode,
+
+                    'first_name' => $firstName,
+
+                    'last_name' => $lastName,
+
+                    'email' => $request->email,
+
+                    'hire_date' => now(),
+
+                    'status' => 'active',
+
+                    'created_at' => now(),
+
+                    'updated_at' => now(),
+                ]);
+
+
+                return $user;
+            });
+
+
+            /*
+            |--------------------------------------------------------------------------
+            | Login
+            |--------------------------------------------------------------------------
+            */
+
+            Auth::login($user);
+
+            return redirect()->route('dashboard');
+
+
+        } catch (\Exception $e) {
+
+            // Temporary: show the real database error
+            dd($e->getMessage());
+        }
     }
-}
+
+
 }

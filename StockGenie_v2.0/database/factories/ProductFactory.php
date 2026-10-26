@@ -1,33 +1,45 @@
 <?php
 
 namespace Database\Factories;
+
+use App\Models\Category;
 use App\Models\Product;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
-/**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Product>
- */
 class ProductFactory extends Factory
 {
-    /**
-     * Define the model's default state.
-     *
-     * @return array<string, mixed>
-     */
     protected $model = Product::class;
+
     public function definition(): array
     {
-       
-     return [
-    'name' => fake()->word(),
-    'sku' => fake()->unique()->bothify('SKU-#####'),
-    'barcode' => fake()->optional()->ean13(),
-    'category_id' => 1, // or Category::factory()
-    'cost_price' => fake()->randomFloat(2, 10, 100),
-    'sale_price' => fake()->randomFloat(2, 100, 200),
-    'alert_qty' => fake()->numberBetween(0, 50),
-    'status' => true,
-    'is_deleted' => false,
-];
+        return [
+            'name' => $this->faker->words(3, true),
+
+            'sku' => strtoupper(
+                $this->faker->unique()->bothify('SKU-####-???')
+            ),
+
+            'barcode' => $this->faker->unique()->numerify('############'),
+
+            'category_id' => Category::factory(),
+
+            'cost_price' => $this->faker->randomFloat(
+                2,
+                100,
+                50000
+            ),
+
+            'sale_price' => $this->faker->randomFloat(
+                2,
+                50000,
+                100000
+            ),
+
+            'photo' => null,
+
+            'status' => true,
+
+            'is_deleted' => false,
+        ];
     }
 }

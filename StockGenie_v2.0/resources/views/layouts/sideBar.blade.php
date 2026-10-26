@@ -22,7 +22,7 @@
 	</li>
 
 	<li>
-		<a href="{{route('pos.sales.index')}}" class="waves-effect"><i class="ion-cash"></i><span> POS </span></a>
+		<a href="{{route('pos.index')}}" class="waves-effect"><i class="ion-cash"></i><span> POS </span></a>
 	</li>
 
 
@@ -31,7 +31,7 @@
 				class="pull-right"><i class="md md-add"></i></span></a>
 		<ul class="list-unstyled">
 			<li><a href="{{route('pos.orders.pending')}}">Pending Order</a></li>
-			<li><a href="{{route('pos.orders.paid')}}">All Order Report</a></li>
+
 
 		</ul>
 	</li>
@@ -51,8 +51,9 @@
 		<a href="#" class="waves-effect"><i class="bi bi-people"></i> <span> Employee </span> <span class="pull-right"><i
 					class="md md-add"></i></span></a>
 		<ul class="list-unstyled">
-			<li class="active"><a href="{{route('admin.departments.index')}}">Departments</a></li>
-			<li class="active"><a href="{{route('admin.employees.create')}}">Add Employee</a></li>
+			<li class=""><a href="{{route('admin.departments.index')}}">Departments</a></li>
+			<li class=""><a href="{{route('admin.positions.index')}}">Positions</a></li>
+			<li class=""><a href="{{route('admin.employees.create')}}">Add Employee</a></li>
 			<li><a href="{{route('admin.employees.index')}}">All Employee</a></li>
 		</ul>
 	</li>
@@ -79,6 +80,21 @@
 					class="md md-add"></i></span></a>
 		<ul class="list-unstyled">
 			<li><a href="{{route('admin.suppliers.index')}}">All Suppliers</a></li>
+		</ul>
+	</li>
+	<li class="has_sub">
+		<a href="#" class="waves-effect"><i class="fa fa-truck"></i> <span> Customers </span> <span class="pull-right"><i
+					class="md md-add"></i></span></a>
+		<ul class="list-unstyled">
+			<li><a href="{{route('customers.index')}}">All Customers</a></li>
+		</ul>
+	</li>
+
+	<li class="has_sub">
+		<a href="#" class="waves-effect"><i class="fa fa-truck"></i> <span> Warehouses </span> <span class="pull-right"><i
+					class="md md-add"></i></span></a>
+		<ul class="list-unstyled">
+			<li><a href="{{route('warehouses.index')}}">All Warehouses</a></li>
 		</ul>
 	</li>
 

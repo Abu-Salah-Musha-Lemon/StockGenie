@@ -8,25 +8,43 @@ use Illuminate\Database\Eloquent\Model;
 class Product extends Model
 {
     use HasFactory;
+
     protected $fillable = [
-        'product_name',
-        'cat_id',
-        'sup_id',
-        'product_code',
-        'product_qty',
-        'product_garage',
-        'product_route',
-        'buy_date',
-        'expire_date',
-        'buying_price',
-        'selling_price',
+        'name',
+        'sku',
+        'barcode',
+        'category_id',
+        'cost_price',
+        'sale_price',
+        'alert_qty',
         'photo',
+        'status',
+        'is_deleted',
+    ];
+
+    protected $casts = [
+        'status' => 'boolean',
+        'is_deleted' => 'boolean',
+        'cost_price' => 'decimal:2',
+        'sale_price' => 'decimal:2',
     ];
 
     public function category()
     {
-        return $this->belongsTo(Category::class, 'cat_id');
+        return $this->belongsTo(
+            Category::class,
+            'category_id'
+        );
     }
+
+    public function stock()
+    {
+        return $this->hasOne(
+            ProductStock::class,
+            'product_id'
+        );
+    }
+
 
     public function supplier()
     {

@@ -15,7 +15,7 @@
 
 			<div class="panel-heading " style="display: flex;justify-content: space-between;">
 				<h3 class="panel-title text-white">View Supplier</h3>
-				<a class="panel-title fs-4" href="{{URL::to('/all-supplier')}}">
+				<a class="panel-title fs-4" href="{{ route('admin.suppliers.index') }}">
 					<i class="bi bi-box-arrow-in-left" style="font-size:24px;color:white;font-weight:800;"></i>
 				</a>
 			</div>

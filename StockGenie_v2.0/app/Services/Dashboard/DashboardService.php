@@ -64,10 +64,12 @@ class DashboardService
     {
         return DB::table('product_stocks')
             ->join('products', 'products.id', '=', 'product_stocks.product_id')
-            ->whereColumn('product_stocks.qty', '<=', 'products.alert_qty')
+            ->whereColumn('product_stocks.qty', '<=', 'product_stocks.alert_qty')
             ->get([
                 'products.name',
                 'product_stocks.qty',
+                'product_stocks.alert_qty',
             ]);
     }
+
 }

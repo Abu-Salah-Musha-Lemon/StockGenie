@@ -6,9 +6,13 @@ use App\Models\Product;
 
 class ProductRepository
 {
-    public function paginate()
+    public function paginate(int $perPage = 20)
     {
-        return Product::latest()->paginate(20);
+        return Product::query()
+            ->with(['category', 'stock'])
+            ->where('is_deleted', false)
+            ->latest()
+            ->paginate($perPage);
     }
 
     public function create(array $data): Product
@@ -16,13 +20,24 @@ class ProductRepository
         return Product::create($data);
     }
 
+    public function find(int $id): ?Product
+    {
+        return Product::query()
+            ->with(['category', 'stock'])
+            ->find($id);
+    }
+
     public function update(int $id, array $data): void
     {
-        Product::whereId($id)->update($data);
+        Product::whereKey($id)
+            ->update($data);
     }
 
     public function delete(int $id): void
     {
-        Product::whereId($id)->delete();
+        Product::whereKey($id)
+            ->update([
+                'is_deleted' => true,
+            ]);
     }
 }

@@ -1,0 +1,499 @@
+/*
+Night Mode Overrides for Moltran Dashboard (Bootstrap 3.3.5)
+এই ফাইলটা মূল CSS ফাইলের পরে <link> করুন, যাতে override গুলো কার্যকর হয়।
+
+<link rel="stylesheet" href="path/to/original.css">
+<link rel="stylesheet" href="path/to/night-mode-overrides.css">
+*/
+
+:root {
+    --nm-bg: #111827;
+    --nm-panel: #1e293b;
+    --nm-panel-alt: #1b293a;
+    --nm-border: #2c3e50;
+    --nm-text: #e5e7eb;
+    --nm-text-muted: #98a6ad;
+    --nm-input-bg: #26333f;
+    --nm-hover: #2b3e50;
+    --nm-accent: #2563eb;
+    --nm-footer-h: 50px;
+    --nm-sidebar-w: 240px;
+    --nm-sidebar-w-collapsed: 50px;
+}
+
+/* ===== 1. Headings & base text ===== */
+h1, h2, h3, h4, h5, h6 {
+    color: var(--nm-text);
+}
+h3 small, h4 small, h5 small {
+    color: var(--nm-text-muted);
+}
+a {
+    color: #60a5fa;
+}
+a:hover {
+    color: #93c5fd;
+}
+
+/* ===== 2. Topbar ===== */
+.topbar {
+    background: var(--nm-panel);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
+}
+.navbar-default {
+    background-color: var(--nm-panel);
+    box-shadow: none;
+}
+.logo {
+    color: var(--nm-text) !important;
+}
+.nav > li > a {
+    color: var(--nm-text) !important;
+}
+.profile img {
+    border-color: var(--nm-border);
+}
+
+/* ===== 3. Form controls ===== */
+.form-control {
+    background-color: var(--nm-input-bg) !important;
+    color: var(--nm-text) !important;
+    border: 1px solid var(--nm-border);
+}
+.form-control::placeholder {
+    color: var(--nm-text-muted);
+    opacity: 1;
+}
+.form-control:focus {
+    background: var(--nm-input-bg);
+    border-color: var(--nm-accent);
+    color: var(--nm-text);
+}
+label {
+    color: var(--nm-text);
+}
+.input-group-addon {
+    background-color: var(--nm-panel);
+    border-color: var(--nm-border);
+    color: var(--nm-text);
+}
+
+/* ===== 4. Dropdown & Modal ===== */
+.dropdown-menu {
+    background-color: var(--nm-panel);
+    border: 1px solid var(--nm-border);
+}
+.dropdown-menu > li > a {
+    color: var(--nm-text);
+}
+.dropdown-menu > li > a:hover,
+.dropdown-menu > li > a:focus {
+    background-color: var(--nm-hover);
+    color: var(--nm-text);
+}
+.notifi-title {
+    color: var(--nm-text);
+    border-bottom-color: var(--nm-border);
+}
+.dropdown-menu-lg .media-body p {
+    color: var(--nm-text-muted);
+}
+
+.modal-content {
+    background-color: var(--nm-panel) !important;
+    color: var(--nm-text);
+    border-color: var(--nm-border) !important;
+}
+.modal-header,
+.modal-footer {
+    border-color: var(--nm-border) !important;
+}
+.close {
+    color: var(--nm-text);
+    opacity: 0.7;
+}
+.close:hover {
+    color: var(--nm-text);
+    opacity: 1;
+}
+
+/* ===== 5. List group & sidebars ===== */
+.list-group-item {
+    background-color: var(--nm-panel);
+    border-color: var(--nm-border);
+    color: var(--nm-text);
+}
+.list-group-item.active,
+.list-group-item.active:hover,
+.list-group-item.active:focus {
+    background-color: var(--nm-accent);
+    border-color: var(--nm-accent);
+    color: #fff;
+}
+
+.right-bar,
+.side-bar {
+    background: var(--nm-panel) !important;
+    color: var(--nm-text);
+}
+.right-bar h4 {
+    color: var(--nm-text);
+    border-bottom-color: var(--nm-border);
+}
+.contact-list .list-group-item:hover {
+    background: var(--nm-hover);
+}
+.contacts-list .list-group-item span.name {
+    color: var(--nm-text);
+}
+
+.user-tabs {
+    background-color: var(--nm-panel);
+}
+.nav.nav-tabs > li > a,
+.nav.tabs-vertical > li > a {
+    color: var(--nm-text-muted) !important;
+}
+.nav.nav-tabs > li.active > a {
+    background-color: var(--nm-panel);
+    color: var(--nm-text) !important;
+}
+.nav.nav-tabs + .tab-content,
+.tabs-vertical-env .tab-content {
+    background: var(--nm-panel);
+    color: var(--nm-text);
+}
+
+/* ===== 6. Pricing, wizard, calendar ===== */
+.price_card {
+    background: var(--nm-panel);
+    color: var(--nm-text);
+}
+.price-features {
+    color: var(--nm-text-muted);
+}
+.price-features li:not(:last-child) {
+    border-color: var(--nm-border);
+}
+
+.wizard > .content {
+    background: var(--nm-panel);
+    color: var(--nm-text);
+}
+.wizard > .content > .body input {
+    border-color: var(--nm-border);
+}
+.wizard > .steps .disabled a {
+    background: var(--nm-panel-alt);
+    color: var(--nm-text-muted);
+}
+.wizard > .steps .done a {
+    background: var(--nm-border);
+}
+
+.fc-day {
+    background: var(--nm-panel);
+}
+.fc th.fc-widget-header {
+    background: var(--nm-border);
+    color: var(--nm-text);
+}
+.fc-widget-header,
+.fc-widget-content {
+    border-color: var(--nm-border);
+}
+.fc-button {
+    background: var(--nm-panel);
+    border-color: var(--nm-border);
+    color: var(--nm-text);
+}
+.fc-unthemed .fc-today {
+    background: var(--nm-hover);
+}
+.fc-toolbar h2 {
+    color: var(--nm-text);
+}
+
+/* ===== 7. Chat / conversation ===== */
+.conversation-list .ctext-wrap {
+    background: var(--nm-panel-alt);
+    color: var(--nm-text);
+}
+.conversation-list .ctext-wrap:after {
+    border-right-color: var(--nm-panel-alt);
+}
+.conversation-list .odd .ctext-wrap {
+    background: var(--nm-hover) !important;
+}
+.conversation-list .odd .ctext-wrap:after {
+    border-left-color: var(--nm-hover) !important;
+}
+.conversation-list .ctext-wrap i {
+    color: var(--nm-accent);
+}
+
+/* Inbox widget */
+.inbox-widget .inbox-item {
+    border-bottom-color: var(--nm-border);
+}
+.inbox-widget .inbox-item .inbox-item-author {
+    color: var(--nm-text);
+}
+
+/* Panel default text (mini-stat, panel-default etc.) */
+.panel-default > .panel-heading,
+.portlet-default .portlet-title {
+    color: var(--nm-text) !important;
+}
+.mini-stat-info span,
+.mini-stat-info span.name {
+    color: var(--nm-text);
+}
+tbody {
+    color: var(--nm-text-muted);
+}
+th {
+    color: var(--nm-text);
+}
+
+/* Panel-fill default variant, uses light text by default in original file */
+.panel-fill.panel-default .panel-body {
+    color: var(--nm-text-muted);
+}
+.panel-fill.panel-default .panel-heading {
+    color: var(--nm-text);
+}
+
+/* ===== 8. Footer: fixed to the bottom of the viewport ===== */
+.footer {
+    position: fixed;
+    left: var(--nm-sidebar-w);
+    right: 0;
+    bottom: 0;
+    height: var(--nm-footer-h);
+    display: flex;
+    align-items: center;
+    z-index: 100;
+    padding: 0 30px;
+}
+
+/* content এর নিচে ফুটারের সমান জায়গা রাখা, যাতে লেখা ফুটারের নিচে চাপা না পড়ে */
+.content-page > .content {
+    padding-bottom: calc(var(--nm-footer-h) + 20px);
+}
+
+/* sidebar collapse হলে ("enlarged") footer ও একই সাথে সরে যাবে */
+#wrapper.enlarged .footer {
+    left: var(--nm-sidebar-w-collapsed);
+}
+
+/* মোবাইল ভিউতে sidebar ওভারলে হয়ে যায়, তাই ফুটার ফুল উইডথ */
+@media (max-width: 767px) {
+    .footer {
+        left: 0;
+    }
+}
+
+/* ===== 9. বাকি থেকে যাওয়া টেক্সট কালার ফিক্স ===== */
+.breadcrumb,
+.breadcrumb > li,
+.breadcrumb > .active {
+    color: var(--nm-text-muted);
+}
+.breadcrumb > li > a {
+    color: #60a5fa;
+}
+
+.list-group-item-heading {
+    color: var(--nm-text);
+}
+
+.dropdown-menu-lg .media-body p {
+    color: var(--nm-text-muted);
+}
+
+.user-details .user-info,
+.user-details .user-info a.dropdown-toggle {
+    color: var(--nm-text) !important;
+}
+
+.mails a {
+    color: var(--nm-text);
+}
+
+#datatable-editable .form-control {
+    background-color: var(--nm-input-bg) !important;
+    color: var(--nm-text) !important;
+}
+
+/* Gallery: thumb card ও filter বাটন */
+.thumb {
+    background-color: var(--nm-panel);
+}
+.portfolioFilter a {
+    background-color: var(--nm-panel-alt);
+    color: var(--nm-text);
+}
+.portfolioFilter a:hover,
+.portfolioFilter a.current {
+    color: #fff;
+}
+
+/* Timeline (cd-timeline) content box */
+.cd-timeline-content {
+    background: var(--nm-panel);
+    color: var(--nm-text);
+}
+.cd-timeline-content p {
+    color: var(--nm-text-muted);
+}
+.cd-timeline-content::before {
+    border-right-color: var(--nm-panel);
+}
+@media only screen and (min-width: 1170px) {
+    .cd-timeline-content::before {
+        border-left-color: var(--nm-panel);
+    }
+    .cd-timeline-block:nth-child(even) .cd-timeline-content::before {
+        border-right-color: var(--nm-panel);
+    }
+}
+
+/* Error / Coming soon / Maintenance পেজের টেক্সট */
+.ex-page-content h1 {
+    color: var(--nm-text);
+}
+.lj-countdown div span:last-child {
+    color: var(--nm-text-muted);
+}
+
+/* Contact page social icons */
+.social-links li a {
+    background: var(--nm-panel-alt);
+    color: var(--nm-text);
+}
+.media-main .info {
+    color: var(--nm-text) !important;
+}
+
+/* ===== 10. DataTables প্লাগিন (wrapper, pagination, sort icon) ===== */
+.dataTables_wrapper {
+    color: var(--nm-text);
+}
+.dataTables_length,
+.dataTables_filter,
+.dataTables_info,
+.dataTables_paginate {
+    color: var(--nm-text-muted) !important;
+}
+.dataTables_length > label,
+.dataTables_filter > label {
+    color: var(--nm-text-muted);
+}
+.dataTables_length > label > select,
+.dataTables_filter > label > input {
+    background-color: var(--nm-input-bg);
+    color: var(--nm-text);
+    border: 1px solid var(--nm-border);
+}
+.dataTables_filter > label > input:focus {
+    border-color: var(--nm-accent);
+}
+
+/* Pagination বাটন (Bootstrap .pagination ক্লাস ব্যবহার করে DataTables) */
+div.dataTables_paginate ul.pagination > li > a,
+div.dataTables_paginate ul.pagination > li > span {
+    background-color: var(--nm-panel);
+    border-color: var(--nm-border);
+    color: var(--nm-text);
+}
+div.dataTables_paginate ul.pagination > li > a:hover,
+div.dataTables_paginate ul.pagination > li > span:hover {
+    background-color: var(--nm-hover);
+    border-color: var(--nm-border);
+    color: var(--nm-text);
+}
+div.dataTables_paginate ul.pagination > li.active > a,
+div.dataTables_paginate ul.pagination > li.active > span {
+    background-color: var(--nm-accent);
+    border-color: var(--nm-accent);
+    color: #fff;
+}
+div.dataTables_paginate ul.pagination > li.disabled > a,
+div.dataTables_paginate ul.pagination > li.disabled > span {
+    background-color: var(--nm-panel-alt);
+    color: var(--nm-text-muted);
+    border-color: var(--nm-border);
+}
+
+/* Column sorting আইকন (DataTables ডিফল্ট থিম) */
+table.dataTable thead .sorting:after,
+table.dataTable thead .sorting_asc:after,
+table.dataTable thead .sorting_desc:after {
+    color: var(--nm-text-muted);
+    opacity: 0.6;
+}
+table.dataTable thead th,
+table.dataTable thead td {
+    border-bottom: 1px solid var(--nm-border);
+}
+
+/* Processing / no-data স্টেট */
+.dataTables_processing {
+    background-color: var(--nm-panel) !important;
+    color: var(--nm-text) !important;
+    border: 1px solid var(--nm-border);
+}
+table.dataTable tbody tr.odd,
+table.dataTable tbody tr.even {
+    background-color: var(--nm-bg);
+}
+
+/* Responsive DataTable (table-rep-plugin) child row detail */
+table.dataTable > tbody > tr.child ul.dtr-details {
+    color: var(--nm-text);
+}
+table.dataTable > tbody > tr.child span.dtr-title {
+    color: var(--nm-text-muted);
+}
+
+/* ===== 11. Sidebar collapse ("enlarged") অবস্থায় hover প্যানেল ===== */
+#wrapper.enlarged .left.side-menu #sidebar-menu ul > li:hover > a {
+    background: var(--nm-panel) !important;
+    color: var(--nm-text);
+}
+#wrapper.enlarged .left.side-menu #sidebar-menu ul > li > ul {
+    background: var(--nm-panel);
+}
+#wrapper.enlarged .left.side-menu #sidebar-menu ul > li:hover > ul a {
+    background: var(--nm-panel) !important;
+    color: var(--nm-text);
+    border-left: 3px solid var(--nm-accent);
+}
+#wrapper.enlarged .left.side-menu #sidebar-menu ul > li:hover > ul a:hover {
+    background: var(--nm-hover) !important;
+    color: #fff;
+}
+#wrapper.enlarged #sidebar-menu > ul > li:hover > a {
+    background: var(--nm-panel);
+}
+#wrapper.enlarged .left.side-menu #sidebar-menu ul > li > a:hover,
+#wrapper.enlarged .left.side-menu #sidebar-menu ul > li > a {
+    background-color: transparent;
+}
+
+/* ===== 12. Scrollbar (কসমেটিক, চাইলে বাদ দিতে পারেন) ===== */
+::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+::-webkit-scrollbar-track {
+    background: var(--nm-bg);
+}
+::-webkit-scrollbar-thumb {
+    background: var(--nm-border);
+    border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+    background: var(--nm-hover);
+}

@@ -62,10 +62,11 @@
     
     <!-- Waves-effect -->
     <link href="{{ asset('css/waves-effect.css') }}" rel="stylesheet" />
-    
+    <!-- <link rel="stylesheet" href="path/to/night-mode-overrides.css"> -->
     <!-- Custom Files -->
     <link href="{{ asset('css/helper.css') }}" rel="stylesheet" type="text/css" />
     <link href="{{ asset('css/style.css') }}" rel="stylesheet" type="text/css" />
+    <link href="{{ asset('css/night-mode-overrides.css') }}" rel="stylesheet" type="text/css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css" />
 
     <!-- Local Server -->

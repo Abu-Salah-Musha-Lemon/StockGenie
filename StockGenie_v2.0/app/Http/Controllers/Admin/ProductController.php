@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ProductStoreRequest;
 use App\Http\Requests\ProductUpdateRequest;
+use App\Models\Category;
 use App\Services\Product\ProductService;
 
 class ProductController extends Controller
@@ -13,37 +14,127 @@ class ProductController extends Controller
         private readonly ProductService $productService
     ) {}
 
+
+    /*
+    |--------------------------------------------------------------------------
+    | Product List
+    |--------------------------------------------------------------------------
+    */
+
     public function index()
     {
         return view('admin.products.index', [
-            'products' => $this->productService->list()
+            'products' =>
+                $this->productService->list(),
         ]);
     }
 
-    public function store(ProductStoreRequest $request)
-    {
-        $this->productService->create($request->validated());
 
-        return redirect()
-            ->back()
-            ->with('success', 'Product created successfully');
+    /*
+    |--------------------------------------------------------------------------
+    | Create Form
+    |--------------------------------------------------------------------------
+    */
+
+    public function create()
+    {
+        return view(
+            'admin.products.add_product',
+            [
+                'categories' =>
+                    Category::orderBy('name')->get(),
+            ]
+        );
     }
 
-    public function update(ProductUpdateRequest $request, int $id)
-    {
-        $this->productService->update($id, $request->validated());
+
+    /*
+    |--------------------------------------------------------------------------
+    | Store
+    |--------------------------------------------------------------------------
+    */
+
+    public function store(
+        ProductStoreRequest $request
+    ) {
+
+        $this->productService->store(
+            $request->validated()
+        );
 
         return redirect()
-            ->back()
-            ->with('success', 'Product updated successfully');
+            ->route('admin.products.index')
+            ->with(
+                'success',
+                'Product created successfully'
+            );
     }
 
-    public function destroy(int $id)
+
+    /*
+    |--------------------------------------------------------------------------
+    | Edit Form
+    |--------------------------------------------------------------------------
+    */
+
+    public function edit(int $product)
     {
-        $this->productService->delete($id);
+        $productData =
+            $this->productService->find($product);
+
+        return view(
+            'admin.products.edit_product',
+            [
+                'product' => $productData,
+                'categories' =>
+                    Category::orderBy('name')->get(),
+            ]
+        );
+    }
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | Update
+    |--------------------------------------------------------------------------
+    */
+
+    public function update(
+        ProductUpdateRequest $request,
+        int $product
+    ) {
+
+        $this->productService->update(
+            $product,
+            $request->validated()
+        );
 
         return redirect()
-            ->back()
-            ->with('success', 'Product deleted');
+            ->route('admin.products.index')
+            ->with(
+                'success',
+                'Product updated successfully'
+            );
+    }
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | Delete
+    |--------------------------------------------------------------------------
+    */
+
+    public function destroy(int $product)
+    {
+        $this->productService->delete(
+            $product
+        );
+
+        return redirect()
+            ->route('admin.products.index')
+            ->with(
+                'success',
+                'Product deleted successfully'
+            );
     }
 }

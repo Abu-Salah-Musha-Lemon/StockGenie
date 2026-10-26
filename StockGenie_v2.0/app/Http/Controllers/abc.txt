@@ -1,0 +1,2145 @@
+অবশ্যই। তোমার দেওয়া structure অনুযায়ী আমি **EmployeeController** এবং **add\_employee.blade.php** দুটোই ঠিক করে দিচ্ছি। মূল fixগুলো হলো `role`, `position_id`, validation, unique validation, photo handling, department/position update এবং error handling।
+
+ ## 1\. `app/Http/Controllers/EmployeeController.php`
+
+ \<?php  namespace App\\Http\\Controllers;
+
+ use Illuminate\\Http\\Request;\
+ use Illuminate\\Support\\Facades\\DB;\
+ use Illuminate\\Support\\Facades\\Hash;
+
+ class EmployeeController extends Controller\
+ {\
+ /\*\
+ |--------------------------------------------------------------------------\
+ | CREATE PAGE\
+ |--------------------------------------------------------------------------\
+ \*/
+
+
+public function create()
+{
+    $departments = DB::table('departments')
+        ->where('status', 'active')
+        ->orderBy('name')
+        ->get();
+
+
+
+    $positions = DB::table('positions')
+        ->orderBy('title')
+        ->get();
+
+
+
+    return view(
+        'employee.add_employee',
+        compact('departments', 'positions')
+    );
+}
+
+
+
+/*
+|--------------------------------------------------------------------------
+| ALL EMPLOYEES
+|--------------------------------------------------------------------------
+*/
+
+
+
+public function index()
+{
+    $employees = DB::table('employees')
+        ->join('users', 'users.id', '=', 'employees.user_id')
+        ->leftJoin(
+            'departments',
+            'departments.id',
+            '=',
+            'employees.department_id'
+        )
+        ->leftJoin(
+            'positions',
+            'positions.id',
+            '=',
+            'employees.position_id'
+        )
+        ->select(
+            'employees.*',
+            'users.role',
+            'users.name',
+            'users.email as user_email',
+            'departments.name as department_name',
+            'positions.title as position_title'
+        )
+        ->latest('employees.id')
+        ->get();
+
+
+
+    return view('employee.index', compact('employees'));
+}
+
+
+
+/*
+|--------------------------------------------------------------------------
+| STORE EMPLOYEE
+|--------------------------------------------------------------------------
+*/
+
+
+
+public function store(Request $request)
+{
+    $validated = $request->validate([
+
+
+
+        'first_name' => [
+            'required',
+            'string',
+            'max:255',
+        ],
+
+
+
+        'last_name' => [
+            'nullable',
+            'string',
+            'max:255',
+        ],
+
+
+
+        'email' => [
+            'required',
+            'email',
+            'max:255',
+            'unique:users,email',
+        ],
+
+
+
+        'phone_number' => [
+            'required',
+            'digits:11',
+            'unique:employees,phone_number',
+        ],
+
+
+
+        'nid' => [
+            'required',
+            'string',
+            'max:20',
+            'unique:employees,nid',
+        ],
+
+
+
+        'password' => [
+            'required',
+            'string',
+            'min:8',
+            'confirmed',
+        ],
+
+
+
+        'photo' => [
+            'required',
+            'image',
+            'mimes:jpg,jpeg,png,webp',
+            'max:2048',
+        ],
+
+
+
+        'address' => [
+            'nullable',
+            'string',
+            'max:500',
+        ],
+
+
+
+        'city' => [
+            'nullable',
+            'string',
+            'max:100',
+        ],
+
+
+
+        'experience' => [
+            'nullable',
+            'integer',
+            'min:0',
+        ],
+
+
+
+        'salary' => [
+            'nullable',
+            'numeric',
+            'min:0',
+        ],
+
+
+
+        'vacation' => [
+            'nullable',
+            'integer',
+            'min:0',
+        ],
+
+
+
+        'date_of_birth' => [
+            'nullable',
+            'date',
+        ],
+
+
+
+        'gender' => [
+            'nullable',
+            'in:male,female,other',
+        ],
+
+
+
+        'department_id' => [
+            'required',
+            'integer',
+            'exists:departments,id',
+        ],
+
+
+
+        'position_id' => [
+            'required',
+            'integer',
+            'exists:positions,id',
+        ],
+    ]);
+
+
+
+    DB::beginTransaction();
+
+
+
+    $photoPath = null;
+
+
+
+    try {
+
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | CHECK POSITION BELONGS TO DEPARTMENT
+        |--------------------------------------------------------------------------
+        */
+
+
+
+        $position = DB::table('positions')
+            ->where('id', $validated['position_id'])
+            ->where('department_id', $validated['department_id'])
+            ->first();
+
+
+
+        if (!$position) {
+            return back()
+                ->withInput()
+                ->withErrors([
+                    'position_id' =>
+                        'The selected position does not belong to the selected department.',
+                ]);
+        }
+
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | CREATE USER
+        |--------------------------------------------------------------------------
+        */
+
+
+
+        $userId = DB::table('users')->insertGetId([
+
+
+
+            'name' => trim(
+                $validated['first_name'] . ' ' .
+                ($validated['last_name'] ?? '')
+            ),
+
+
+
+            'email' => strtolower($validated['email']),
+
+
+
+            'password' => Hash::make($validated['password']),
+
+
+
+            'role' => 'employee',
+
+
+
+            'created_at' => now(),
+
+
+
+            'updated_at' => now(),
+        ]);
+
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | UPLOAD PHOTO
+        |--------------------------------------------------------------------------
+        */
+
+
+
+        if ($request->hasFile('photo')) {
+
+
+
+            $photoPath = upload_image(
+                $request->file('photo'),
+                'employees',
+                300,
+                300,
+                80
+            );
+        }
+
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | GENERATE EMPLOYEE CODE
+        |--------------------------------------------------------------------------
+        */
+
+
+
+        do {
+
+
+
+            $employeeCode =
+                'EMP-' .
+                date('Y') .
+                '-' .
+                strtoupper(substr(uniqid(), -6));
+
+
+
+        } while (
+            DB::table('employees')
+                ->where('employee_code', $employeeCode)
+                ->exists()
+        );
+
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | CREATE EMPLOYEE
+        |--------------------------------------------------------------------------
+        */
+
+
+
+        DB::table('employees')->insert([
+
+
+
+            'user_id' => $userId,
+
+
+
+            'employee_code' => $employeeCode,
+
+
+
+            'first_name' => $validated['first_name'],
+
+
+
+            'last_name' => $validated['last_name'] ?? null,
+
+
+
+            'email' => strtolower($validated['email']),
+
+
+
+            'phone_number' => $validated['phone_number'],
+
+
+
+            'nid' => $validated['nid'],
+
+
+
+            'address' => $validated['address'] ?? null,
+
+
+
+            'city' => $validated['city'] ?? null,
+
+
+
+            'experience' => $validated['experience'] ?? null,
+
+
+
+            'salary' => $validated['salary'] ?? null,
+
+
+
+            'vacation' => $validated['vacation'] ?? null,
+
+
+
+            'date_of_birth' => $validated['date_of_birth'] ?? null,
+
+
+
+            'gender' => $validated['gender'] ?? null,
+
+
+
+            'hire_date' => now()->toDateString(),
+
+
+
+            'department_id' => $validated['department_id'],
+
+
+
+            'position_id' => $validated['position_id'],
+
+
+
+            'photo' => $photoPath,
+
+
+
+            'status' => 'active',
+
+
+
+            'created_at' => now(),
+
+
+
+            'updated_at' => now(),
+        ]);
+
+
+
+        DB::commit();
+
+
+
+        return redirect()
+            ->route('admin.employees.index')
+            ->with([
+                'message' => 'Employee added successfully.',
+                'alert-type' => 'success',
+            ]);
+
+
+
+    } catch (\Throwable $e) {
+
+
+
+        DB::rollBack();
+
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | DELETE UPLOADED PHOTO IF DATABASE FAILED
+        |--------------------------------------------------------------------------
+        */
+
+
+
+        if ($photoPath) {
+            delete_file($photoPath);
+        }
+
+
+
+        return back()
+            ->withInput($request->except([
+                'password',
+                'password_confirmation',
+            ]))
+            ->with([
+                'message' => 'Employee could not be added. ' . $e->getMessage(),
+                'alert-type' => 'error',
+            ]);
+    }
+}
+
+
+
+/*
+|--------------------------------------------------------------------------
+| SHOW EMPLOYEE
+|--------------------------------------------------------------------------
+*/
+
+
+
+public function show($id)
+{
+    $employee = DB::table('employees')
+        ->leftJoin(
+            'departments',
+            'departments.id',
+            '=',
+            'employees.department_id'
+        )
+        ->leftJoin(
+            'positions',
+            'positions.id',
+            '=',
+            'employees.position_id'
+        )
+        ->where('employees.id', $id)
+        ->select(
+            'employees.*',
+            'departments.name as department_name',
+            'positions.title as position_title'
+        )
+        ->first();
+
+
+
+    if (!$employee) {
+
+
+
+        return redirect()
+            ->route('admin.employees.index')
+            ->with([
+                'message' => 'Employee not found.',
+                'alert-type' => 'error',
+            ]);
+    }
+
+
+
+    $user = DB::table('users')
+        ->where('id', $employee->user_id)
+        ->first();
+
+
+
+    return view(
+        'employee.view_employee',
+        compact('employee', 'user')
+    );
+}
+
+
+
+/*
+|--------------------------------------------------------------------------
+| EDIT EMPLOYEE
+|--------------------------------------------------------------------------
+*/
+
+
+
+public function edit($id)
+{
+    $employee = DB::table('employees')
+        ->where('id', $id)
+        ->first();
+
+
+
+    if (!$employee) {
+
+
+
+        return redirect()
+            ->route('admin.employees.index')
+            ->with([
+                'message' => 'Employee not found.',
+                'alert-type' => 'error',
+            ]);
+    }
+
+
+
+    $user = DB::table('users')
+        ->where('id', $employee->user_id)
+        ->first();
+
+
+
+    $department = DB::table('departments')
+        ->where('id', $employee->department_id)
+        ->first();
+
+
+
+    $position = DB::table('positions')
+        ->where('id', $employee->position_id)
+        ->first();
+
+
+
+    $allDepartments = DB::table('departments')
+        ->where('status', 'active')
+        ->orderBy('name')
+        ->get();
+
+
+
+    $allPositions = DB::table('positions')
+        ->orderBy('title')
+        ->get();
+
+
+
+    return view(
+        'employee.edit_employee',
+        compact(
+            'employee',
+            'user',
+            'department',
+            'position',
+            'allDepartments',
+            'allPositions'
+        )
+    );
+}
+
+
+
+/*
+|--------------------------------------------------------------------------
+| UPDATE EMPLOYEE
+|--------------------------------------------------------------------------
+*/
+
+
+
+public function update(Request $request, $id)
+{
+    $employee = DB::table('employees')
+        ->where('id', $id)
+        ->first();
+
+
+
+    if (!$employee) {
+
+
+
+        return redirect()
+            ->route('admin.employees.index')
+            ->with([
+                'message' => 'Employee not found.',
+                'alert-type' => 'error',
+            ]);
+    }
+
+
+
+    $validated = $request->validate([
+
+
+
+        'first_name' => [
+            'required',
+            'string',
+            'max:255',
+        ],
+
+
+
+        'last_name' => [
+            'nullable',
+            'string',
+            'max:255',
+        ],
+
+
+
+        'phone_number' => [
+            'required',
+            'digits:11',
+            'unique:employees,phone_number,' . $id,
+        ],
+
+
+
+        'nid' => [
+            'required',
+            'string',
+            'max:20',
+            'unique:employees,nid,' . $id,
+        ],
+
+
+
+        'address' => [
+            'nullable',
+            'string',
+            'max:500',
+        ],
+
+
+
+        'city' => [
+            'nullable',
+            'string',
+            'max:100',
+        ],
+
+
+
+        'experience' => [
+            'nullable',
+            'integer',
+            'min:0',
+        ],
+
+
+
+        'salary' => [
+            'nullable',
+            'numeric',
+            'min:0',
+        ],
+
+
+
+        'vacation' => [
+            'nullable',
+            'integer',
+            'min:0',
+        ],
+
+
+
+        'date_of_birth' => [
+            'nullable',
+            'date',
+        ],
+
+
+
+        'gender' => [
+            'nullable',
+            'in:male,female,other',
+        ],
+
+
+
+        'department_id' => [
+            'required',
+            'integer',
+            'exists:departments,id',
+        ],
+
+
+
+        'position_id' => [
+            'required',
+            'integer',
+            'exists:positions,id',
+        ],
+
+
+
+        'name' => [
+            'required',
+            'string',
+            'max:255',
+        ],
+
+
+
+        'email' => [
+            'required',
+            'email',
+            'max:255',
+            'unique:users,email,' . $employee->user_id,
+        ],
+
+
+
+        'photo' => [
+            'nullable',
+            'image',
+            'mimes:jpg,jpeg,png,webp',
+            'max:2048',
+        ],
+    ]);
+
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | CHECK POSITION
+    |--------------------------------------------------------------------------
+    */
+
+
+
+    $position = DB::table('positions')
+        ->where('id', $validated['position_id'])
+        ->where('department_id', $validated['department_id'])
+        ->first();
+
+
+
+    if (!$position) {
+
+
+
+        return back()
+            ->withInput()
+            ->withErrors([
+                'position_id' =>
+                    'The selected position does not belong to the selected department.',
+            ]);
+    }
+
+
+
+    DB::beginTransaction();
+
+
+
+    $newPhotoPath = null;
+
+
+
+    try {
+
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | PHOTO
+        |--------------------------------------------------------------------------
+        */
+
+
+
+        $photoPath = $employee->photo;
+
+
+
+        if ($request->hasFile('photo')) {
+
+
+
+            $newPhotoPath = upload_image(
+                $request->file('photo'),
+                'employees',
+                300,
+                300,
+                80
+            );
+
+
+
+            $photoPath = $newPhotoPath;
+        }
+
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | UPDATE EMPLOYEE
+        |--------------------------------------------------------------------------
+        */
+
+
+
+        DB::table('employees')
+            ->where('id', $id)
+            ->update([
+
+
+
+                'first_name' => $validated['first_name'],
+
+
+
+                'last_name' => $validated['last_name'] ?? null,
+
+
+
+                'phone_number' => $validated['phone_number'],
+
+
+
+                'nid' => $validated['nid'],
+
+
+
+                'address' => $validated['address'] ?? null,
+
+
+
+                'city' => $validated['city'] ?? null,
+
+
+
+                'experience' => $validated['experience'] ?? null,
+
+
+
+                'salary' => $validated['salary'] ?? null,
+
+
+
+                'vacation' => $validated['vacation'] ?? null,
+
+
+
+                'date_of_birth' =>
+                    $validated['date_of_birth'] ?? null,
+
+
+
+                'gender' =>
+                    $validated['gender'] ?? null,
+
+
+
+                'department_id' =>
+                    $validated['department_id'],
+
+
+
+                'position_id' =>
+                    $validated['position_id'],
+
+
+
+                'photo' => $photoPath,
+
+
+
+                'updated_at' => now(),
+            ]);
+
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | UPDATE USER
+        |--------------------------------------------------------------------------
+        */
+
+
+
+        DB::table('users')
+            ->where('id', $employee->user_id)
+            ->update([
+
+
+
+                'name' => $validated['name'],
+
+
+
+                'email' => strtolower($validated['email']),
+
+
+
+                'updated_at' => now(),
+            ]);
+
+
+
+        DB::commit();
+
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | DELETE OLD PHOTO AFTER SUCCESSFUL DATABASE UPDATE
+        |--------------------------------------------------------------------------
+        */
+
+
+
+        if ($request->hasFile('photo') && $employee->photo) {
+            delete_file($employee->photo);
+        }
+
+
+
+        return redirect()
+            ->route('admin.employees.index')
+            ->with([
+                'message' => 'Employee updated successfully.',
+                'alert-type' => 'success',
+            ]);
+
+
+
+    } catch (\Throwable $e) {
+
+
+
+        DB::rollBack();
+
+
+
+        if ($newPhotoPath) {
+            delete_file($newPhotoPath);
+        }
+
+
+
+        return back()
+            ->withInput()
+            ->with([
+                'message' =>
+                    'Employee could not be updated. ' .
+                    $e->getMessage(),
+                'alert-type' => 'error',
+            ]);
+    }
+}
+
+
+
+/*
+|--------------------------------------------------------------------------
+| DELETE EMPLOYEE
+|--------------------------------------------------------------------------
+*/
+
+
+
+public function destroy($id)
+{
+    $employee = DB::table('employees')
+        ->where('id', $id)
+        ->first();
+
+
+
+    if (!$employee) {
+
+
+
+        return redirect()
+            ->route('admin.employees.index')
+            ->with([
+                'message' => 'Employee not found.',
+                'alert-type' => 'error',
+            ]);
+    }
+
+
+
+    DB::beginTransaction();
+
+
+
+    try {
+
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | DELETE EMPLOYEE
+        |--------------------------------------------------------------------------
+        */
+
+
+
+        DB::table('employees')
+            ->where('id', $id)
+            ->delete();
+
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | DELETE USER
+        |--------------------------------------------------------------------------
+        */
+
+
+
+        DB::table('users')
+            ->where('id', $employee->user_id)
+            ->delete();
+
+
+
+        DB::commit();
+
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | DELETE PHOTO AFTER DATABASE SUCCESS
+        |--------------------------------------------------------------------------
+        */
+
+
+
+        if ($employee->photo) {
+            delete_file($employee->photo);
+        }
+
+
+
+        return redirect()
+            ->route('admin.employees.index')
+            ->with([
+                'message' => 'Employee deleted successfully.',
+                'alert-type' => 'success',
+            ]);
+
+
+
+    } catch (\Throwable $e) {
+
+
+
+        DB::rollBack();
+
+
+
+        return back()->with([
+            'message' => 'Employee could not be deleted. ' . $e->getMessage(),
+            'alert-type' => 'error',
+        ]);
+    }
+}
+
+
+ }
+
+ ## 2\. `resources/views/employee/add_employee.blade.php`
+
+ তোমার form-এ মূলত `positions_id` → `position_id` এবং validation/error handling ঠিক করেছি। `old()` value-ও রেখেছি।
+
+ @extends('layouts.layout')
+
+ @section('main')
+
+ <div class="row"\> 
+    <div class="col-12"\>
+
+    <div class="panel panel-info">
+
+
+
+        <div class="panel-heading"
+             style="display:flex; justify-content:space-between; align-items:center;">
+
+
+
+            <h3 class="panel-title">Add Employee</h3>
+
+
+
+            <a class="panel-title fs-4"
+               href="{{ route('admin.employees.index') }}">
+
+
+
+                <i class="bi bi-box-arrow-in-left"
+                   style="font-size:24px"></i>
+
+
+
+            </a>
+
+
+
+        </div>
+
+
+
+        <div class="panel-body">
+
+
+
+            {{-- GENERAL ERROR --}}
+            @if ($errors->any())
+
+
+
+                <div class="alert alert-danger">
+
+
+
+                    <strong>Please fix the following errors:</strong>
+
+
+
+                    <ul class="mb-0">
+
+
+
+                        @foreach ($errors->all() as $error)
+
+
+
+                            <li>{{ $error }}</li>
+
+
+
+                        @endforeach
+
+
+
+                    </ul>
+
+
+
+                </div>
+
+
+
+            @endif
+
+
+
+            <form action="{{ route('admin.employees.store') }}"
+                  method="POST"
+                  enctype="multipart/form-data">
+
+
+
+                @csrf
+
+
+
+                <div class="row">
+
+
+
+                    {{-- PHOTO --}}
+                    <div class="col-md-4 mb-4">
+
+
+
+                        <div class="form-group my-2">
+
+
+
+                            <div class="input-group mb-3"
+                                 style="
+                                    display:flex;
+                                    justify-content:center;
+                                    align-items:center;
+                                    flex-direction:column;
+                                 ">
+
+
+
+                                <div class="input-group-prepend">
+                                    <span>Photo</span>
+                                </div>
+
+
+
+                                <img
+                                    id="image"
+                                    src="https://via.placeholder.com/190"
+                                    style="
+                                        width:190px;
+                                        height:190px;
+                                        object-fit:cover;
+                                        border-radius:16px;
+                                    "
+                                />
+
+
+
+                                <br>
+
+
+
+                                <div class="fileUpload btn btn-success waves-effect waves-light mt-2">
+
+
+
+                                    <span>
+                                        <i class="ion-upload m-r-5"></i>
+                                        Upload
+                                    </span>
+
+
+
+                                    <input
+                                        type="file"
+                                        name="photo"
+                                        id="photo"
+                                        accept="image/*"
+                                        class="upload form-control"
+                                        onchange="readURL(this);"
+                                        required
+                                    />
+
+
+
+                                </div>
+
+
+
+                                <span class="text-danger">
+                                    @error('photo')
+                                        {{ $message }}
+                                    @enderror
+                                </span>
+
+
+
+                            </div>
+
+
+
+                        </div>
+
+
+
+                    </div>
+
+
+
+                    {{-- LEFT SIDE --}}
+                    <div class="col-md-4">
+
+
+
+                        {{-- FIRST NAME --}}
+                        <div class="form-group mb-3">
+
+
+
+                            <label>First Name</label>
+
+
+
+                            <input
+                                type="text"
+                                name="first_name"
+                                class="form-control @error('first_name') is-invalid @enderror"
+                                value="{{ old('first_name') }}"
+                                placeholder="Enter First Name"
+                                required>
+
+
+
+                            @error('first_name')
+                                <span class="text-danger">
+                                    {{ $message }}
+                                </span>
+                            @enderror
+
+
+
+                        </div>
+
+
+
+                        {{-- LAST NAME --}}
+                        <div class="form-group mb-3">
+
+
+
+                            <label>Last Name</label>
+
+
+
+                            <input
+                                type="text"
+                                name="last_name"
+                                class="form-control @error('last_name') is-invalid @enderror"
+                                value="{{ old('last_name') }}"
+                                placeholder="Enter Last Name">
+
+
+
+                            @error('last_name')
+                                <span class="text-danger">
+                                    {{ $message }}
+                                </span>
+                            @enderror
+
+
+
+                        </div>
+
+
+
+                        {{-- NID --}}
+                        <div class="form-group mb-3">
+
+
+
+                            <label>NID</label>
+
+
+
+                            <input
+                                type="text"
+                                name="nid"
+                                class="form-control @error('nid') is-invalid @enderror"
+                                value="{{ old('nid') }}"
+                                placeholder="Enter NID"
+                                required>
+
+
+
+                            @error('nid')
+                                <span class="text-danger">
+                                    {{ $message }}
+                                </span>
+                            @enderror
+
+
+
+                        </div>
+
+
+
+                        {{-- PHONE --}}
+                        <div class="form-group mb-3">
+
+
+
+                            <label>Phone Number</label>
+
+
+
+                            <input
+                                type="text"
+                                name="phone_number"
+                                class="form-control @error('phone_number') is-invalid @enderror"
+                                value="{{ old('phone_number') }}"
+                                placeholder="01912345678"
+                                pattern="[0-9]{11}"
+                                maxlength="11"
+                                required>
+
+
+
+                            @error('phone_number')
+                                <span class="text-danger">
+                                    {{ $message }}
+                                </span>
+                            @enderror
+
+
+
+                        </div>
+
+
+
+                        {{-- EMAIL --}}
+                        <div class="form-group mb-3">
+
+
+
+                            <label>Email</label>
+
+
+
+                            <input
+                                type="email"
+                                name="email"
+                                class="form-control @error('email') is-invalid @enderror"
+                                value="{{ old('email') }}"
+                                placeholder="Enter Email"
+                                required>
+
+
+
+                            @error('email')
+                                <span class="text-danger">
+                                    {{ $message }}
+                                </span>
+                            @enderror
+
+
+
+                        </div>
+
+
+
+                        {{-- ADDRESS --}}
+                        <div class="form-group mb-3">
+
+
+
+                            <label>Address</label>
+
+
+
+                            <input
+                                type="text"
+                                name="address"
+                                class="form-control @error('address') is-invalid @enderror"
+                                value="{{ old('address') }}"
+                                placeholder="Enter Address">
+
+
+
+                            @error('address')
+                                <span class="text-danger">
+                                    {{ $message }}
+                                </span>
+                            @enderror
+
+
+
+                        </div>
+
+
+
+                        {{-- DEPARTMENT --}}
+                        <div class="form-group mb-3">
+
+
+
+                            <label>Department</label>
+
+
+
+                            <select
+                                name="department_id"
+                                id="department_id"
+                                class="form-control @error('department_id') is-invalid @enderror"
+                                required>
+
+
+
+                                <option value="">
+                                    Select Department
+                                </option>
+
+
+
+                                @foreach($departments as $row)
+
+
+
+                                    <option
+                                        value="{{ $row->id }}"
+                                        {{ old('department_id') == $row->id ? 'selected' : '' }}>
+
+
+
+                                        {{ $row->name }}
+
+
+
+                                    </option>
+
+
+
+                                @endforeach
+
+
+
+                            </select>
+
+
+
+                            @error('department_id')
+                                <span class="text-danger">
+                                    {{ $message }}
+                                </span>
+                            @enderror
+
+
+
+                        </div>
+
+
+
+                        {{-- POSITION --}}
+                        <div class="form-group mb-3">
+
+
+
+                            <label>Position</label>
+
+
+
+                            <select
+                                name="position_id"
+                                id="position_id"
+                                class="form-control @error('position_id') is-invalid @enderror"
+                                required>
+
+
+
+                                <option value="">
+                                    Select Position
+                                </option>
+
+
+
+                                @foreach($positions as $row)
+
+
+
+                                    <option
+                                        value="{{ $row->id }}"
+                                        data-department="{{ $row->department_id }}"
+                                        {{ old('position_id') == $row->id ? 'selected' : '' }}>
+
+
+
+                                        {{ $row->title }}
+
+
+
+                                    </option>
+
+
+
+                                @endforeach
+
+
+
+                            </select>
+
+
+
+                            @error('position_id')
+                                <span class="text-danger">
+                                    {{ $message }}
+                                </span>
+                            @enderror
+
+
+
+                        </div>
+
+
+
+                    </div>
+
+
+
+                    {{-- RIGHT SIDE --}}
+                    <div class="col-md-4">
+
+
+
+                        {{-- PASSWORD --}}
+                        <div class="form-group mb-3">
+
+
+
+                            <label>Password</label>
+
+
+
+                            <input
+                                type="password"
+                                name="password"
+                                class="form-control @error('password') is-invalid @enderror"
+                                placeholder="Password"
+                                required>
+
+
+
+                            @error('password')
+                                <span class="text-danger">
+                                    {{ $message }}
+                                </span>
+                            @enderror
+
+
+
+                        </div>
+
+
+
+                        {{-- CONFIRM PASSWORD --}}
+                        <div class="form-group mb-3">
+
+
+
+                            <label>Confirm Password</label>
+
+
+
+                            <input
+                                type="password"
+                                name="password_confirmation"
+                                class="form-control"
+                                placeholder="Confirm Password"
+                                required>
+
+
+
+                        </div>
+
+
+
+                        {{-- EXPERIENCE --}}
+                        <div class="form-group mb-3">
+
+
+
+                            <label>Experience (Years)</label>
+
+
+
+                            <input
+                                type="number"
+                                name="experience"
+                                class="form-control @error('experience') is-invalid @enderror"
+                                value="{{ old('experience') }}"
+                                placeholder="Experience"
+                                min="0">
+
+
+
+                            @error('experience')
+                                <span class="text-danger">
+                                    {{ $message }}
+                                </span>
+                            @enderror
+
+
+
+                        </div>
+
+
+
+                        {{-- SALARY --}}
+                        <div class="form-group mb-3">
+
+
+
+                            <label>Salary</label>
+
+
+
+                            <input
+                                type="number"
+                                step="0.01"
+                                name="salary"
+                                class="form-control @error('salary') is-invalid @enderror"
+                                value="{{ old('salary') }}"
+                                placeholder="Salary"
+                                min="0">
+
+
+
+                            @error('salary')
+                                <span class="text-danger">
+                                    {{ $message }}
+                                </span>
+                            @enderror
+
+
+
+                        </div>
+
+
+
+                        {{-- VACATION --}}
+                        <div class="form-group mb-3">
+
+
+
+                            <label>Vacation Days</label>
+
+
+
+                            <input
+                                type="number"
+                                name="vacation"
+                                class="form-control @error('vacation') is-invalid @enderror"
+                                value="{{ old('vacation') }}"
+                                placeholder="Vacation Days"
+                                min="0">
+
+
+
+                            @error('vacation')
+                                <span class="text-danger">
+                                    {{ $message }}
+                                </span>
+                            @enderror
+
+
+
+                        </div>
+
+
+
+                        {{-- CITY --}}
+                        <div class="form-group mb-3">
+
+
+
+                            <label>City</label>
+
+
+
+                            <input
+                                type="text"
+                                name="city"
+                                class="form-control @error('city') is-invalid @enderror"
+                                value="{{ old('city') }}"
+                                placeholder="City">
+
+
+
+                            @error('city')
+                                <span class="text-danger">
+                                    {{ $message }}
+                                </span>
+                            @enderror
+
+
+
+                        </div>
+
+
+
+                        {{-- DATE OF BIRTH --}}
+                        <div class="form-group mb-3">
+
+
+
+                            <label>Date of Birth</label>
+
+
+
+                            <input
+                                type="date"
+                                name="date_of_birth"
+                                class="form-control @error('date_of_birth') is-invalid @enderror"
+                                value="{{ old('date_of_birth') }}">
+
+
+
+                            @error('date_of_birth')
+                                <span class="text-danger">
+                                    {{ $message }}
+                                </span>
+                            @enderror
+
+
+
+                        </div>
+
+
+
+                        {{-- GENDER --}}
+                        <div class="form-group mb-3">
+
+
+
+                            <label>Gender</label>
+
+
+
+                            <select
+                                name="gender"
+                                class="form-control @error('gender') is-invalid @enderror">
+
+
+
+                                <option value="">
+                                    Select Gender
+                                </option>
+
+
+
+                                <option
+                                    value="male"
+                                    {{ old('gender') == 'male' ? 'selected' : '' }}>
+                                    Male
+                                </option>
+
+
+
+                                <option
+                                    value="female"
+                                    {{ old('gender') == 'female' ? 'selected' : '' }}>
+                                    Female
+                                </option>
+
+
+
+                                <option
+                                    value="other"
+                                    {{ old('gender') == 'other' ? 'selected' : '' }}>
+                                    Other
+                                </option>
+
+
+
+                            </select>
+
+
+
+                            @error('gender')
+                                <span class="text-danger">
+                                    {{ $message }}
+                                </span>
+                            @enderror
+
+
+
+                        </div>
+
+
+
+                    </div>
+
+
+
+                </div>
+
+
+
+                {{-- SUBMIT --}}
+                <div class="text-center mt-4">
+
+
+
+                    <button
+                        type="submit"
+                        class="btn btn-success waves-effect waves-light">
+
+
+
+                        <i class="bi bi-person-plus"></i>
+                        Add Employee
+
+
+
+                    </button>
+
+
+
+                </div>
+
+
+
+            </form>
+
+
+
+        </div>
+
+
+
+    </div>
+
+
+
+</div>
+
+
+ \</div\> {{-- IMAGE PREVIEW --}}
+
+ \<script\> function readURL(input)\
+ {\
+ if (input.files && input.files\[0\])\
+ {\
+ let reader = new FileReader();
+
+
+    reader.onload = function(e)
+    {
+        document.getElementById('image').src = e.target.result;
+    };
+
+
+
+    reader.readAsDataURL(input.files[0]);
+}
+
+
+ }
+
+ /\*\
+ |--------------------------------------------------------------------------
+
+ | FILTER POSITIONS BY DEPARTMENT |
+| --- |
+| \*/ |
+
+document.addEventListener('DOMContentLoaded', function ()\
+ {\
+ const department = document.getElementById('department\_id');\
+ const position = document.getElementById('position\_id');
+
+
+if (!department || !position) {
+    return;
+}
+
+
+
+function filterPositions()
+{
+    const departmentId = department.value;
+
+
+
+    Array.from(position.options).forEach(function(option)
+    {
+        if (!option.value) {
+            option.hidden = false;
+            return;
+        }
+
+
+
+        const optionDepartment = option.dataset.department;
+
+
+
+        option.hidden = optionDepartment !== departmentId;
+    });
+
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | Reset invalid selected position
+    |--------------------------------------------------------------------------
+    */
+
+
+
+    const selectedOption =
+        position.options[position.selectedIndex];
+
+
+
+    if (
+        selectedOption &&
+        selectedOption.value &&
+        selectedOption.dataset.department !== departmentId
+    ) {
+        position.value = '';
+    }
+}
+
+
+
+department.addEventListener('change', filterPositions);
+
+
+
+filterPositions();
+
+
+ });
+
+ \</script\> @endsection
+
+ ## একটা গুরুত্বপূর্ণ বিষয়
+
+ উপরের controller ধরে তোমার `employees` migration-এ অন্তত এই columnগুলো থাকতে হবে:
+
+
+id
+user_id
+employee_code
+first_name
+last_name
+email
+phone_number
+nid
+address
+city
+experience
+salary
+vacation
+date_of_birth
+gender
+hire_date
+department_id
+position_id
+photo
+status
+created_at
+updated_at
+
+
+ আর `users` table-এ:
+
+
+id
+name
+email
+password
+role
+...
+
+
+ থাকতে হবে।
+
+ **বিশেষ করে `role` column-এর default না থাকলেও সমস্যা হবে না**, কারণ controller এখন সরাসরি:
+
+
+'role' => 'employee',
+
+
+ দিচ্ছে।
+
+ ### এখন ফাইল বসানোর পর
+
+ প্রথমে:
+
+
+php artisan optimize:clear
+
+
+ তারপর migration যদি এখনও ঠিকমতো না হয়ে থাকে:
+
+
+php artisan migrate:fresh
+
+
+ তারপর server:
+
+
+php artisan serve
+
+
+ একটা বিষয় খেয়াল রেখো: আমি এখানে `upload_image()` এবং `delete_file()` তোমার existing helper ধরে নিয়েছি। এগুলো যদি তোমার project-এ আগে থেকেই কাজ করে, এই controller সরাসরি ব্যবহার করতে পারবে।

@@ -9,7 +9,7 @@
 					</button>
 				<h5 class="modal-title" id="addCategoryModalLabel">Add Category</h5>
 			</div>
-			<form action="{{ route('category.store') }}" method="POST">
+			<form action="{{ route('admin.categories.store') }}" method="POST">
 				@csrf
 				<div class="modal-body">
 					<div class="form-group">

@@ -36,6 +36,7 @@
 
 								<tbody>
 									@php $s = 0; @endphp
+									
 									@foreach($employees as $row)
 									<tr>
 										<td>{{ $s+=1 }}</td>
@@ -43,30 +44,43 @@
 										<td>{{ $row->phone_number }}</td>
 										<td>{{ $row->address }}</td>
 										<td class="ignore-row">
-											<img src="{{ asset($row->photo) }}" style="width:50px;height:50px;object-fit:cover;">
+										
+											<img
+														src="{{ asset($row->photo) }}"
+														alt="Employee"
+														loading="lazy"
+														style="
+																width:50px;
+																height:50px;
+																object-fit:cover;
+																border-radius:6px;
+														"
+												>
 										</td>
 										<td>{{ $row->salary }}</td>
 										<td class="ignore-row" style="display: flex; gap: 4px;">
 											<!-- Edit button -->
-											<a href="{{ route('edit-employee', ['id' => $row->id]) }}"
+											<a href="{{ route('admin.employees.edit', ['employee' => $row->id]) }}"
 												class="btn btn-sm btn-info btn-custom waves-effect waves-light m-b-5 p-b-0">
 												<i class="bi bi-pencil-square" style="font-size: 18px;"></i>
 											</a>
 
 											<!-- View button -->
-											<a href="{{ route('view-employee', ['id' => $row->id]) }}"
+											<a href="{{ route('admin.employees.show', ['employee' => $row->id]) }}"
 												class="btn btn-sm btn-primary btn-custom waves-effect waves-light m-b-5 p-b-0">
 												<i class="bi bi-cast" style="font-size: 18px;"></i>
 											</a>
-
-											<!-- Delete button only for role 1 -->
-											@if($row->role == 1)
-											<a href="{{ route('delete-employee', ['id' => $row->id]) }}"
-												class="btn btn-sm btn-danger btn-custom waves-effect waves-light m-b-5 p-b-0"
-												onclick="confirmation(event)">
-												<i class="bi bi-trash3" style="font-size: 18px;"></i>
-											</a>
+										
+												<!-- Delete button only for role 1 -->
+											@if($row->role != 1)
+													<a href="javascript:void(0)"
+															class="btn btn-sm btn-danger btn-custom waves-effect waves-light m-b-5 p-b-0 js-delete"
+															data-url="{{ route('admin.employees.destroy', ['employee' => $row->id]) }}">
+															<i class="bi bi-trash3" style="font-size: 18px;"></i>
+													</a>
 											@endif
+
+											
 										</td>
 									</tr>
 									@endforeach

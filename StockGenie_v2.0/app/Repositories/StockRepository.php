@@ -6,21 +6,40 @@ use Illuminate\Support\Facades\DB;
 
 class StockRepository
 {
-    public function lockStock(int $productId, int $warehouseId)
+    public function create(array $data): void
+    {
+        DB::table('product_stocks')->insert([
+            'product_id' => $data['product_id'],
+            'qty' => $data['qty'],
+            'created_at' => now(),
+            'updated_at' => now(),
+        ]);
+    }
+
+    public function findByProductId(int $productId)
     {
         return DB::table('product_stocks')
             ->where('product_id', $productId)
-            ->where('warehouse_id', $warehouseId)
-            ->lockForUpdate()
             ->first();
     }
 
-    public function decrease(object $stock, int $qty): void
-    {
+    public function updateQty(
+        int $productId,
+        int $qty
+    ): void {
         DB::table('product_stocks')
-            ->where('id', $stock->id)
+            ->where('product_id', $productId)
             ->update([
-                'qty' => $stock->qty - $qty
+                'qty' => $qty,
+                'updated_at' => now(),
             ]);
+    }
+
+    public function deleteByProductId(
+        int $productId
+    ): void {
+        DB::table('product_stocks')
+            ->where('product_id', $productId)
+            ->delete();
     }
 }
