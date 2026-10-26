@@ -267,68 +267,6 @@ Review the tax-related configuration and adjust it according to your business re
 
 Ensure your tax configuration complies with the applicable tax rules in your region.
 
-## 🗺️ Project Roadmap
-
-Potential improvements for future releases include:
-
-- [ ]Advanced sales analytics and dashboard charts.
-- [ ]Low-stock alerts and inventory notifications.
-- [ ]Barcode scanning support.
-- [ ]Exportable Excel and CSV reports.
-- [ ]Improved sales history and transaction filtering.
-- [ ]Automated database backups.
-
-These are suggested future enhancements, not a statement that they are already implemented.
-
-## 🤝 Contributing
-
-Contributions, bug reports, and feature suggestions are welcome!
-
-To contribute:
-
-1. Fork the repository.
-2. Create a feature branch.bash
-   ```
-   git checkout -b feature/your-feature
-   ```
-3. Make your changes and test them.
-4. Commit your changes.bash
-   ```
-   git add .
-   git commit -m "Add: your feature description"
-   ```
-5. Push your branch.bash
-   ```
-   git push origin feature/your-feature
-   ```
-6. Open a Pull Request describing your changes.
-
-Please keep contributions focused and provide enough information for reviewers to understand the proposed changes.
-
-## 🐛 Bug Reports and Feature Requests
-
-If you discover a bug or have an idea for improvement, please open an issue in the GitHub repository.
-
-Include relevant details, steps to reproduce the problem, and screenshots where appropriate.
-
-## 📦 Versioning
-
-Stock Genie follows a versioning format inspired by [Semantic Versioning](<https://semver.org/>).
-
-Current release: **v1.0.0**
-
-- **Major** — incompatible changes.
-- **Minor** — new functionality that remains backward compatible.
-- **Patch** — backward-compatible bug fixes.
-
-Check the repository's Releases page for published versions and release notes.
-
-## 📄 License
-
-Stock Genie is distributed under the MIT License.
-
-See the `LICENSE` file for the complete license terms.
-
 ## 👨‍💻 Developer
 
 **Abu Salah Musha Lemon**
