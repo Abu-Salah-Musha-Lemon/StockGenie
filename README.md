@@ -8,7 +8,7 @@
 
 <p align="center"> A lightweight inventory management and POS solution built with Laravel to help small businesses manage products, track stock, process sales, and generate reports efficiently. </p>
 
-<p align="center"> <img src="https://img.shields.io/badge/Version-v1.1.0-blue?style=for-the-badge" alt="Version 1.1.0"> <img src="https://img.shields.io/badge/Laravel-11-FF2D20?style=for-the-badge&logo=laravel&logoColor=white" alt="Laravel 11"> <img src="https://img.shields.io/badge/PHP-8.2-777BB4?style=for-the-badge&logo=php&logoColor=white" alt="PHP 8.2"> <img src="https://img.shields.io/badge/License-MIT-green?style=for-the-badge" alt="MIT License"> </p>
+<p align="center"> <img src="https://img.shields.io/badge/Version-v2.0.0-blue?style=for-the-badge" alt="Version 2.0.0"> <img src="https://img.shields.io/badge/Laravel-11-FF2D20?style=for-the-badge&logo=laravel&logoColor=white" alt="Laravel 11"> <img src="https://img.shields.io/badge/PHP-8.2-777BB4?style=for-the-badge&logo=php&logoColor=white" alt="PHP 8.2"> <img src="https://img.shields.io/badge/License-MIT-green?style=for-the-badge" alt="MIT License"> </p>
 
 <p align="center"> <a href="#-features">Features</a> • <a href="#-technology-stack">Tech Stack</a> • <a href="#-installation">Installation</a> • <a href="#-usage">Usage</a> • <a href="#-contributing">Contributing</a> </p>
 
